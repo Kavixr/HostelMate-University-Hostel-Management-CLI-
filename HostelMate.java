@@ -118,6 +118,7 @@ public class HostelMate {
 
                 default:
                     System.out.println("Invalid Option..Choose Correct one..");
+                    System.out.println();
             }
         }
 
@@ -130,8 +131,82 @@ public class HostelMate {
 
     // Methof of manage Students
     private static void manageStudents() {
+        int studentChoice;
+
+        while (true) {
+            System.out.println("\n>>>        HOSTELMATE MENU      <<<");
+            System.out.println("1) Add Student");
+            System.out.println("2) Update Student");
+            System.out.println("3) Delete Student");
+            System.out.println("4) Search Student");
+            System.out.println("5) View All Studnets");
+            System.out.println("6) Back");
+            System.out.println("Choose ---> ");
+
+            try {
+                studentChoice = Integer.parseInt(input.nextLine()); // convert to an integer
+
+            } catch (Exception e) {
+                System.out.println(" Invalid input.. Please Try again ");
+                continue;
+            }
+
+            switch (studentChoice) {
+                case 1:
+                    addstudent();
+                    break;
+                case 2:
+                    updatestudent();
+                    break;
+
+                case 3:
+                    deletestudent();
+                    break;
+
+                case 4:
+                    searchstudent();
+                    break;
+
+                case 5:
+                    viewAllStudents();
+                    break;
+
+                case 6:
+                    Back();
+                    break;
+
+                default:
+                    System.out.println(" Invalid Option..");
+            }
+
+        }
 
     }
+
+    private static void addstudent() {
+
+    }
+
+    private static void updatestudent() {
+
+    }
+
+    private static void deletestudent() {
+    }
+
+    private static void searchstudent() {
+
+    }
+
+    private static void viewAllStudents() {
+
+    }
+
+    private static void Back() {
+        return;
+    }
+
+    // =============================================================================================================================
 
     // Method of allocate bed
     private static void allocateBed() {
