@@ -88,38 +88,74 @@ public class HostelMate {
             }
 
             switch (choice) {
-                // case 1:
-                // mangeRooms();
-                // break;
+                case 1:
+                    mangeRooms();
+                    break;
 
-                // case 2:
-                // manageStudents();
-                // break;
+                case 2:
+                    manageStudents();
+                    break;
 
-                // case 3:
-                // allocateBed();
-                // break;
+                case 3:
+                    allocateBed();
+                    break;
 
-                // case 4:
-                // vacateBed();
-                // break;
+                case 4:
+                    vacateBed();
+                    break;
 
-                // case 5:
-                // transferBed();
-                // break;
+                case 5:
+                    transferBed();
+                    break;
 
-                // case 6:
-                // viewReports()
-                // break
+                case 6:
+                    viewReports();
+                    break;
 
-                // case 7:
-                // Exit()
-                // break;
+                case 7:
+                    Exit();
+                    break;
 
-                // default:
-                // System.out.println("Invalid Option..Choose Correct one..");
+                default:
+                    System.out.println("Invalid Option..Choose Correct one..");
             }
         }
 
     }
+
+    // Method of mange Rooms
+    private static void mangeRooms() {
+
+    }
+
+    // Methof of manage Students
+    private static void manageStudents() {
+
+    }
+
+    // Method of allocate bed
+    private static void allocateBed() {
+
+    }
+
+    // Method of vacate Bed
+    private static void vacateBed() {
+
+    }
+
+    // Method of transfer bed
+    private static void transferBed() {
+
+    }
+
+    // Method of view reports
+    private static void viewReports() {
+
+    }
+
+    // Method of exit
+    private static void Exit() {
+
+    }
+
 }
