@@ -65,6 +65,97 @@ public class HostelMate {
 
     // Implementing the home page
     private static void home() {
+        while (true) {
+            System.out.println("=".repeat(35));
+            System.out.println(">>>        HOSTELMATE MENU      <<<");
+            System.out.println("=".repeat(35));
+            System.out.println(" 1) Manage Rooms ");
+            System.out.println(" 2) Manage Students ");
+            System.out.println(" 3) Allocate Bed ");
+            System.out.println(" 4) Vacate Bed");
+            System.out.println(" 5) Transfers ");
+            System.out.println(" 6) View Reportss ");
+            System.out.println(" 7) Exit");
+            System.out.println("=".repeat(35));
+            System.out.println("Enter your choice: ");
+
+            int choice;
+            try {
+                choice = Integer.parseInt(input.nextLine());
+            } catch (Exception e) {
+                System.out.println(">>> Ivalid input. Enter a correct number.  ");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    mangeRooms();
+                    break;
+
+                case 2:
+                    manageStudents();
+                    break;
+
+                case 3:
+                    allocateBed();
+                    break;
+
+                case 4:
+                    vacateBed();
+                    break;
+
+                case 5:
+                    transferBed();
+                    break;
+
+                case 6:
+                    viewReports();
+                    break;
+
+                case 7:
+                    Exit();
+                    break;
+
+                default:
+                    System.out.println("Invalid Option..Choose Correct one..");
+            }
+        }
 
     }
+
+    // Method of mange Rooms
+    private static void mangeRooms() {
+
+    }
+
+    // Methof of manage Students
+    private static void manageStudents() {
+
+    }
+
+    // Method of allocate bed
+    private static void allocateBed() {
+
+    }
+
+    // Method of vacate Bed
+    private static void vacateBed() {
+
+    }
+
+    // Method of transfer bed
+    private static void transferBed() {
+
+    }
+
+    // Method of view reports
+    private static void viewReports() {
+
+    }
+
+    // Method of exit
+    private static void Exit() {
+
+    }
+
 }
