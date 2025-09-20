@@ -185,6 +185,18 @@ public class HostelMate {
 
     private static void addstudent() {
 
+        // Declare the variables
+        String id;
+        String name;
+
+        System.out.println("\n >>>  Add Student  <<<");
+
+        // get the student id of the student.
+        System.out.println("Enter your Student ID: ");
+        id = input.nextLine();
+
+        // validation: if id alrady have or not
+
     }
 
     private static void updatestudent() {
