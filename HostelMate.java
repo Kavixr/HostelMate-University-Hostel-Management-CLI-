@@ -135,6 +135,7 @@ public class HostelMate {
 
         while (true) {
             System.out.println("\n>>>        HOSTELMATE MENU      <<<");
+            System.out.println();
             System.out.println("1) Add Student");
             System.out.println("2) Update Student");
             System.out.println("3) Delete Student");
@@ -189,6 +190,7 @@ public class HostelMate {
         String id;
         String name;
         String contact;
+        String email;
 
         System.out.println("\n >>>  Add Student  <<<");
 
@@ -199,7 +201,7 @@ public class HostelMate {
         // validation: if id alrady have or not
         for (int i = 0; i < countofstudents; i++) {
             if (students[i][0].equals(id)) {
-                System.out.println("This ID Already Exits... Please Enter Valid ID....");
+                System.out.println("This ID Already Exits... Please Enter New Student ID....");
                 return;
             }
 
@@ -218,11 +220,30 @@ public class HostelMate {
         }
 
         for (int i = 0; i < contact.length(); i++) {
-            char ct = contact.charAt(i);
-            if (ct < '0' || ct > '9') {
+            char ct = contact.charAt(i); // go throught the each character in contact.
+            if (ct < '0' || ct > '9') { // Check that number have between these two ..
                 System.out.println("Error... Contact must contain only digit.");
             }
         }
+
+        System.out.println("Email: ");
+        email = input.nextLine();
+
+        // Validate the email....
+        if (!(email.contains("@") && email.contains("."))) { // check the enter email have these "@" and "."..
+            System.out.println("Invalid email. Please Enter valid email..");
+        }
+
+        // store the details in each students
+        students[countofstudents][0] = id;
+        students[countofstudents][1] = name;
+        students[countofstudents][2] = contact;
+        students[countofstudents][3] = email;
+        students[countofstudents][4] = "Active";
+
+        countofstudents++; // count each new student
+
+        System.out.println("Student added Successfully..");
 
     }
 
