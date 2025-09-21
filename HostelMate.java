@@ -188,14 +188,41 @@ public class HostelMate {
         // Declare the variables
         String id;
         String name;
+        String contact;
 
         System.out.println("\n >>>  Add Student  <<<");
 
         // get the student id of the student.
-        System.out.println("Enter your Student ID: ");
+        System.out.println("Student ID: ");
         id = input.nextLine();
 
         // validation: if id alrady have or not
+        for (int i = 0; i < countofstudents; i++) {
+            if (students[i][0].equals(id)) {
+                System.out.println("This ID Already Exits... Please Enter Valid ID....");
+                return;
+            }
+
+        }
+
+        System.out.println("Name: ");
+        name = input.nextLine();
+
+        System.out.println("Contact NO: ");
+        contact = input.nextLine();
+
+        // Validation of the contact..
+        if (contact.length() != 10) {
+            System.out.println("Invalid number.. Please Enter Correct number");
+            return;
+        }
+
+        for (int i = 0; i < contact.length(); i++) {
+            char ct = contact.charAt(i);
+            if (ct < '0' || ct > '9') {
+                System.out.println("Error... Contact must contain only digit.");
+            }
+        }
 
     }
 
