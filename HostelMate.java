@@ -221,7 +221,7 @@ public class HostelMate {
         System.out.println("Name: ");
         name = input.nextLine();
 
-        //Contatct NO.
+        // Contatct NO.
         while (true) {
 
             System.out.println("Contact NO: ");
@@ -261,10 +261,8 @@ public class HostelMate {
                 break;
             }
         }
-        
 
-
-        //Email.
+        // Email.
         while (true) {
 
             System.out.println("Email: ");
@@ -278,7 +276,7 @@ public class HostelMate {
 
             boolean exists = false;
             for (int i = 0; i < countofstudents; i++) {
-                if (students[i][3].equalsIgnoreCase(email)) { 
+                if (students[i][3].equalsIgnoreCase(email)) {
                     exists = true; // found duplicate
                     break;
                 }
@@ -287,7 +285,7 @@ public class HostelMate {
             if (exists) {
                 System.out.println("Error: This email already exists. Please try again.");
             } else {
-                break; // valid + unique → exit loop
+                break;
             }
         }
 
@@ -305,6 +303,69 @@ public class HostelMate {
     }
 
     private static void updatestudent() {
+
+        String id;
+        String newcontact;
+        String newemail;
+
+        System.out.println("\n >>> Update Student <<<");
+
+        System.out.print("Enter the Student ID: ");
+        id = input.nextLine();
+
+        int ids = -1; // which row number the student is stored in stdent array
+        for (int i = 0; i < countofstudents; i++) {
+            if (students[i][0].equalsIgnoreCase(id)) {
+                ids = i;
+                break;
+            }
+        }
+
+        if (ids == -1) { // not found the stdent
+            System.out.println("Not Found the Student given id. ");
+            return;
+
+        }
+
+        // Contact
+        System.out.println("New Contact (or -): ");
+        newcontact = input.nextLine();
+
+        if (!newcontact.equals("-")) {
+            // validate contact: length & digits
+            if (newcontact.length() != 10) {
+                System.out.println("Invalid contact length. Update skipped.");
+            } else {
+                boolean digit = true;
+                for (int i = 0; i < newcontact.length(); i++) {
+                    char ct = newcontact.charAt(i);
+                    if (ct < '0' || ct > '9') {
+                        digit = false;
+                        break;
+                    }
+                }
+                if (!digit) {
+                    System.out.println("Error.. Contact must be digits only ");
+                } else {
+                    // check uniqueness
+                    boolean alreadyexists = false;
+                    for (int i = 0; i < countofstudents; i++) {
+                        if (i != ids && students[i][2].equals(newcontact)) {
+                            alreadyexists = true;
+                            break;
+                        }
+                    }
+                    if (alreadyexists) {
+                        System.out.println("Error: Contact already exists. Please enter new number .");
+                    } else {
+                        students[ids][2] = newcontact;
+                    }
+                }
+            } 
+        }
+
+        
+
 
     }
 
