@@ -223,8 +223,10 @@ public class HostelMate {
             char ct = contact.charAt(i); // go throught the each character in contact.
             if (ct < '0' || ct > '9') { // Check that number have between these two ..
                 System.out.println("Error... Contact must contain only digit.");
-            }
+                return;
+            }    
         }
+        
 
         System.out.println("Email: ");
         email = input.nextLine();
@@ -232,6 +234,7 @@ public class HostelMate {
         // Validate the email....
         if (!(email.contains("@") && email.contains("."))) { // check the enter email have these "@" and "."..
             System.out.println("Invalid email. Please Enter valid email..");
+            return;
         }
 
         // store the details in each students
