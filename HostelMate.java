@@ -68,6 +68,7 @@ public class HostelMate {
         while (true) {
             System.out.println("=".repeat(35));
             System.out.println(">>>        HOSTELMATE MENU      <<<");
+            System.out.println();
             System.out.println("=".repeat(35));
             System.out.println(" 1) Manage Rooms ");
             System.out.println(" 2) Manage Students ");
@@ -195,14 +196,24 @@ public class HostelMate {
         System.out.println("\n >>>  Add Student  <<<");
 
         // get the student id of the student.
-        System.out.println("Student ID: ");
-        id = input.nextLine();
+        while (true) {
+            System.out.println("Student ID: ");
+            id = input.nextLine();
 
-        // validation: if id alrady have or not
-        for (int i = 0; i < countofstudents; i++) {
-            if (students[i][0].equals(id)) {
-                System.out.println("This ID Already Exits... Please Enter New Student ID....");
-                return;
+            boolean alreadyexits = false;
+
+            // validation: if id alrady have or not
+            for (int i = 0; i < countofstudents; i++) {
+                if (students[i][0].equalsIgnoreCase(id)) { // Compare ignoring case
+                    alreadyexits = true; // Found a duplicate
+                    break; // No need to check further
+                }
+            }
+            if (alreadyexits) {
+                System.out.println("Error: Student ID already exists. Please Try again");
+
+            } else {
+                break;
             }
 
         }
@@ -210,31 +221,74 @@ public class HostelMate {
         System.out.println("Name: ");
         name = input.nextLine();
 
-        System.out.println("Contact NO: ");
-        contact = input.nextLine();
+        //Contatct NO.
+        while (true) {
 
-        // Validation of the contact..
-        if (contact.length() != 10) {
-            System.out.println("Invalid number.. Please Enter Correct number");
-            return;
-        }
+            System.out.println("Contact NO: ");
+            contact = input.nextLine();
 
-        for (int i = 0; i < contact.length(); i++) {
-            char ct = contact.charAt(i); // go throught the each character in contact.
-            if (ct < '0' || ct > '9') { // Check that number have between these two ..
+            // Validation of the contact..
+            if (contact.length() != 10) {
+                System.out.println("Invalid number.. Please Enter Correct number");
+                continue;
+            }
+
+            boolean digit = true;
+
+            for (int i = 0; i < contact.length(); i++) {
+                char ct = contact.charAt(i); // go throught the each character in contact.
+                if (ct < '0' || ct > '9') { // Check that number have between these two ..
+                    digit = false;
+                    break;
+                }
+            }
+
+            if (!digit) {
                 System.out.println("Error... Contact must contain only digit.");
-                return;
-            }    
+                continue;
+            }
+            boolean exists = false;
+            for (int i = 0; i < countofstudents; i++) {
+                if (students[i][2].equals(contact)) {
+                    exists = true; // found the duplicate contatc number
+                    break;
+                }
+            }
+
+            if (exists) {
+                System.out.println("Error: This contact number already exists. Please try again.");
+            } else {
+                break;
+            }
         }
         
 
-        System.out.println("Email: ");
-        email = input.nextLine();
 
-        // Validate the email....
-        if (!(email.contains("@") && email.contains("."))) { // check the enter email have these "@" and "."..
-            System.out.println("Invalid email. Please Enter valid email..");
-            return;
+        //Email.
+        while (true) {
+
+            System.out.println("Email: ");
+            email = input.nextLine();
+
+            // Validate the email....
+            if (!(email.contains("@") && email.contains("."))) { // check the enter email have these "@" and "."..
+                System.out.println("Invalid email. Please Enter valid email..");
+                continue;
+            }
+
+            boolean exists = false;
+            for (int i = 0; i < countofstudents; i++) {
+                if (students[i][3].equalsIgnoreCase(email)) { 
+                    exists = true; // found duplicate
+                    break;
+                }
+            }
+
+            if (exists) {
+                System.out.println("Error: This email already exists. Please try again.");
+            } else {
+                break; // valid + unique → exit loop
+            }
         }
 
         // store the details in each students
