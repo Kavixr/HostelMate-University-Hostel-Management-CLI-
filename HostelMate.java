@@ -313,7 +313,7 @@ public class HostelMate {
         System.out.print("Enter the Student ID: ");
         id = input.nextLine();
 
-        int ids = -1; // which row number the student is stored in stdent array
+        int ids = -1; // which row number the student is stored in student array
         for (int i = 0; i < countofstudents; i++) {
             if (students[i][0].equalsIgnoreCase(id)) {
                 ids = i;
@@ -321,10 +321,9 @@ public class HostelMate {
             }
         }
 
-        if (ids == -1) { // not found the stdent
+        if (ids == -1) { // not found the student
             System.out.println("Not Found the Student given id. ");
             return;
-
         }
 
         // Contact
@@ -356,16 +355,46 @@ public class HostelMate {
                         }
                     }
                     if (alreadyexists) {
-                        System.out.println("Error: Contact already exists. Please enter new number .");
+                        System.out.println("Error: Contact already exists. Please enter new number.");
                     } else {
-                        students[ids][2] = newcontact;
+                        students[ids][2] = newcontact; // update the contact
                     }
                 }
-            } 
+            }
+        }
+
+        // Email..
+        System.out.println("New Email(or -): ");
+        newemail = input.nextLine();
+
+        if (!newemail.equals("-")) {
+            if (!(newemail.contains("@") && newemail.contains("."))) {
+                System.out.println("Invalid email format.");
+            } else {
+                // check uniqueness
+                boolean exists = false;
+                for (int i = 0; i < countofstudents; i++) {
+                    if (i != ids && students[i][3].equalsIgnoreCase(newemail)) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (exists) {
+                    System.out.println("Error: Email already exists. Enter new email."); // Check altready have or not
+                } else {
+                    students[ids][3] = newemail; // update the email
+                }
+            }
         }
 
         
-
+        System.out.println("Updated: "
+                + students[ids][0] + " |" // Student ID
+                + students[ids][1] + " |" // Name
+                + students[ids][2] + " |" // Contact (updated or not)
+                + students[ids][3] + " |" // Email (updated or not)
+                + students[ids][4] // Status
+            );     
 
     }
 
