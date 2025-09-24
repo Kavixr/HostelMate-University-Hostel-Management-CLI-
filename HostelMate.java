@@ -460,12 +460,11 @@ public class HostelMate {
 
         System.out.println("Found");
 
-
-        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\t\tStatus");
+        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\tStatus");
         System.out.println("--------------------------------------------------------------------------");
 
         System.out.println(students[ids][0] + "\t"
-                + students[ids][1] + "\t"
+                + students[ids][1] + "\t\t"
                 + students[ids][2] + "\t"
                 + students[ids][3] + "\t"
                 + students[ids][4]);
@@ -473,8 +472,26 @@ public class HostelMate {
     }
 
     private static void viewAllStudents() {
+        System.out.println("\n >>> All Students <<<"); 
+        System.out.println();
 
+        if (countofstudents == 0) {
+            System.out.println("No students available.");
+            return;
+        }
 
+        // Header
+        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\tStatus");
+        System.out.println("--------------------------------------------------------------------------");
+
+        // Loop through all students
+        for (int i = 0; i < countofstudents; i++) {
+            System.out.println(students[i][0] + "\t"
+                    + students[i][1] + "\t\t"
+                    + students[i][2] + "\t"
+                    + students[i][3] + "\t"
+                    + students[i][4]);
+        }
 
     }
 
