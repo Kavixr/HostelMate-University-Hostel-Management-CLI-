@@ -322,7 +322,7 @@ public class HostelMate {
         }
 
         if (ids == -1) { // not found the student
-            System.out.println("Not Found the Student given id. ");
+            System.out.println("Not Found the Student given ID. ");
             return;
         }
 
@@ -387,19 +387,56 @@ public class HostelMate {
             }
         }
 
-        
         System.out.println("Updated: "
                 + students[ids][0] + " |" // Student ID
                 + students[ids][1] + " |" // Name
                 + students[ids][2] + " |" // Contact (updated or not)
                 + students[ids][3] + " |" // Email (updated or not)
                 + students[ids][4] // Status
-            );     
+        );
 
     }
 
     private static void deletestudent() {
+
+        String id;
+
+        System.out.println("\n >>>  Delete Student  <<<");
+
+        System.out.println("Enter Student ID: ");
+        id = input.nextLine();
+
+        int ids = -1;
+        for (int i = 0; i < countofstudents; i++) {
+            if (students[i][0].equalsIgnoreCase(id)) {
+                ids = i;
+                break;
+            }
+        }
+
+        if (ids == -1) {
+            System.out.println("Error: Student not found.");
+            return;
+        }
+
+        for (int i = 0; i < countofallocations; i++){
+            if (allocations[i][1] != null  && allocations[i][1].equalsIgnoreCase(id)){
+                System.out.println("Error: Cannot Delete. Student has an active allocation");
+                return;
+            }
+        }
+
+        for (int i = ids; i < countofstudents -1 ; i++){
+            students[i] = students[i+1]; 
+        }
+
+        countofstudents--;
+
+        System.out.println("Student Deleted Successfully. ");
+
     }
+
+
 
     private static void searchstudent() {
 
