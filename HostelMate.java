@@ -419,15 +419,15 @@ public class HostelMate {
             return;
         }
 
-        for (int i = 0; i < countofallocations; i++){
-            if (allocations[i][1] != null  && allocations[i][1].equalsIgnoreCase(id)){
+        for (int i = 0; i < countofallocations; i++) {
+            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(id)) {
                 System.out.println("Error: Cannot Delete. Student has an active allocation");
                 return;
             }
         }
 
-        for (int i = ids; i < countofstudents -1 ; i++){
-            students[i] = students[i+1]; 
+        for (int i = ids; i < countofstudents - 1; i++) {
+            students[i] = students[i + 1];
         }
 
         countofstudents--;
@@ -436,13 +436,45 @@ public class HostelMate {
 
     }
 
-
-
     private static void searchstudent() {
+
+        String id;
+
+        System.out.println("\n >>> Search Student <<< ");
+
+        System.out.println("Enter Student ID: ");
+        id = input.nextLine();
+
+        int ids = -1;
+        for (int i = 0; i < countofstudents; i++) {
+            if (students[i][0].equalsIgnoreCase(id)) {
+                ids = i; // found row index
+                break;
+            }
+        }
+
+        if (ids == -1) {
+            System.out.println("Error: Student not found.");
+            return;
+        }
+
+        System.out.println("Found");
+
+
+        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\t\tStatus");
+        System.out.println("--------------------------------------------------------------------------");
+
+        System.out.println(students[ids][0] + "\t"
+                + students[ids][1] + "\t"
+                + students[ids][2] + "\t"
+                + students[ids][3] + "\t"
+                + students[ids][4]);
 
     }
 
     private static void viewAllStudents() {
+
+
 
     }
 
