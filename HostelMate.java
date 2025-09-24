@@ -380,7 +380,7 @@ public class HostelMate {
                     }
                 }
                 if (exists) {
-                    System.out.println("Error: Email already exists. Enter new email.");
+                    System.out.println("Error: Email already exists. Enter new email."); // Check altready have or not
                 } else {
                     students[ids][3] = newemail; // update the email
                 }
