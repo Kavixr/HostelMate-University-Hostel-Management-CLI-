@@ -127,7 +127,96 @@ public class HostelMate {
 
     // Method of mange Rooms
     private static void mangeRooms() {
+        int roomchoice;
 
+        while (true) {
+            System.out.println("\n>>>        MANAGE ROOMS MENU      <<<");
+            System.out.println();
+            System.out.println("1) Add Room");
+            System.out.println("2) Update Room");
+            System.out.println("3) Delete Room");
+            System.out.println("4) Search Room");
+            System.out.println("5) View All Rooms");
+            System.out.println("6) Back");
+            System.out.print("Choose: ");
+
+            try {
+                roomchoice = Integer.parseInt(input.nextLine());
+
+            } catch (Exception e) {
+                System.out.println("Invalid input.. Please Try again.");
+                continue;
+            }
+
+            switch (roomchoice) {
+                case 1:
+                    addRoom();
+                    break;
+                case 2:
+                    updateRoom();
+                    break;
+                case 3:
+                    deleteRoom();
+                    break;
+                case 4:
+                    searchRoom();
+                    break;
+                case 5:
+                    viewAllRooms();
+                    break;
+                case 6:
+                    return; // Back to main menu
+                default:
+                    System.out.println("Invalid Option..");
+            }
+        }
+
+    }
+
+    private static void addRoom() {
+        String roomID;
+        String floor;
+        String roomNo;
+        int capacity;
+        int feeperDay;
+
+        while (true) {
+            System.out.print("Room ID:");
+            roomID = input.nextLine();
+            boolean alreadyexits = false;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][0].equalsIgnoreCase(roomID)) {
+                    alreadyexits = true;
+                    break;
+                }
+
+            }
+            if (alreadyexits) {
+                System.out.println("Error: Room ID already exists. Try again.");
+
+            } else {
+                break;
+            }
+        }
+
+        System.out.print("Floor : ");
+        floor = input.nextLine();
+
+        System.out.print("Room No : ");
+        roomNo = input.nextLine();
+
+    }
+
+    private static void updateRoom() {
+    }
+
+    private static void deleteRoom() {
+    }
+
+    private static void searchRoom() {
+    }
+
+    private static void viewAllRooms() {
     }
 
     // Methof of manage Students
@@ -460,19 +549,19 @@ public class HostelMate {
 
         System.out.println("Found");
 
-        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\tStatus");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                "ID", "Name", "Contact", "Email", "Status");
+        System.out.println("----------------------------------------------------------------------------------");
 
-        System.out.println(students[ids][0] + "\t"
-                + students[ids][1] + "\t\t"
-                + students[ids][2] + "\t"
-                + students[ids][3] + "\t"
-                + students[ids][4]);
+        // Print row
+        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                students[ids][0], students[ids][1], students[ids][2],
+                students[ids][3], students[ids][4]);
 
     }
 
     private static void viewAllStudents() {
-        System.out.println("\n >>> All Students <<<"); 
+        System.out.println("\n >>> All Students <<<");
         System.out.println();
 
         if (countofstudents == 0) {
@@ -481,16 +570,21 @@ public class HostelMate {
         }
 
         // Header
-        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\tStatus");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                "ID", "Name", "Contact", "Email", "Status");
+        System.out.println("----------------------------------------------------------------------------------");
 
         // Loop through all students
         for (int i = 0; i < countofstudents; i++) {
-            System.out.println(students[i][0] + "\t"
-                    + students[i][1] + "\t\t"
-                    + students[i][2] + "\t"
-                    + students[i][3] + "\t"
-                    + students[i][4]);
+            // System.out.println(students[i][0] + "\t"
+            // + students[i][1] + "\t\t"
+            // + students[i][2] + "\t"
+            // + students[i][3] + "\t"
+            // + students[i][4]);
+            // }
+            System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                    students[i][0], students[i][1], students[i][2],
+                    students[i][3], students[i][4]);
         }
 
     }
