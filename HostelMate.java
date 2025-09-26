@@ -460,19 +460,19 @@ public class HostelMate {
 
         System.out.println("Found");
 
-        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\tStatus");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                "ID", "Name", "Contact", "Email", "Status");
+        System.out.println("----------------------------------------------------------------------------------");
 
-        System.out.println(students[ids][0] + "\t"
-                + students[ids][1] + "\t\t"
-                + students[ids][2] + "\t"
-                + students[ids][3] + "\t"
-                + students[ids][4]);
+        // Print row
+        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                students[ids][0], students[ids][1], students[ids][2],
+                students[ids][3], students[ids][4]);
 
     }
 
     private static void viewAllStudents() {
-        System.out.println("\n >>> All Students <<<"); 
+        System.out.println("\n >>> All Students <<<");
         System.out.println();
 
         if (countofstudents == 0) {
@@ -481,16 +481,21 @@ public class HostelMate {
         }
 
         // Header
-        System.out.println("ID\tName\t\t\tContact\t\tEmail\t\t\tStatus");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                "ID", "Name", "Contact", "Email", "Status");
+        System.out.println("----------------------------------------------------------------------------------");
 
         // Loop through all students
         for (int i = 0; i < countofstudents; i++) {
-            System.out.println(students[i][0] + "\t"
-                    + students[i][1] + "\t\t"
-                    + students[i][2] + "\t"
-                    + students[i][3] + "\t"
-                    + students[i][4]);
+            // System.out.println(students[i][0] + "\t"
+            // + students[i][1] + "\t\t"
+            // + students[i][2] + "\t"
+            // + students[i][3] + "\t"
+            // + students[i][4]);
+            // }
+            System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+                    students[i][0], students[i][1], students[i][2],
+                    students[i][3], students[i][4]);
         }
 
     }
