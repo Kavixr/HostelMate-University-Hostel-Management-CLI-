@@ -174,18 +174,20 @@ public class HostelMate {
     }
 
     private static void addRoom() {
+
+        //declare the variables 
         String roomID;
         String floor;
         String roomNo;
-        int capacity;
-        int feeperDay;
+        int capacity = 0;
+        double feeperDay = 0.0;
 
         while (true) {
-            System.out.print("Room ID:");
+            System.out.print("Room ID:"); // asking the room id 
             roomID = input.nextLine();
-            boolean alreadyexits = false;
+            boolean alreadyexits = false; // check if the room id already have or not 
             for (int i = 0; i < countofrooms; i++) {
-                if (rooms[i][0].equalsIgnoreCase(roomID)) {
+                if (rooms[i][0].equalsIgnoreCase(roomID)) { // compare the room id 
                     alreadyexits = true;
                     break;
                 }
@@ -199,11 +201,48 @@ public class HostelMate {
             }
         }
 
+        //ask the floor
         System.out.print("Floor : ");
         floor = input.nextLine();
 
+        //ask the room No
         System.out.print("Room No : ");
         roomNo = input.nextLine();
+
+        while (true) {
+            try {
+                System.out.print("Capacity : "); // ask the capacity 
+                capacity = Integer.parseInt(input.nextLine());  //  convert strin g to intiger.
+                if (capacity <= 0) { // chheck the validation
+                    System.out.println("Capacity must be positive.");
+                    continue;
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Invalid capacity. Enter a number.");
+            }
+
+            while (true) {
+                try {
+                    System.out.print("Fee/Day(LKR): "); //ask the fee
+                    feeperDay = Double.parseDouble(input.nextLine()); // fee can be decimal one 
+                    if (feeperDay < 0) { // check the validation
+                        System.out.println("Fee cannot be negative.");
+                        continue;
+                    }
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Invalid fee. Enter a valid number.");
+                }
+            }
+            rooms[countofrooms][0] = roomID; // store the room id 
+            rooms[countofrooms][1] = floor;  // store the floor
+            rooms[countofrooms][2] = roomNo;  // store the roomNo
+            rooms[countofrooms][3] = Integer.toString(capacity); // store the capacity 
+            rooms[countofrooms][4] = Double.toString(feeperDay); // store the freeperday 
+            rooms[countofrooms][5] = Integer.toString(capacity); // show the availbale beds 
+
+        }
 
     }
 
