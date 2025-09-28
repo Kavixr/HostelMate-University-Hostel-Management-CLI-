@@ -33,4 +33,21 @@ Student details are stored in a **2D String array** with the following fields:
 
 ---
 
+### 📋 Menu Options
+
+When you enter the **Manage Students** section, the following menu is displayed:
+
+```
+>>>        HOSTELMATE MENU      <<<
+
+1) Add Student
+2) Update Student
+3) Delete Student
+4) Search Student
+5) View All Students
+6) Back
+Choose --->
+```
+
+---
 
