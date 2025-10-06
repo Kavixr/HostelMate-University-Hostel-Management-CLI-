@@ -288,13 +288,28 @@ public class HostelMate {
             System.out.println("6) Back");
             System.out.println("Choose ---> ");
 
-            try {
-                studentChoice = Integer.parseInt(input.nextLine()); // convert to an integer
+            String stChoice  = input.nextLine();
 
-            } catch (Exception e) {
-                System.out.println(" Invalid input.. Please Try again ");
+            boolean isNumber = true; 
+
+            if(stChoice.isEmpty()) {
+                isNumber = false;
+            } else {
+                for (int i = 0; i < stChoice.length(); i++) {
+                    char ch = stChoice.charAt(i);
+                    if (ch < '0' || ch > '9') {
+                        isNumber = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isNumber) {
+                System.out.println(">>> Invalid input. Please Enter valid input.");
                 continue;
             }
+
+            studentChoice = Integer.parseInt(stChoice);
 
             switch (studentChoice) {
                 case 1:
@@ -399,7 +414,7 @@ public class HostelMate {
             }
 
             if (exists) {
-                System.out.println("Error: This contact number already exists. Please try again.");
+                System.out.println("Error: This contact number already exists. Please try again");
             } else {
                 break;
             }
