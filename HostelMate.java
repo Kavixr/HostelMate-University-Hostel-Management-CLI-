@@ -5,7 +5,7 @@ public class HostelMate {
     // Data Tables for array
 
     // 100 - maximum number of rooms and 6-attributes for each room
-    static String[][] rooms = new String[100][5];
+    static String[][] rooms = new String[100][6];
 
     // 100 - maximum number of students and 6-attributes for each student
     static String[][] students = new String[100][5];
@@ -189,77 +189,85 @@ public class HostelMate {
     }
 
     private static void addRoom() {
+          System.out.println("\n>>> Add Room <<<");
 
-        // declare the variables
-        String roomID;
-        String floor;
-        String roomNo;
-        int capacity = 0;
-        double feeperDay = 0.0;
+    String roomId, floor, roomNo, capacityStr, feePerDayStr;
 
-        while (true) {
-            System.out.print("Room ID:"); // asking the room id
-            roomID = input.nextLine();
-            boolean alreadyexits = false; // check if the room id already have or not
-            for (int i = 0; i < countofrooms; i++) {
-                if (rooms[i][0].equalsIgnoreCase(roomID)) { // compare the room id
-                    alreadyexits = true;
-                    break;
-                }
+    // 1️⃣ Room ID (must be unique)
+    while (true) {
+        System.out.print("Room ID: ");
+        roomId = input.nextLine();
 
-            }
-            if (alreadyexits) {
-                System.out.println("Error: Room ID already exists. Try again.");
-
-            } else {
+        boolean exists = false;
+        for (int i = 0; i < countofrooms; i++) {
+            if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                exists = true;
                 break;
             }
         }
-
-        // ask the floor
-        System.out.print("Floor : ");
-        floor = input.nextLine();
-
-        // ask the room No
-        System.out.print("Room No : ");
-        roomNo = input.nextLine();
-
-        while (true) {
-            try {
-                System.out.print("Capacity : "); // ask the capacity
-                capacity = Integer.parseInt(input.nextLine()); // convert strin g to intiger.
-                if (capacity <= 0) { // chheck the validation
-                    System.out.println("Capacity must be positive.");
-                    continue;
-                }
-                break;
-            } catch (Exception e) {
-                System.out.println("Invalid capacity. Enter a number.");
-            }
-
-            while (true) {
-                try {
-                    System.out.print("Fee/Day(LKR): "); // ask the fee
-                    feeperDay = Double.parseDouble(input.nextLine()); // fee can be decimal one
-                    if (feeperDay < 0) { // check the validation
-                        System.out.println("Fee cannot be negative.");
-                        continue;
-                    }
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Invalid fee. Enter a valid number.");
-                }
-            }
-            rooms[countofrooms][0] = roomID; // store the room id
-            rooms[countofrooms][1] = floor; // store the floor
-            rooms[countofrooms][2] = roomNo; // store the roomNo
-            rooms[countofrooms][3] = Integer.toString(capacity); // store the capacity
-            rooms[countofrooms][4] = Double.toString(feeperDay); // store the freeperday
-            rooms[countofrooms][5] = Integer.toString(capacity); // show the availbale beds
-
+        if (exists) {
+            System.out.println("Error: Room ID already exists. Please try another ID.");
+        } else {
+            break;
         }
-
     }
+
+    //Floor number
+    System.out.print("Floor: ");
+    floor = input.nextLine();
+
+    // Room number
+    System.out.print("Room No: ");
+    roomNo = input.nextLine();
+
+    // Capacity
+    int capacity = 0;
+    while (true) {
+        System.out.print("Capacity: ");
+        capacityStr = input.nextLine();
+        try {
+            capacity = Integer.parseInt(capacityStr);
+            if (capacity <= 0) {
+                System.out.println("Error: Capacity must be greater than zero.");
+                continue;
+            }
+            break;
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a valid number for capacity.");
+        }
+    }
+
+    // Fee per day
+    double feePerDay = 0.0;
+    while (true) {
+        System.out.print("Fee/Day (LKR): ");
+        feePerDayStr = input.nextLine();
+        try {
+            feePerDay = Double.parseDouble(feePerDayStr);
+            if (feePerDay < 0) {
+                System.out.println("Error: Fee cannot be negative.");
+                continue;
+            }
+            break;
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a valid number for fee.");
+        }
+    }
+
+    // 6️⃣ Store in rooms array
+    rooms[countofrooms][0] = roomId;
+    rooms[countofrooms][1] = floor;
+    rooms[countofrooms][2] = roomNo;
+    rooms[countofrooms][3] = Integer.toString(capacity);
+    rooms[countofrooms][4] = Double.toString(feePerDay);
+    rooms[countofrooms][5] = Integer.toString(capacity); // availableBeds = capacity
+
+    countofrooms++;
+    System.out.println();
+    System.out.println("Room added successfully. Available beds: " + capacity);
+}
+    
+
 
     private static void updateRoom() {
     }
