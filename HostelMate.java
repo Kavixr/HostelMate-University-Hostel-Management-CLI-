@@ -80,13 +80,28 @@ public class HostelMate {
             System.out.println("=".repeat(35));
             System.out.println("Enter your choice: ");
 
-            int choice;
-            try {
-                choice = Integer.parseInt(input.nextLine());
-            } catch (Exception e) {
-                System.out.println(">>> Ivalid input. Enter a correct number.  ");
-                continue;
+            // read the inputs as string
+            String InputValue = input.nextLine();
+
+            boolean isNumber = true; // assume number is valid
+
+            if (InputValue.isEmpty()) { // check the input is empty or not
+                isNumber = false;
+            } else {
+                for (int i = 0; i < InputValue.length(); i++) {
+                    char ch = InputValue.charAt(i);
+                    if (ch < '0' || ch > '9') {
+                        isNumber = false;
+                    }
+                }
             }
+
+            if (!isNumber) {
+                System.out.println(">>> Invalid input. Please Enter valid input.");
+                continue; // Go back to top of the while loop
+            }
+
+            int choice = Integer.parseInt(InputValue);
 
             switch (choice) {
                 case 1:
@@ -175,7 +190,7 @@ public class HostelMate {
 
     private static void addRoom() {
 
-        //declare the variables 
+        // declare the variables
         String roomID;
         String floor;
         String roomNo;
@@ -183,11 +198,11 @@ public class HostelMate {
         double feeperDay = 0.0;
 
         while (true) {
-            System.out.print("Room ID:"); // asking the room id 
+            System.out.print("Room ID:"); // asking the room id
             roomID = input.nextLine();
-            boolean alreadyexits = false; // check if the room id already have or not 
+            boolean alreadyexits = false; // check if the room id already have or not
             for (int i = 0; i < countofrooms; i++) {
-                if (rooms[i][0].equalsIgnoreCase(roomID)) { // compare the room id 
+                if (rooms[i][0].equalsIgnoreCase(roomID)) { // compare the room id
                     alreadyexits = true;
                     break;
                 }
@@ -201,18 +216,18 @@ public class HostelMate {
             }
         }
 
-        //ask the floor
+        // ask the floor
         System.out.print("Floor : ");
         floor = input.nextLine();
 
-        //ask the room No
+        // ask the room No
         System.out.print("Room No : ");
         roomNo = input.nextLine();
 
         while (true) {
             try {
-                System.out.print("Capacity : "); // ask the capacity 
-                capacity = Integer.parseInt(input.nextLine());  //  convert strin g to intiger.
+                System.out.print("Capacity : "); // ask the capacity
+                capacity = Integer.parseInt(input.nextLine()); // convert strin g to intiger.
                 if (capacity <= 0) { // chheck the validation
                     System.out.println("Capacity must be positive.");
                     continue;
@@ -224,8 +239,8 @@ public class HostelMate {
 
             while (true) {
                 try {
-                    System.out.print("Fee/Day(LKR): "); //ask the fee
-                    feeperDay = Double.parseDouble(input.nextLine()); // fee can be decimal one 
+                    System.out.print("Fee/Day(LKR): "); // ask the fee
+                    feeperDay = Double.parseDouble(input.nextLine()); // fee can be decimal one
                     if (feeperDay < 0) { // check the validation
                         System.out.println("Fee cannot be negative.");
                         continue;
@@ -235,12 +250,12 @@ public class HostelMate {
                     System.out.println("Invalid fee. Enter a valid number.");
                 }
             }
-            rooms[countofrooms][0] = roomID; // store the room id 
-            rooms[countofrooms][1] = floor;  // store the floor
-            rooms[countofrooms][2] = roomNo;  // store the roomNo
-            rooms[countofrooms][3] = Integer.toString(capacity); // store the capacity 
-            rooms[countofrooms][4] = Double.toString(feeperDay); // store the freeperday 
-            rooms[countofrooms][5] = Integer.toString(capacity); // show the availbale beds 
+            rooms[countofrooms][0] = roomID; // store the room id
+            rooms[countofrooms][1] = floor; // store the floor
+            rooms[countofrooms][2] = roomNo; // store the roomNo
+            rooms[countofrooms][3] = Integer.toString(capacity); // store the capacity
+            rooms[countofrooms][4] = Double.toString(feeperDay); // store the freeperday
+            rooms[countofrooms][5] = Integer.toString(capacity); // show the availbale beds
 
         }
 
