@@ -72,6 +72,23 @@ Student added Successfully..
 
 ---
 
+#### ✏️ Update Student
+- Search student by ID  
+- Update **Contact** and/or **Email**  
+- Enter `-` to **skip updating** a field  
+- Ensures updated values are valid & unique  
+
+✅ **Example:**
+```
+>>> Update Student <<<
+Enter the Student ID: S001
+New Contact (or -): 0779876543
+New Email (or -): nimal.p@example.com
+Updated: S001 | Nimal Perera | 0779876543 | nimal.p@example.com | ACTIVE
+```
+
+---
+
 
 
 
