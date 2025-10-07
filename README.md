@@ -118,6 +118,37 @@ S002   | Tharushi Silva    | 0715558899  | tharushi@example.com   | ACTIVE
 
 ---
 
+#### 📑 View All Students
+- Displays all student records in a **tabular format**  
+- Includes: ID, Name, Contact, Email, and Status  
+
+✅ **Example:**
+```
+>>> All Students <<<
+
+ID     | Name              | Contact     | Email                  | Status
+----------------------------------------------------------------------------------
+S001   | Nimal Perera      | 0771234567  | nimal@example.com      | ACTIVE
+S002   | Tharushi Silva    | 0715558899  | tharushi@example.com   | ACTIVE
+S003   | Kasun Jayasuriya  | 0752233445  | kasun@example.com      | ACTIVE
+```
+
+---
+
+## 🚀 How to Run
+1. Open the project in your Java IDE (IntelliJ, NetBeans, Eclipse).  
+2. Ensure `students[][]` and `allocations[][]` arrays are initialized.  
+3. Run the program.  
+4. Log in with valid credentials.  
+5. Navigate to **Manage Students** from the main menu.  
+
+---
+
+## 📌 Notes
+- Student deletion is blocked if the student has an **active allocation**.  
+- Validation ensures **no duplicate Student IDs, contacts, or emails**.  
+- Designed for **console-based execution** but can be extended to GUI or DB-based systems in the future.  
+
 
 
 
