@@ -257,48 +257,48 @@ public class HostelMate {
 
     // Fee per day
     double feePerDay = 0.0;
-    // while (true) {
-    //     System.out.print("Fee/Day (LKR): ");
-    //     feePerDayStr = input.nextLine();
-    //     if (feePerDayStr.isEmpty()) {
-    //     System.out.println("Error: Fee cannot be empty.");
-    //     continue;
-    // }
+    while (true) {
+        System.out.print("Fee/Day (LKR): ");
+        feePerDayStr = input.nextLine();
+        if (feePerDayStr.isEmpty()) {
+        System.out.println("Error: Fee cannot be empty.");
+        continue;
+    }
 
-    // boolean isValid = true;
-    // int dotCount = 0;
+    boolean isValid = true;
+    int dotCount = 0;
 
-    // for (int i = 0; i < feePerDayStr.length(); i++) {
-    //     char ch = feePerDayStr.charAt(i);
+    for (int i = 0; i < feePerDayStr.length(); i++) {
+        char ch = feePerDayStr.charAt(i);
 
-    //     if (ch == '.') {
-    //         dotCount++;
-    //         if (dotCount > 1) { 
-    //             isValid = false;
-    //             break;
-    //         }
-    //     } else if (ch < '0' || ch > '9') {
-    //         isValid = false;
-    //         break;
-    //     }
-    // }
+        if (ch == '.') {
+            dotCount++;
+            if (dotCount > 1) { 
+                isValid = false;
+                break;
+            }
+        } else if (ch < '0' || ch > '9') {
+            isValid = false;
+            break;
+        }
+    }
 
-    // if (!isValid) {
-    //     System.out.println("Invalid input. Enter a valid number (e.g., 750 or 750.50).");
-    //     continue;
-    // }
+    if (!isValid) {
+        System.out.println("Invalid input. Enter a valid number (e.g., 750 or 750.50).");
+        continue;
+    }
 
-    // // 🔹 Now safely convert to double
-    // feePerDay = Double.parseDouble(feePerDayStr);
+    // 🔹 Now safely convert to double
+    feePerDay = Double.parseDouble(feePerDayStr);
 
-    // // 🔹 Non-negative check
-    // if (feePerDay < 0) {
-    //     System.out.println("Error: Fee cannot be negative.");
-    //     continue;
-    // }
+    // 🔹 Non-negative check
+    if (feePerDay < 0) {
+        System.out.println("Error: Fee cannot be negative.");
+        continue;
+    }
 
-    // break;
-    // }
+    break;
+    }
 
     // 6️⃣ Store in rooms array
     rooms[countofrooms][0] = roomId;
