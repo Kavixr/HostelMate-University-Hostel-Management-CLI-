@@ -51,3 +51,27 @@ Choose --->
 
 ---
 
+### 🧩 Functionalities
+
+#### ➕ Add Student
+- Ensures **unique Student ID**  
+- Validates:
+  - 📱 **Contact** → 10 digits, numeric only, unique  
+  - 📧 **Email** → must contain `@` and `.`, unique  
+- Sets **status = ACTIVE** by default  
+
+✅ **Example:**
+```
+>>> Add Student <<<
+Student ID: S001
+Name: Nimal Perera
+Contact NO: 0771234567
+Email: nimal@example.com
+Student added Successfully..
+```
+
+---
+
+
+
+
