@@ -89,6 +89,36 @@ Updated: S001 | Nimal Perera | 0779876543 | nimal.p@example.com | ACTIVE
 
 ---
 
+#### ❌ Delete Student
+- Deletes student **only if no active allocation exists**  
+- Automatically compacts the student array  
+
+✅ **Example:**
+```
+>>> Delete Student <<<
+Enter Student ID: S001
+Student Deleted Successfully.
+```
+
+---
+
+#### 🔍 Search Student
+- Search for a student by **Student ID**  
+- Displays details in a formatted table  
+
+✅ **Example:**
+```
+>>> Search Student <<<
+Enter Student ID: S002
+Found
+ID     | Name              | Contact     | Email                  | Status
+----------------------------------------------------------------------------------
+S002   | Tharushi Silva    | 0715558899  | tharushi@example.com   | ACTIVE
+```
+
+---
+
+
 
 
 
