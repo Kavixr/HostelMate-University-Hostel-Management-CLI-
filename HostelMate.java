@@ -330,6 +330,40 @@ public class HostelMate {
             System.out.println("Error: Room not found.");
             return;
         }
+
+        System.out.print("New Capacity (or -): ");
+        String newCap = input.nextLine().trim();
+        if (!newCap.equals("-") && !newCap.isEmpty()) {
+            boolean isNumber = true;
+            for (int i = 0; i < newCap.length(); i++) {
+                char ch = newCap.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    isNumber = false;
+                    break;
+                }
+            }
+
+            if (!isNumber) {
+                System.out.println("Invalid input. Capacity must be numeric.");
+            } else {
+                int newCapacity = Integer.parseInt(newCap);
+                if (newCapacity <= 0) {
+                    System.out.println("Error: Capacity must be greater than zero.");
+                } else {
+                    int oldCapacity = Integer.parseInt(rooms[roomIndex][3]);
+                    int available = Integer.parseInt(rooms[roomIndex][5]);
+                    int occupied = oldCapacity - available;
+
+                    if (newCapacity < occupied) {
+                        System.out.println("Error: New capacity < currently occupied beds. Update rejected.");
+                    } else {
+                        rooms[roomIndex][3] = Integer.toString(newCapacity);
+                        rooms[roomIndex][5] = Integer.toString(newCapacity - occupied);
+                    }
+                }
+            }
+        }
+
         // Fee-Day
         System.out.print("New Fee/Day (or -): ");
         String newFee = input.nextLine().trim();
