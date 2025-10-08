@@ -472,25 +472,25 @@ public class HostelMate {
 
     private static void viewAllRooms() {
 
-        // System.out.println("\n >>> All Rooms <<<");
-        // System.out.println();
+        System.out.println("\n >>> All Rooms <<<");
+        System.out.println();
 
-        // if (countofrooms == 0) {
-        //     System.out.println("No rooms available.");
-        //     return;
-        // }
+        if (countofrooms == 0) {
+            System.out.println("No rooms available.");
+            return;
+        }
 
-        // // Header
-        // System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-        //         "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
-        // System.out.println("----------------------------------------------------------------------------------");
+        // Header
+        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
+                "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
+        System.out.println("----------------------------------------------------------------------------------");
 
-        // // Loop through all rooms
-        // for (int i = 0; i < countofrooms; i++) {
-        //     System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-        //             rooms[i][0], rooms[i][1], rooms[i][2],
-        //             rooms[i][3], rooms[i][5], rooms[i][4]);
-        // }
+        // Loop through all rooms
+        for (int i = 0; i < countofrooms; i++) {
+            System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
+                    rooms[i][0], rooms[i][1], rooms[i][2],
+                    rooms[i][3], rooms[i][5], rooms[i][4]);
+        }
 
     }
 
