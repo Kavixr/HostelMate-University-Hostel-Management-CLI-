@@ -393,18 +393,50 @@ public class HostelMate {
                 }
             }
         }
-        System.out.println("\nUpdated Successfully:");
-        System.out.println("------------------------------------------------------------");
-        System.out.printf("%-6s %-6s %-6s %-8s %-8s %-8s%n",
-                "ID", "Floor", "No", "Cap", "Avail", "Fee/Day");
-        System.out.println("------------------------------------------------------------");
-        System.out.printf("%-6s %-6s %-6s %-8s %-8s %-8s%n",
-                rooms[roomIndex][0], rooms[roomIndex][1], rooms[roomIndex][2],
-                rooms[roomIndex][3], rooms[roomIndex][5], rooms[roomIndex][4]);
+        System.out.println("Updated: "
+                + rooms[roomIndex][0] + " | " // Room ID
+                + "Floor=" + rooms[roomIndex][1] + " | "
+                + "RoomNo=" + rooms[roomIndex][2] + " | "
+                + "Capacity=" + rooms[roomIndex][3] + " | "
+                + "Fee/Day=" + rooms[roomIndex][4] + " | "
+                + "Avail=" + rooms[roomIndex][5]);
+
     }
 
-
     private static void deleteRoom() {
+        System.out.println("\n>>> Delete Room <<<");
+
+        System.out.print("Enter Room ID: ");
+        String roomId = input.nextLine().trim();
+
+        int roomIndex = -1;
+        for (int i = 0; i < countofrooms; i++) {
+            if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                roomIndex = i;
+                break;
+            }
+        }
+
+        if (roomIndex == -1) {
+            System.out.println("Error: Room not found.");
+            return;
+        }
+
+        // Check if this room has active allocations
+        for (int i = 0; i < countofallocations; i++) {
+            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
+                System.out.println("Error: Cannot delete. Active allocations exist for this room.");
+                return;
+            }
+        }
+
+        // Compact array (shift rows up)
+        for (int i = roomIndex; i < countofrooms - 1; i++) {
+            rooms[i] = rooms[i + 1];
+        }
+
+        countofrooms--;
+        System.out.println("Room deleted successfully.");
     }
 
     private static void searchRoom() {
