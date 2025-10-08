@@ -332,9 +332,11 @@ public class HostelMate {
         }
 
         System.out.print("New Capacity (or -): ");
-        String newCap = input.nextLine().trim();
+        String newCap = input.nextLine();
+
         if (!newCap.equals("-") && !newCap.isEmpty()) {
             boolean isNumber = true;
+
             for (int i = 0; i < newCap.length(); i++) {
                 char ch = newCap.charAt(i);
                 if (ch < '0' || ch > '9') {
@@ -350,16 +352,9 @@ public class HostelMate {
                 if (newCapacity <= 0) {
                     System.out.println("Error: Capacity must be greater than zero.");
                 } else {
-                    int oldCapacity = Integer.parseInt(rooms[roomIndex][3]);
-                    int available = Integer.parseInt(rooms[roomIndex][5]);
-                    int occupied = oldCapacity - available;
+                    rooms[roomIndex][3] = Integer.toString(newCapacity);
+                    rooms[roomIndex][5] = Integer.toString(newCapacity);
 
-                    if (newCapacity < occupied) {
-                        System.out.println("Error: New capacity < currently occupied beds. Update rejected.");
-                    } else {
-                        rooms[roomIndex][3] = Integer.toString(newCapacity);
-                        rooms[roomIndex][5] = Integer.toString(newCapacity - occupied);
-                    }
                 }
             }
         }
@@ -367,6 +362,7 @@ public class HostelMate {
         // Fee-Day
         System.out.print("New Fee/Day (or -): ");
         String newFee = input.nextLine().trim();
+
         if (!newFee.equals("-") && !newFee.isEmpty()) {
             boolean isValid = true;
             int dotCount = 0;
@@ -386,17 +382,27 @@ public class HostelMate {
             }
 
             if (!isValid) {
-                System.out.println("Invalid input. Enter valid fee.");
+                System.out.println("Invalid input. Enter valid fee (e.g. 750 or 750.50).");
             } else {
                 double fee = Double.parseDouble(newFee);
                 if (fee < 0) {
                     System.out.println("Error: Fee cannot be negative.");
                 } else {
                     rooms[roomIndex][4] = Double.toString(fee);
+
                 }
             }
         }
+        System.out.println("\nUpdated Successfully:");
+        System.out.println("------------------------------------------------------------");
+        System.out.printf("%-6s %-6s %-6s %-8s %-8s %-8s%n",
+                "ID", "Floor", "No", "Cap", "Avail", "Fee/Day");
+        System.out.println("------------------------------------------------------------");
+        System.out.printf("%-6s %-6s %-6s %-8s %-8s %-8s%n",
+                rooms[roomIndex][0], rooms[roomIndex][1], rooms[roomIndex][2],
+                rooms[roomIndex][3], rooms[roomIndex][5], rooms[roomIndex][4]);
     }
+
 
     private static void deleteRoom() {
     }
