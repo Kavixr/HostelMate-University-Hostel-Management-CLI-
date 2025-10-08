@@ -440,9 +440,58 @@ public class HostelMate {
     }
 
     private static void searchRoom() {
+        System.out.println("\n>>> Search Room <<<");
+
+        System.out.print("Enter Room ID: ");
+        String roomId = input.nextLine().trim();
+
+        int roomIndex = -1;
+        for (int i = 0; i < countofrooms; i++) {
+            if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                roomIndex = i;
+                break;
+            }
+        }
+
+        if (roomIndex == -1) {
+            System.out.println("Error: Room not found.");
+            return;
+        }
+
+        System.out.println("Found");
+
+        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
+                "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
+        System.out.println("----------------------------------------------------------------------------------");
+
+        // Print room row
+        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
+                rooms[roomIndex][0], rooms[roomIndex][1], rooms[roomIndex][2],
+                rooms[roomIndex][3], rooms[roomIndex][5], rooms[roomIndex][4]);
     }
 
     private static void viewAllRooms() {
+
+        System.out.println("\n >>> All Rooms <<<");
+        System.out.println();
+
+        if (countofrooms == 0) {
+            System.out.println("No rooms available.");
+            return;
+        }
+
+        // Header
+        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
+                "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
+        System.out.println("----------------------------------------------------------------------------------");
+
+        // Loop through all rooms
+        for (int i = 0; i < countofrooms; i++) {
+            System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
+                    rooms[i][0], rooms[i][1], rooms[i][2],
+                    rooms[i][3], rooms[i][5], rooms[i][4]);
+        }
+
     }
 
     // Methof of manage Students
