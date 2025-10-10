@@ -888,6 +888,35 @@ public class HostelMate {
     // Method of allocate bed
     private static void allocateBed() {
 
+        System.out.println("\n >>> Allocate Bed <<<");
+
+        System.out.println(" Student ID: ");
+        String studentId = input.nextLine();
+
+        int studentno = -1;
+        for (int i = 0; i < countofstudents; i++) {
+            if (students[i][0].equalsIgnoreCase(studentId)) {
+                studentno = i;
+                break;
+            }
+        }
+
+        if (studentno == -1) {
+            System.out.println("Error: Student not found.");
+            return;
+        }
+
+        if (students[studentno][4].equalsIgnoreCase("Inactive")) {
+            System.out.println("Error: Student is inactive. Cannot allocate bed.");
+            return;
+        }
+
+        for (int i = 0; i < countofallocations; i++) {
+            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(studentId)) {
+                System.out.println("Error: Student already has an active allocation.");
+                return;
+            }
+        }
     }
 
     // Method of vacate Bed
