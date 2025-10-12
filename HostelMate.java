@@ -1,4 +1,5 @@
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
 
 public class HostelMate {
 
@@ -917,6 +918,72 @@ public class HostelMate {
                 return;
             }
         }
+
+        System.out.println(" Room ID: ");
+        String roomId = input.nextLine();
+
+        int roomIndex = -1;
+        for (int i = 0; i < countofrooms; i++) {
+            if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                roomIndex = i;
+                break;
+            }
+        }
+
+        if (roomIndex == -1) {
+            System.out.println("Error: Room not found.");
+            return;
+        }
+
+        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
+        if (availableBeds <= 0) {
+            System.out.println("Error: No available beds in this room.");
+            return;
+        }
+
+        System.out.print("Due Date: ");
+        String dueDate = input.nextLine();
+
+        if (!dueDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+            return;
+        }
+
+        String checkInDate = LocalDate.now().toString();
+
+        if (dueDate.compareTo(checkInDate) < 0) {
+            System.out.println("Error: Due date must be a future date.");
+            return;
+        }
+
+        int capacity = Integer.parseInt(rooms[roomIndex][3]);
+        int bedIndex = -1;
+
+        for (int bed = 0; bed < capacity; bed++) {
+            if (occupancy[roomIndex][bed] == null) {
+                bedIndex = bed;
+                break;
+            }
+        }
+
+        if (bedIndex == -1) {
+            System.out.println("Error: No available beds found, despite availableBeds > 0.");
+            return;
+        }
+
+        allocations[countofallocations][0] = studentId;
+        allocations[countofallocations][1] = roomId;
+        allocations[countofallocations][2] = Integer.toString(bedIndex);
+        allocations[countofallocations][3] = checkInDate;
+        allocations[countofallocations][4] = dueDate;
+        countofallocations++;
+
+        occupancy[roomIndex][bedIndex] = studentId;
+        rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
+
+        System.out.println("Allocated: " + studentId + " → Room " + roomId + " Bed " + bedIndex);
+        System.out.println("Available beds (" + roomId + "): " + availableBeds);
+
     }
 
     // Method of vacate Bed
