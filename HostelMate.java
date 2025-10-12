@@ -981,7 +981,6 @@ public class HostelMate {
         occupancy[roomIndex][bedIndex] = studentId;
         rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
 
-        System.out.println("Allocated: " + studentId + " → Room " + roomId + " Bed " + bedIndex);
         System.out.println("Available beds (" + roomId + "): " + availableBeds);
 
     }
@@ -989,7 +988,7 @@ public class HostelMate {
     // Method of vacate Bed
     private static void vacateBed() {
 
-    }
+    } 
 
     // Method of transfer bed
     private static void transferBed() {
