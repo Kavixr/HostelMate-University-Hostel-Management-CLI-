@@ -217,9 +217,27 @@ public class HostelMate {
         System.out.print("Floor: ");
         floor = input.nextLine();
 
+
         // Room number
-        System.out.print("Room No: ");
-        roomNo = input.nextLine();
+        while (true) {
+            System.out.print("Room No: ");
+            roomNo = input.nextLine();
+
+            boolean duplicate = false;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][1].equalsIgnoreCase(floor) && rooms[i][2].equalsIgnoreCase(roomNo)) {
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (duplicate) {
+                System.out.println("Error: Room No " + roomNo + " already exists on Floor " + floor
+                        + ". Try another room number.");
+            } else {
+                break;
+            }
+        }
 
         // Capacity
         int capacity = 0;
