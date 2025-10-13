@@ -1131,6 +1131,120 @@ public class HostelMate {
 
     // Method of transfer bed
     private static void transferBed() {
+        System.out.println("\n >>> Transfer Student <<<");
+
+    // Get Student ID
+    System.out.print("Student ID: ");
+    String studentId = input.nextLine().trim();
+
+    // Get From Room
+    System.out.print("From Room: ");
+    String fromRoomId = input.nextLine().trim();
+
+    // Get To Room
+    System.out.print("To Room: ");
+    String toRoomId = input.nextLine().trim();
+
+    // 1. Find the allocation for this student in fromRoom
+    int allocationIndex = -1;
+    for (int i = 0; i < countofallocations; i++) {
+        if (allocations[i][0] != null &&
+                allocations[i][0].equalsIgnoreCase(studentId) &&
+                allocations[i][1].equalsIgnoreCase(fromRoomId)) {
+            allocationIndex = i;
+            break;
+        }
+    }
+
+    if (allocationIndex == -1) {
+        System.out.println("Error: No allocation found for this student in room " + fromRoomId);
+        return;
+    }
+
+    // 2. Find fromRoom index
+    int fromRoomIndex = -1;
+    for (int i = 0; i < countofrooms; i++) {
+        if (rooms[i][0].equalsIgnoreCase(fromRoomId)) {
+            fromRoomIndex = i;
+            break;
+        }
+    }
+
+    if (fromRoomIndex == -1) {
+        System.out.println("Error: From room not found.");
+        return;
+    }
+
+    // 3. Find toRoom index
+    int toRoomIndex = -1;
+    for (int i = 0; i < countofrooms; i++) {
+        if (rooms[i][0].equalsIgnoreCase(toRoomId)) {
+            toRoomIndex = i;
+            break;
+        }
+    }
+
+    if (toRoomIndex == -1) {
+        System.out.println("Error: To room not found.");
+        return;
+    }
+
+    // 4. Check if toRoom has available beds
+    int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
+    if (toRoomAvailableBeds <= 0) {
+        System.out.println("Error: No available beds in room " + toRoomId);
+        return;
+    }
+
+    // 5. Find the lowest free bed in toRoom
+    int toRoomCapacity = Integer.parseInt(rooms[toRoomIndex][3]);
+    int newBedIndex = -1;
+
+    for (int bed = 0; bed < toRoomCapacity; bed++) {
+        if (occupancy[toRoomIndex][bed] == null) {
+            newBedIndex = bed;
+            break;
+        }
+    }
+
+    if (newBedIndex == -1) {
+        System.out.println("Error: No available beds found in target room.");
+        return;
+    }
+
+   
+    int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
+
+
+    String checkInDate = allocations[allocationIndex][3];
+    String dueDate = allocations[allocationIndex][4];
+
+   
+    occupancy[fromRoomIndex][oldBedIndex] = null;
+
+   
+    int fromRoomAvailableBeds = Integer.parseInt(rooms[fromRoomIndex][5]);
+    fromRoomAvailableBeds++;
+    rooms[fromRoomIndex][5] = Integer.toString(fromRoomAvailableBeds);
+
+   
+    occupancy[toRoomIndex][newBedIndex] = studentId;
+
+    toRoomAvailableBeds--;
+    rooms[toRoomIndex][5] = Integer.toString(toRoomAvailableBeds);
+
+   
+    allocations[allocationIndex][1] = toRoomId;  
+    allocations[allocationIndex][2] = Integer.toString(newBedIndex);  
+  
+
+    // 13. Log transfer (you can add transfer date if needed)
+    String transferDate = LocalDate.now().toString();
+
+    System.out.println("Transferred to " + toRoomId + " Bed " + newBedIndex);
+    System.out.println("Avail (" + fromRoomId + "): " + fromRoomAvailableBeds + 
+                       " | Avail (" + toRoomId + "): " + toRoomAvailableBeds);
+    System.out.println("Transfer completed on: " + transferDate);
 
     }
 
