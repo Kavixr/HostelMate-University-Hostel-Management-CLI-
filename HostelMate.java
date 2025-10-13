@@ -300,7 +300,6 @@ public class HostelMate {
             break;
         }
 
-        // 6️⃣ Store in rooms array
         rooms[countofrooms][0] = roomId;
         rooms[countofrooms][1] = floor;
         rooms[countofrooms][2] = roomNo;
@@ -567,7 +566,7 @@ public class HostelMate {
 
                 case 6:
                     return;
-                
+
                 default:
                     System.out.println(" Invalid Option..");
             }
@@ -718,66 +717,78 @@ public class HostelMate {
         }
 
         // Contact
-        System.out.println("New Contact (or -): ");
-        newcontact = input.nextLine();
+        // Contact validation with loop
+        boolean validContact = false;
+        while (!validContact) {
+            System.out.println("New Contact (or -): ");
+            newcontact = input.nextLine();
 
-        if (!newcontact.equals("-")) {
-            // validate contact: length & digits
-            if (newcontact.length() != 10) {
-                System.out.println("Invalid contact length. Update skipped.");
+            if (newcontact.equals("-")) {
+                validContact = true;
             } else {
-                boolean digit = true;
-                for (int i = 0; i < newcontact.length(); i++) {
-                    char ct = newcontact.charAt(i);
-                    if (ct < '0' || ct > '9') {
-                        digit = false;
-                        break;
-                    }
-                }
-                if (!digit) {
-                    System.out.println("Error.. Contact must be digits only ");
+                // validate contact: length & digits
+                if (newcontact.length() != 10) {
+                    System.out.println("Invalid contact length.");
                 } else {
-                    // check uniqueness
-                    boolean alreadyexists = false;
-                    for (int i = 0; i < countofstudents; i++) {
-                        if (i != ids && students[i][2].equals(newcontact)) {
-                            alreadyexists = true;
+                    boolean digit = true;
+                    for (int i = 0; i < newcontact.length(); i++) {
+                        char ct = newcontact.charAt(i);
+                        if (ct < '0' || ct > '9') {
+                            digit = false;
                             break;
                         }
                     }
-                    if (alreadyexists) {
-                        System.out.println("Error: Contact already exists. Please enter new number.");
+                    if (!digit) {
+                        System.out.println("Error.. Contact must be digits only ");
                     } else {
-                        students[ids][2] = newcontact; // update the contact
+                        // check uniqueness
+                        boolean alreadyexists = false;
+                        for (int i = 0; i < countofstudents; i++) {
+                            if (i != ids && students[i][2].equals(newcontact)) {
+                                alreadyexists = true;
+                                break;
+                            }
+                        }
+                        if (alreadyexists) {
+                            System.out.println("Error: Contact already exists. Please enter new number.");
+                        } else {
+                            students[ids][2] = newcontact; // update the contact
+                            validContact = true;
+                        }
                     }
                 }
             }
         }
 
-        // Email..
-        System.out.println("New Email(or -): ");
-        newemail = input.nextLine();
+        // Email validation with loop
+        boolean validEmail = false;
+        while (!validEmail) {
+            System.out.println("New Email(or -): ");
+            newemail = input.nextLine();
 
-        if (!newemail.equals("-")) {
-            if (!(newemail.contains("@") && newemail.contains("."))) {
-                System.out.println("Invalid email format.");
+            if (newemail.equals("-")) {
+                validEmail = true;
             } else {
-                // check uniqueness
-                boolean exists = false;
-                for (int i = 0; i < countofstudents; i++) {
-                    if (i != ids && students[i][3].equalsIgnoreCase(newemail)) {
-                        exists = true;
-                        break;
-                    }
-                }
-                if (exists) {
-                    System.out.println("Error: Email already exists. Enter new email."); // Check altready have or not
+                if (!(newemail.contains("@") && newemail.contains("."))) {
+                    System.out.println("Invalid email format.");
                 } else {
-                    students[ids][3] = newemail; // update the email
+                    // check uniqueness
+                    boolean exists = false;
+                    for (int i = 0; i < countofstudents; i++) {
+                        if (i != ids && students[i][3].equalsIgnoreCase(newemail)) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (exists) {
+                        System.out.println("Error: Email already exists. Enter new email.");
+                    } else {
+                        students[ids][3] = newemail; // update the email
+                        validEmail = true;
+                    }
                 }
             }
         }
-
         System.out.println("Updated: "
                 + students[ids][0] + " |" // Student ID
                 + students[ids][1] + " |" // Name
