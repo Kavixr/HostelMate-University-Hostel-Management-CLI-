@@ -889,102 +889,159 @@ public class HostelMate {
     // Method of allocate bed
     private static void allocateBed() {
 
-        System.out.println("\n >>> Allocate Bed <<<");
+    System.out.println("\n >>> Allocate Bed <<<");
 
-        System.out.println(" Student ID: ");
-        String studentId = input.nextLine();
+    System.out.print("Student ID: ");
+    String studentId = input.nextLine();
 
-        int studentno = -1;
-        for (int i = 0; i < countofstudents; i++) {
-            if (students[i][0].equalsIgnoreCase(studentId)) {
-                studentno = i;
-                break;
-            }
+    // Find student
+    int studentno = -1;
+    for (int i = 0; i < countofstudents; i++) {
+        if (students[i][0].equalsIgnoreCase(studentId)) {
+            studentno = i;
+            break;
         }
-
-        if (studentno == -1) {
-            System.out.println("Error: Student not found.");
-            return;
-        }
-
-        if (students[studentno][4].equalsIgnoreCase("Inactive")) {
-            System.out.println("Error: Student is inactive. Cannot allocate bed.");
-            return;
-        }
-
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(studentId)) {
-                System.out.println("Error: Student already has an active allocation.");
-                return;
-            }
-        }
-
-        System.out.println(" Room ID: ");
-        String roomId = input.nextLine();
-
-        int roomIndex = -1;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(roomId)) {
-                roomIndex = i;
-                break;
-            }
-        }
-
-        if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
-            return;
-        }
-
-        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
-        if (availableBeds <= 0) {
-            System.out.println("Error: No available beds in this room.");
-            return;
-        }
-
-        System.out.print("Due Date: ");
-        String dueDate = input.nextLine();
-
-        if (!dueDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-            return;
-        }
-
-        String checkInDate = LocalDate.now().toString();
-
-        if (dueDate.compareTo(checkInDate) < 0) {
-            System.out.println("Error: Due date must be a future date.");
-            return;
-        }
-
-        int capacity = Integer.parseInt(rooms[roomIndex][3]);
-        int bedIndex = -1;
-
-        for (int bed = 0; bed < capacity; bed++) {
-            if (occupancy[roomIndex][bed] == null) {
-                bedIndex = bed;
-                break;
-            }
-        }
-
-        if (bedIndex == -1) {
-            System.out.println("Error: No available beds found, despite availableBeds > 0.");
-            return;
-        }
-
-        allocations[countofallocations][0] = studentId;
-        allocations[countofallocations][1] = roomId;
-        allocations[countofallocations][2] = Integer.toString(bedIndex);
-        allocations[countofallocations][3] = checkInDate;
-        allocations[countofallocations][4] = dueDate;
-        countofallocations++;
-
-        occupancy[roomIndex][bedIndex] = studentId;
-        rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
-
-        System.out.println("Available beds (" + roomId + "): " + availableBeds);
-
     }
 
+    if (studentno == -1) {
+        System.out.println("Error: Student not found.");
+        return;
+    }
+
+    // Check if student is inactive
+    if (students[studentno][4].equalsIgnoreCase("Inactive")) {
+        System.out.println("Error: Student is inactive. Cannot allocate bed.");
+        return;
+    }
+
+    // Check if student already has an active allocation
+    for (int i = 0; i < countofallocations; i++) {
+        if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(studentId)) {
+            System.out.println("Error: Student already has an active allocation.");
+            return;
+        }
+    }
+
+    System.out.print("Room ID: ");
+    String roomId = input.nextLine();
+
+    // Find room
+    int roomIndex = -1;
+    for (int i = 0; i < countofrooms; i++) {
+        if (rooms[i][0].equalsIgnoreCase(roomId)) {
+            roomIndex = i;
+            break;
+        }
+    }
+
+    if (roomIndex == -1) {
+        System.out.println("Error: Room not found.");
+        return;
+    }
+
+    // Check available beds
+    int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
+    if (availableBeds <= 0) {
+        System.out.println("Error: No available beds in this room.");
+        return;
+    }
+
+    System.out.print("Due Date (YYYY-MM-DD): ");
+    String dueDate = input.nextLine();
+
+    // Manual date format validation - NO REGEX
+    if (dueDate.length() != 10) {
+        System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+        return;
+    }
+
+    // Check positions of dashes
+    if (dueDate.charAt(4) != '-' || dueDate.charAt(7) != '-') {
+        System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+        return;
+    }
+
+    // Check if year, month, day parts are digits
+    boolean isValidFormat = true;
+
+    // Check year (positions 0-3)
+    for (int i = 0; i < 4; i++) {
+        char ch = dueDate.charAt(i);
+        if (ch < '0' || ch > '9') {
+            isValidFormat = false;
+            break;
+        }
+    }
+
+    // Check month (positions 5-6)
+    if (isValidFormat) {
+        for (int i = 5; i < 7; i++) {
+            char ch = dueDate.charAt(i);
+            if (ch < '0' || ch > '9') {
+                isValidFormat = false;
+                break;
+            }
+        }
+    }
+
+    // Check day (positions 8-9)
+    if (isValidFormat) {
+        for (int i = 8; i < 10; i++) {
+            char ch = dueDate.charAt(i);
+            if (ch < '0' || ch > '9') {
+                isValidFormat = false;
+                break;
+            }
+        }
+    }
+
+    if (!isValidFormat) {
+        System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+        return;
+    }
+
+    String checkInDate = LocalDate.now().toString();
+
+    // Due date must be after check-in date
+    if (dueDate.compareTo(checkInDate) <= 0) {
+        System.out.println("Error: Due date must be a future date.");
+        return;
+    }
+
+    // Find an available bed
+    int capacity = Integer.parseInt(rooms[roomIndex][3]);
+    int bedIndex = -1;
+
+    for (int bed = 0; bed < capacity; bed++) {
+        if (occupancy[roomIndex][bed] == null) {
+            bedIndex = bed;
+            break;
+        }
+    }
+
+    if (bedIndex == -1) {
+        System.out.println("Error: No available beds found, despite availableBeds > 0.");
+        return;
+    }
+
+    // Store allocation
+    allocations[countofallocations][0] = studentId;
+    allocations[countofallocations][1] = roomId;
+    allocations[countofallocations][2] = Integer.toString(bedIndex);
+    allocations[countofallocations][3] = checkInDate;
+    allocations[countofallocations][4] = dueDate;
+    countofallocations++;
+
+    // Update occupancy
+    occupancy[roomIndex][bedIndex] = studentId;
+    
+    // Decrease available beds
+    rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
+
+    System.out.println("Bed allocated successfully!");
+    System.out.println("Available beds (" + roomId + "): " + (availableBeds - 1));
+
+}
     // Method of vacate Bed
     private static void vacateBed() {
 
