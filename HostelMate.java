@@ -889,163 +889,245 @@ public class HostelMate {
     // Method of allocate bed
     private static void allocateBed() {
 
-    System.out.println("\n >>> Allocate Bed <<<");
+        System.out.println("\n >>> Allocate Bed <<<");
 
-    System.out.print("Student ID: ");
-    String studentId = input.nextLine();
+        System.out.print("Student ID: ");
+        String studentId = input.nextLine();
 
-    // Find student
-    int studentno = -1;
-    for (int i = 0; i < countofstudents; i++) {
-        if (students[i][0].equalsIgnoreCase(studentId)) {
-            studentno = i;
-            break;
+        // Find student
+        int studentno = -1;
+        for (int i = 0; i < countofstudents; i++) {
+            if (students[i][0].equalsIgnoreCase(studentId)) {
+                studentno = i;
+                break;
+            }
         }
-    }
 
-    if (studentno == -1) {
-        System.out.println("Error: Student not found.");
-        return;
-    }
-
-    // Check if student is inactive
-    if (students[studentno][4].equalsIgnoreCase("Inactive")) {
-        System.out.println("Error: Student is inactive. Cannot allocate bed.");
-        return;
-    }
-
-    // Check if student already has an active allocation
-    for (int i = 0; i < countofallocations; i++) {
-        if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(studentId)) {
-            System.out.println("Error: Student already has an active allocation.");
+        if (studentno == -1) {
+            System.out.println("Error: Student not found.");
             return;
         }
-    }
 
-    System.out.print("Room ID: ");
-    String roomId = input.nextLine();
-
-    // Find room
-    int roomIndex = -1;
-    for (int i = 0; i < countofrooms; i++) {
-        if (rooms[i][0].equalsIgnoreCase(roomId)) {
-            roomIndex = i;
-            break;
+        // Check if student is inactive
+        if (students[studentno][4].equalsIgnoreCase("Inactive")) {
+            System.out.println("Error: Student is inactive. Cannot allocate bed.");
+            return;
         }
-    }
 
-    if (roomIndex == -1) {
-        System.out.println("Error: Room not found.");
-        return;
-    }
-
-    // Check available beds
-    int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
-    if (availableBeds <= 0) {
-        System.out.println("Error: No available beds in this room.");
-        return;
-    }
-
-    System.out.print("Due Date (YYYY-MM-DD): ");
-    String dueDate = input.nextLine();
-
-    // Manual date format validation - NO REGEX
-    if (dueDate.length() != 10) {
-        System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-        return;
-    }
-
-    // Check positions of dashes
-    if (dueDate.charAt(4) != '-' || dueDate.charAt(7) != '-') {
-        System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-        return;
-    }
-
-    // Check if year, month, day parts are digits
-    boolean isValidFormat = true;
-
-    // Check year (positions 0-3)
-    for (int i = 0; i < 4; i++) {
-        char ch = dueDate.charAt(i);
-        if (ch < '0' || ch > '9') {
-            isValidFormat = false;
-            break;
+        // Check if student already has an active allocation
+        for (int i = 0; i < countofallocations; i++) {
+            if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(studentId)) {
+                System.out.println("Error: Student already has an active allocation.");
+                return;
+            }
         }
-    }
 
-    // Check month (positions 5-6)
-    if (isValidFormat) {
-        for (int i = 5; i < 7; i++) {
+        System.out.print("Room ID: ");
+        String roomId = input.nextLine();
+
+        // Find room
+        int roomIndex = -1;
+        for (int i = 0; i < countofrooms; i++) {
+            if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                roomIndex = i;
+                break;
+            }
+        }
+
+        if (roomIndex == -1) {
+            System.out.println("Error: Room not found.");
+            return;
+        }
+
+        // Check available beds
+        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
+        if (availableBeds <= 0) {
+            System.out.println("Error: No available beds in this room.");
+            return;
+        }
+
+        System.out.print("Due Date (YYYY-MM-DD): ");
+        String dueDate = input.nextLine();
+
+        // Manual date format validation - NO REGEX
+        if (dueDate.length() != 10) {
+            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+            return;
+        }
+
+        // Check positions of dashes
+        if (dueDate.charAt(4) != '-' || dueDate.charAt(7) != '-') {
+            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+            return;
+        }
+
+        // Check if year, month, day parts are digits
+        boolean isValidFormat = true;
+
+        // Check year (positions 0-3)
+        for (int i = 0; i < 4; i++) {
             char ch = dueDate.charAt(i);
             if (ch < '0' || ch > '9') {
                 isValidFormat = false;
                 break;
             }
         }
-    }
 
-    // Check day (positions 8-9)
-    if (isValidFormat) {
-        for (int i = 8; i < 10; i++) {
-            char ch = dueDate.charAt(i);
-            if (ch < '0' || ch > '9') {
-                isValidFormat = false;
+        // Check month (positions 5-6)
+        if (isValidFormat) {
+            for (int i = 5; i < 7; i++) {
+                char ch = dueDate.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    isValidFormat = false;
+                    break;
+                }
+            }
+        }
+
+        // Check day (positions 8-9)
+        if (isValidFormat) {
+            for (int i = 8; i < 10; i++) {
+                char ch = dueDate.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    isValidFormat = false;
+                    break;
+                }
+            }
+        }
+
+        if (!isValidFormat) {
+            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+            return;
+        }
+
+        String checkInDate = LocalDate.now().toString();
+
+        // Due date must be after check-in date
+        if (dueDate.compareTo(checkInDate) <= 0) {
+            System.out.println("Error: Due date must be a future date.");
+            return;
+        }
+
+        // Find an available bed
+        int capacity = Integer.parseInt(rooms[roomIndex][3]);
+        int bedIndex = -1;
+
+        for (int bed = 0; bed < capacity; bed++) {
+            if (occupancy[roomIndex][bed] == null) {
+                bedIndex = bed;
                 break;
             }
         }
-    }
 
-    if (!isValidFormat) {
-        System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-        return;
-    }
-
-    String checkInDate = LocalDate.now().toString();
-
-    // Due date must be after check-in date
-    if (dueDate.compareTo(checkInDate) <= 0) {
-        System.out.println("Error: Due date must be a future date.");
-        return;
-    }
-
-    // Find an available bed
-    int capacity = Integer.parseInt(rooms[roomIndex][3]);
-    int bedIndex = -1;
-
-    for (int bed = 0; bed < capacity; bed++) {
-        if (occupancy[roomIndex][bed] == null) {
-            bedIndex = bed;
-            break;
+        if (bedIndex == -1) {
+            System.out.println("Error: No available beds found, despite availableBeds > 0.");
+            return;
         }
+
+        // Store allocation
+        allocations[countofallocations][0] = studentId;
+        allocations[countofallocations][1] = roomId;
+        allocations[countofallocations][2] = Integer.toString(bedIndex);
+        allocations[countofallocations][3] = checkInDate;
+        allocations[countofallocations][4] = dueDate;
+        countofallocations++;
+
+        // Update occupancy
+        occupancy[roomIndex][bedIndex] = studentId;
+
+        // Decrease available beds
+        rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
+
+        System.out.println("Bed allocated successfully!");
+        System.out.println("Available beds (" + roomId + "): " + (availableBeds - 1));
+
     }
 
-    if (bedIndex == -1) {
-        System.out.println("Error: No available beds found, despite availableBeds > 0.");
-        return;
-    }
-
-    // Store allocation
-    allocations[countofallocations][0] = studentId;
-    allocations[countofallocations][1] = roomId;
-    allocations[countofallocations][2] = Integer.toString(bedIndex);
-    allocations[countofallocations][3] = checkInDate;
-    allocations[countofallocations][4] = dueDate;
-    countofallocations++;
-
-    // Update occupancy
-    occupancy[roomIndex][bedIndex] = studentId;
     
-    // Decrease available beds
-    rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
-
-    System.out.println("Bed allocated successfully!");
-    System.out.println("Available beds (" + roomId + "): " + (availableBeds - 1));
-
-}
-    // Method of vacate Bed
     private static void vacateBed() {
+        System.out.println("\n >>> Vacate Bed <<<");
 
-    } 
+        
+        System.out.print("Student ID: ");
+        String studentId = input.nextLine();
+
+      
+        System.out.print("Room ID: ");
+        String roomId = input.nextLine();
+
+        
+        int allocationIndex = -1;
+        for (int i = 0; i < countofallocations; i++) {
+            if (allocations[i][0] != null &&
+                    allocations[i][0].equalsIgnoreCase(studentId) &&
+                    allocations[i][1].equalsIgnoreCase(roomId)) {
+                allocationIndex = i;
+                break;
+            }
+        }
+
+        
+        if (allocationIndex == -1) {
+            System.out.println("Error: No allocation found for this student in this room.");
+            return;
+        }
+
+        
+        String bedIndexStr = allocations[allocationIndex][2];
+        String checkInDate = allocations[allocationIndex][3];
+        String dueDate = allocations[allocationIndex][4];
+
+        
+        String currentDate = LocalDate.now().toString();
+
+        
+        int roomIndex = -1;
+        for (int i = 0; i < countofrooms; i++) {
+            if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                roomIndex = i;
+                break;
+            }
+        }
+
+        
+        int overdueDays = 0;
+        double fine = 0.0;
+
+        if (currentDate.compareTo(dueDate) > 0) {
+            // Current date is after due date - calculate overdue
+            overdueDays = calculateDaysBetween(dueDate, currentDate);
+
+            // Get fee per day
+            double feePerDay = Double.parseDouble(rooms[roomIndex][4]);
+
+            // Calculate fine
+            fine = overdueDays * feePerDay;
+
+            System.out.println("Overdue days: " + overdueDays +
+                    " | Fee/Day: " + feePerDay +
+                    " | Fine: " + fine);
+        }
+
+        // Get bed index
+        int bedIndex = Integer.parseInt(bedIndexStr);
+
+        // Remove allocation (compact array)
+        for (int i = allocationIndex; i < countofallocations - 1; i++) {
+            allocations[i] = allocations[i + 1];
+        }
+        countofallocations--;
+
+        // Set occupancy to null (freed bed)
+        occupancy[roomIndex][bedIndex] = null;
+
+        // Increase available beds by 1
+        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
+        availableBeds = availableBeds + 1;
+        rooms[roomIndex][5] = Integer.toString(availableBeds);
+
+        System.out.println("Checkout completed. Bed freed. Available beds (" + roomId + "): " + availableBeds);
+
+    }
 
     // Method of transfer bed
     private static void transferBed() {
@@ -1060,6 +1142,26 @@ public class HostelMate {
     // Method of exit
     private static void Exit() {
 
+    }
+
+    private static int calculateDaysBetween(String startDate, String endDate) {
+        // Parse start date
+        String[] startParts = startDate.split("-");
+        int startYear = Integer.parseInt(startParts[0]);
+        int startMonth = Integer.parseInt(startParts[1]);
+        int startDay = Integer.parseInt(startParts[2]);
+
+        // Parse end date
+        String[] endParts = endDate.split("-");
+        int endYear = Integer.parseInt(endParts[0]);
+        int endMonth = Integer.parseInt(endParts[1]);
+        int endDay = Integer.parseInt(endParts[2]);
+
+        // Convert to total days from a reference point
+        int startTotalDays = startYear * 365 + startMonth * 30 + startDay;
+        int endTotalDays = endYear * 365 + endMonth * 30 + endDay;
+
+        return endTotalDays - startTotalDays;
     }
 
 }
