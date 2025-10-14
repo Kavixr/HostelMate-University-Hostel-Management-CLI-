@@ -1025,10 +1025,12 @@ public class HostelMate {
 
         String id;
 
-        System.out.println("\n >>>  Delete Student  <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             DELETE STUDENT               ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.println("Enter Student ID: ");
-        id = input.nextLine();
+        System.out.print("Enter Student ID          : ");
+        id = input.nextLine().trim();
 
         int ids = -1;
         for (int i = 0; i < countofstudents; i++) {
@@ -1038,25 +1040,35 @@ public class HostelMate {
             }
         }
 
-        if (ids == -1) {
-            System.out.println("Error: Student not found.");
+        if (id.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
             return;
         }
 
+        if (ids == -1) {
+            System.out.println("Error: No student found with the ID '" + id + "'.");
+            return;
+        }
+
+        // Check for active allocations
         for (int i = 0; i < countofallocations; i++) {
             if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(id)) {
-                System.out.println("Error: Cannot Delete. Student has an active allocation");
+                System.out.println("Error: Cannot delete student '" + id + "' — active room allocations exist.");
                 return;
             }
         }
 
+        // Shift student records up to fill the deleted spot
         for (int i = ids; i < countofstudents - 1; i++) {
             students[i] = students[i + 1];
         }
 
         countofstudents--;
 
-        System.out.println("Student Deleted Successfully. ");
+        System.out.println("\nStudent deleted successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Deleted Student ID : " + id);
+        System.out.println("-----------------------------------------");
 
     }
 
@@ -1064,35 +1076,45 @@ public class HostelMate {
 
         String id;
 
-        System.out.println("\n >>> Search Student <<< ");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             SEARCH STUDENT              ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.println("Enter Student ID: ");
-        id = input.nextLine();
+        System.out.print("Enter Student ID                 : ");
+        id = input.nextLine().trim();
 
         int ids = -1;
         for (int i = 0; i < countofstudents; i++) {
             if (students[i][0].equalsIgnoreCase(id)) {
-                ids = i; // found row index
+                ids = i;
                 break;
             }
         }
 
-        if (ids == -1) {
-            System.out.println("Error: Student not found.");
+        if (id.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
             return;
         }
 
-        System.out.println("Found");
+        if (ids == -1) {
+            System.out.println("Error: No student found with the ID '" + id + "'.");
+            return;
+        }
 
-        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
-                "ID", "Name", "Contact", "Email", "Status");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("\nStudent record found successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
+                "Student ID", "Full Name", "Contact No", "Email Address", "Status");
+        System.out.println("---------------------------------------------------------------------------------------");
 
-        // Print row
-        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
-                students[ids][0], students[ids][1], students[ids][2],
-                students[ids][3], students[ids][4]);
+        System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
+                students[ids][0],
+                students[ids][1],
+                students[ids][2],
+                students[ids][3],
+                students[ids][4]);
 
+        System.out.println("---------------------------------------------------------------------------------------");
     }
 
     private static void viewAllStudents() {
