@@ -170,7 +170,6 @@ public class HostelMate {
             System.out.println("==========================================");
             System.out.print("Please choose an option: ");
 
-
             String rChoice = input.nextLine();
 
             boolean isNumber = true;
@@ -213,7 +212,7 @@ public class HostelMate {
                 case 6:
                     return; // Back to main menu
                 default:
-                   System.out.println("Invalid option! Please enter a valid choice.");
+                    System.out.println("Invalid option! Please enter a valid choice.");
 
             }
         }
@@ -221,7 +220,9 @@ public class HostelMate {
     }
 
     private static void addRoom() {
-        System.out.println("\n>>> Add Room <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              ADD NEW ROOM               ");
+        System.out.println("-----------------------------------------\n");
 
         String roomId;
         String floor;
@@ -231,8 +232,13 @@ public class HostelMate {
 
         // Room ID (must be unique)
         while (true) {
-            System.out.print("Room ID: ");
+            System.out.print("Room ID          : ");
             roomId = input.nextLine();
+
+            if (roomId.isEmpty()) {
+                System.out.println("Error: Room ID cannot be empty. Please enter a valid ID.");
+                continue;
+            }
 
             boolean exists = false;
             for (int i = 0; i < countofrooms; i++) {
@@ -249,13 +255,41 @@ public class HostelMate {
         }
 
         // Floor number
-        System.out.print("Floor: ");
-        floor = input.nextLine();
+        while (true) {
+            System.out.print("Floor            : ");
+            floor = input.nextLine();
+
+            if (floor.isEmpty()) {
+                System.out.println("Error: Floor cannot be empty. Please enter a number.");
+                continue;
+            }
+
+            boolean valid = true;
+            for (int i = 0; i < floor.length(); i++) {
+                char ch = floor.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (!valid) {
+                System.out.println("Error: Floor must contain only digits.");
+                continue;
+            } else {
+                break;
+            }
+        }
 
         // Room number
         while (true) {
-            System.out.print("Room No: ");
+            System.out.print("Room No          : ");
             roomNo = input.nextLine();
+
+            if (roomNo.isEmpty()) {
+                System.out.println("Error: Room Number cannot be empty. Please enter a number.");
+                continue;
+            }
 
             boolean isValid = true;
             for (int i = 0; i < roomNo.length(); i++) {
@@ -290,8 +324,9 @@ public class HostelMate {
         // Capacity
         int capacity = 0;
         while (true) {
-            System.out.print("Capacity: ");
+            System.out.print("Capacity         : ");
             capacityStr = input.nextLine();
+
             if (capacityStr.isEmpty()) {
                 System.out.println("Error: Capacity cannot be empty.");
                 continue;
@@ -324,7 +359,7 @@ public class HostelMate {
         // Fee per day
         double feePerDay = 0.0;
         while (true) {
-            System.out.print("Fee/Day (LKR): ");
+            System.out.print("Fee/Day (LKR)    : ");
             feePerDayStr = input.nextLine();
             if (feePerDayStr.isEmpty()) {
                 System.out.println("Error: Fee cannot be empty.");
@@ -350,14 +385,12 @@ public class HostelMate {
             }
 
             if (!isValid) {
-                System.out.println("Invalid input. Enter a valid number (e.g., 750 or 750.50).");
+                System.out.println("Invalid input. Enter a valid number");
                 continue;
             }
 
-            // 🔹 Now safely convert to double
             feePerDay = Double.parseDouble(feePerDayStr);
 
-            // 🔹 Non-negative check
             if (feePerDay < 0) {
                 System.out.println("Error: Fee cannot be negative.");
                 continue;
@@ -366,23 +399,35 @@ public class HostelMate {
             break;
         }
 
+        // Save data
         rooms[countofrooms][0] = roomId;
         rooms[countofrooms][1] = floor;
         rooms[countofrooms][2] = roomNo;
         rooms[countofrooms][3] = Integer.toString(capacity);
         rooms[countofrooms][4] = Double.toString(feePerDay);
-        rooms[countofrooms][5] = Integer.toString(capacity); // availableBeds = capacity
+        rooms[countofrooms][5] = Integer.toString(capacity);
 
         countofrooms++;
+
+        // Final output
         System.out.println();
-        System.out.println("Room added successfully. Available beds: " + capacity);
+        System.out.println("Room added successfully.");
+        System.out.println("Available beds  : " + capacity);
+        System.out.println("-----------------------------------------");
     }
 
     private static void updateRoom() {
-        System.out.println("\n>>> Update Room <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              UPDATE ROOM                ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID to update: ");
+        System.out.print("Enter Room ID to update : ");
         String roomId = input.nextLine();
+
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
 
         int roomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
@@ -393,14 +438,14 @@ public class HostelMate {
         }
 
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: Room with ID '" + roomId + "' not found in the system.");
             return;
         }
 
         // Capacity validation loop
         boolean validCapacity = false;
         while (!validCapacity) {
-            System.out.print("New Capacity (or -): ");
+            System.out.print("New Capacity (or - to skip)       : ");
             String newCap = input.nextLine();
 
             if (newCap.equals("-") || newCap.isEmpty()) {
@@ -418,7 +463,7 @@ public class HostelMate {
             }
 
             if (!isNumber) {
-                System.out.println("Invalid input. Capacity must be numeric. Please try again.");
+                System.out.println("Error: Capacity must contain digits only. Please try again.");
             } else {
                 int newCapacity = Integer.parseInt(newCap);
                 if (newCapacity <= 0) {
@@ -434,8 +479,8 @@ public class HostelMate {
         // Fee-Day validation loop
         boolean validFee = false;
         while (!validFee) {
-            System.out.print("New Fee/Day (or -): ");
-            String newFee = input.nextLine().trim();
+            System.out.print("New Fee/Day (LKR) (or - to skip)  : ");
+            String newFee = input.nextLine();
 
             if (newFee.equals("-") || newFee.isEmpty()) {
                 validFee = true;
@@ -460,7 +505,7 @@ public class HostelMate {
             }
 
             if (!isValid) {
-                System.out.println("Invalid input. Enter valid fee (e.g. 750 or 750.50). Please try again.");
+                System.out.println("Error: Invalid input. Enter a valid number. Please try again.");
             } else {
                 double fee = Double.parseDouble(newFee);
                 if (fee < 0) {
@@ -472,20 +517,25 @@ public class HostelMate {
             }
         }
 
-        System.out.println("Updated: "
-                + rooms[roomIndex][0] + " | " // Room ID
-                + "Floor=" + rooms[roomIndex][1] + " | "
-                + "RoomNo=" + rooms[roomIndex][2] + " | "
-                + "Capacity=" + rooms[roomIndex][3] + " | "
-                + "Fee/Day=" + rooms[roomIndex][4] + " | "
-                + "Avail=" + rooms[roomIndex][5]);
+        System.out.println();
+        System.out.println("Room updated successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Room ID          : " + rooms[roomIndex][0]);
+        System.out.println("Floor            : " + rooms[roomIndex][1]);
+        System.out.println("Room No          : " + rooms[roomIndex][2]);
+        System.out.println("Capacity         : " + rooms[roomIndex][3]);
+        System.out.println("Fee/Day (LKR)    : " + rooms[roomIndex][4]);
+        System.out.println("Available Beds   : " + rooms[roomIndex][5]);
+        System.out.println("-----------------------------------------");
     }
 
     private static void deleteRoom() {
-        System.out.println("\n>>> Delete Room <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              DELETE ROOM                ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID: ");
-        String roomId = input.nextLine().trim();
+        System.out.print("Enter Room ID to delete          : ");
+        String roomId = input.nextLine();
 
         int roomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
@@ -495,15 +545,20 @@ public class HostelMate {
             }
         }
 
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
+
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: No room found with the ID '" + roomId + "'.");
             return;
         }
 
         // Check if this room has active allocations
         for (int i = 0; i < countofallocations; i++) {
             if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
-                System.out.println("Error: Cannot delete. Active allocations exist for this room.");
+                System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
                 return;
             }
         }
@@ -514,14 +569,24 @@ public class HostelMate {
         }
 
         countofrooms--;
-        System.out.println("Room deleted successfully.");
+        System.out.println("\nRoom deleted successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Deleted Room ID : " + roomId);
+        System.out.println("-----------------------------------------");
     }
 
     private static void searchRoom() {
-        System.out.println("\n>>> Search Room <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              SEARCH ROOM                ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID: ");
-        String roomId = input.nextLine().trim();
+        System.out.print("Enter Room ID                    : ");
+        String roomId = input.nextLine();
+
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
 
         int roomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
@@ -532,44 +597,56 @@ public class HostelMate {
         }
 
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: No room found with the ID '" + roomId + "'.");
             return;
         }
 
-        System.out.println("Found");
+        System.out.println("\nRoom found successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println();
 
-        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
+                "Room ID", "Floor", "Room No", "Capacity", "Avail Beds", "Fee/Day (LKR)");
+        System.out.println("-------------------------------------------------------------------------------");
 
-        // Print room row
-        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                rooms[roomIndex][0], rooms[roomIndex][1], rooms[roomIndex][2],
-                rooms[roomIndex][3], rooms[roomIndex][5], rooms[roomIndex][4]);
+        System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
+                rooms[roomIndex][0],
+                rooms[roomIndex][1],
+                rooms[roomIndex][2],
+                rooms[roomIndex][3],
+                rooms[roomIndex][5],
+                rooms[roomIndex][4]);
+
+        System.out.println("-------------------------------------------------------------------------------");
     }
 
     private static void viewAllRooms() {
 
-        System.out.println("\n >>> All Rooms <<<");
-        System.out.println();
+        System.out.println("\n-----------------------------------------");
+        System.out.println("               ALL ROOMS                 ");
+        System.out.println("-----------------------------------------\n");
 
         if (countofrooms == 0) {
-            System.out.println("No rooms available.");
+            System.out.println("No rooms available in the system at the moment.");
+            System.out.println("-----------------------------------------");
             return;
         }
 
-        // Header
-        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-12s%n",
+                "Room ID", "Floor", "Room No", "Capacity", "Avail Beds", "Fee/Day (LKR)");
+        System.out.println("--------------------------------------------------------------------------");
 
-        // Loop through all rooms
         for (int i = 0; i < countofrooms; i++) {
-            System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                    rooms[i][0], rooms[i][1], rooms[i][2],
-                    rooms[i][3], rooms[i][5], rooms[i][4]);
+            System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-12s%n",
+                    rooms[i][0],
+                    rooms[i][1],
+                    rooms[i][2],
+                    rooms[i][3],
+                    rooms[i][5],
+                    rooms[i][4]);
         }
 
+        System.out.println("--------------------------------------------------------------------------");
     }
 
     // Methof of manage Students
