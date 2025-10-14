@@ -220,208 +220,214 @@ public class HostelMate {
     }
 
     private static void addRoom() {
-    System.out.println("\n-----------------------------------------");
-    System.out.println("              ADD NEW ROOM               ");
-    System.out.println("-----------------------------------------\n");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              ADD NEW ROOM               ");
+        System.out.println("-----------------------------------------\n");
 
-    String roomId;
-    String floor;
-    String roomNo;
-    String capacityStr;
-    String feePerDayStr;
+        String roomId;
+        String floor;
+        String roomNo;
+        String capacityStr;
+        String feePerDayStr;
 
-    // Room ID (must be unique)
-    while (true) {
-        System.out.print("Room ID          : ");
-        roomId = input.nextLine().trim();
+        // Room ID (must be unique)
+        while (true) {
+            System.out.print("Room ID          : ");
+            roomId = input.nextLine();
 
-        if (roomId.isEmpty()) {
-            System.out.println("Error: Room ID cannot be empty. Please enter a valid ID.");
-            continue;
-        }
-
-        boolean exists = false;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(roomId)) {
-                exists = true;
-                break;
+            if (roomId.isEmpty()) {
+                System.out.println("Error: Room ID cannot be empty. Please enter a valid ID.");
+                continue;
             }
-        }
-        if (exists) {
-            System.out.println("Error: Room ID already exists. Please try another ID.");
-        } else {
-            break;
-        }
-    }
 
-    // Floor number
-    while (true) {
-        System.out.print("Floor            : ");
-        floor = input.nextLine().trim();
-
-        if (floor.isEmpty()) {
-            System.out.println("Error: Floor cannot be empty. Please enter a number.");
-            continue;
-        }
-
-        boolean valid = true;
-        for (int i = 0; i < floor.length(); i++) {
-            char ch = floor.charAt(i);
-            if (ch < '0' || ch > '9') {
-                valid = false;
+            boolean exists = false;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists) {
+                System.out.println("Error: Room ID already exists. Please try another ID.");
+            } else {
                 break;
             }
         }
 
-        if (!valid) {
-            System.out.println("Error: Floor must contain only digits.");
-            continue;
-        } else {
-            break;
-        }
-    }
+        // Floor number
+        while (true) {
+            System.out.print("Floor            : ");
+            floor = input.nextLine();
 
-    // Room number
-    while (true) {
-        System.out.print("Room No          : ");
-        roomNo = input.nextLine().trim();
+            if (floor.isEmpty()) {
+                System.out.println("Error: Floor cannot be empty. Please enter a number.");
+                continue;
+            }
 
-        if (roomNo.isEmpty()) {
-            System.out.println("Error: Room Number cannot be empty. Please enter a number.");
-            continue;
-        }
+            boolean valid = true;
+            for (int i = 0; i < floor.length(); i++) {
+                char ch = floor.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    valid = false;
+                    break;
+                }
+            }
 
-        boolean isValid = true;
-        for (int i = 0; i < roomNo.length(); i++) {
-            char ch = roomNo.charAt(i);
-            if (ch < '0' || ch > '9') {
-                isValid = false;
+            if (!valid) {
+                System.out.println("Error: Floor must contain only digits.");
+                continue;
+            } else {
                 break;
             }
         }
 
-        if (!isValid) {
-            System.out.println("Error: Room Number must be a number.");
-            continue;
-        }
+        // Room number
+        while (true) {
+            System.out.print("Room No          : ");
+            roomNo = input.nextLine();
 
-        boolean duplicate = false;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][1].equalsIgnoreCase(floor) && rooms[i][2].equalsIgnoreCase(roomNo)) {
-                duplicate = true;
-                break;
+            if (roomNo.isEmpty()) {
+                System.out.println("Error: Room Number cannot be empty. Please enter a number.");
+                continue;
             }
-        }
 
-        if (duplicate) {
-            System.out.println("Error: Room No " + roomNo + " already exists on Floor " + floor
-                    + ". Try another room number.");
-        } else {
-            break;
-        }
-    }
-
-    // Capacity
-    int capacity = 0;
-    while (true) {
-        System.out.print("Capacity         : ");
-        capacityStr = input.nextLine().trim();
-
-        if (capacityStr.isEmpty()) {
-            System.out.println("Error: Capacity cannot be empty.");
-            continue;
-        }
-
-        boolean isNumber = true;
-        for (int i = 0; i < capacityStr.length(); i++) {
-            char ch = capacityStr.charAt(i);
-            if (ch < '0' || ch > '9') {
-                isNumber = false;
-                break;
-            }
-        }
-
-        if (!isNumber) {
-            System.out.println("Invalid input. Please enter digits only for capacity.");
-            continue;
-        }
-
-        capacity = Integer.parseInt(capacityStr);
-
-        if (capacity <= 0) {
-            System.out.println("Error: Capacity must be greater than zero.");
-            continue;
-        }
-
-        break;
-    }
-
-    // Fee per day
-    double feePerDay = 0.0;
-    while (true) {
-        System.out.print("Fee/Day (LKR)    : ");
-        feePerDayStr = input.nextLine().trim();
-        if (feePerDayStr.isEmpty()) {
-            System.out.println("Error: Fee cannot be empty.");
-            continue;
-        }
-
-        boolean isValid = true;
-        int dotCount = 0;
-
-        for (int i = 0; i < feePerDayStr.length(); i++) {
-            char ch = feePerDayStr.charAt(i);
-
-            if (ch == '.') {
-                dotCount++;
-                if (dotCount > 1) {
+            boolean isValid = true;
+            for (int i = 0; i < roomNo.length(); i++) {
+                char ch = roomNo.charAt(i);
+                if (ch < '0' || ch > '9') {
                     isValid = false;
                     break;
                 }
-            } else if (ch < '0' || ch > '9') {
-                isValid = false;
+            }
+
+            if (!isValid) {
+                System.out.println("Error: Room Number must be a number.");
+                continue;
+            }
+
+            boolean duplicate = false;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][1].equalsIgnoreCase(floor) && rooms[i][2].equalsIgnoreCase(roomNo)) {
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (duplicate) {
+                System.out.println("Error: Room No " + roomNo + " already exists on Floor " + floor
+                        + ". Try another room number.");
+            } else {
                 break;
             }
         }
 
-        if (!isValid) {
-            System.out.println("Invalid input. Enter a valid number");
-            continue;
+        // Capacity
+        int capacity = 0;
+        while (true) {
+            System.out.print("Capacity         : ");
+            capacityStr = input.nextLine();
+
+            if (capacityStr.isEmpty()) {
+                System.out.println("Error: Capacity cannot be empty.");
+                continue;
+            }
+
+            boolean isNumber = true;
+            for (int i = 0; i < capacityStr.length(); i++) {
+                char ch = capacityStr.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    isNumber = false;
+                    break;
+                }
+            }
+
+            if (!isNumber) {
+                System.out.println("Invalid input. Please enter digits only for capacity.");
+                continue;
+            }
+
+            capacity = Integer.parseInt(capacityStr);
+
+            if (capacity <= 0) {
+                System.out.println("Error: Capacity must be greater than zero.");
+                continue;
+            }
+
+            break;
         }
 
-        feePerDay = Double.parseDouble(feePerDayStr);
+        // Fee per day
+        double feePerDay = 0.0;
+        while (true) {
+            System.out.print("Fee/Day (LKR)    : ");
+            feePerDayStr = input.nextLine();
+            if (feePerDayStr.isEmpty()) {
+                System.out.println("Error: Fee cannot be empty.");
+                continue;
+            }
 
-        if (feePerDay < 0) {
-            System.out.println("Error: Fee cannot be negative.");
-            continue;
+            boolean isValid = true;
+            int dotCount = 0;
+
+            for (int i = 0; i < feePerDayStr.length(); i++) {
+                char ch = feePerDayStr.charAt(i);
+
+                if (ch == '.') {
+                    dotCount++;
+                    if (dotCount > 1) {
+                        isValid = false;
+                        break;
+                    }
+                } else if (ch < '0' || ch > '9') {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (!isValid) {
+                System.out.println("Invalid input. Enter a valid number");
+                continue;
+            }
+
+            feePerDay = Double.parseDouble(feePerDayStr);
+
+            if (feePerDay < 0) {
+                System.out.println("Error: Fee cannot be negative.");
+                continue;
+            }
+
+            break;
         }
 
-        break;
+        // Save data
+        rooms[countofrooms][0] = roomId;
+        rooms[countofrooms][1] = floor;
+        rooms[countofrooms][2] = roomNo;
+        rooms[countofrooms][3] = Integer.toString(capacity);
+        rooms[countofrooms][4] = Double.toString(feePerDay);
+        rooms[countofrooms][5] = Integer.toString(capacity);
+
+        countofrooms++;
+
+        // Final output
+        System.out.println();
+        System.out.println("Room added successfully.");
+        System.out.println("Available beds  : " + capacity);
+        System.out.println("-----------------------------------------");
     }
 
-    // Save data
-    rooms[countofrooms][0] = roomId;
-    rooms[countofrooms][1] = floor;
-    rooms[countofrooms][2] = roomNo;
-    rooms[countofrooms][3] = Integer.toString(capacity);
-    rooms[countofrooms][4] = String.format("%.2f", feePerDay);
-    rooms[countofrooms][5] = Integer.toString(capacity);
-
-    countofrooms++;
-
-    // Final output
-    System.out.println();
-    System.out.println("Room added successfully.");
-    System.out.println("Available beds  : " + capacity);
-    System.out.println("-----------------------------------------");
-}
-
-
     private static void updateRoom() {
-        System.out.println("\n>>> Update Room <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              UPDATE ROOM                ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID to update: ");
+        System.out.print("Enter Room ID to update : ");
         String roomId = input.nextLine();
+
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
 
         int roomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
@@ -432,14 +438,14 @@ public class HostelMate {
         }
 
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: Room with ID '" + roomId + "' not found in the system.");
             return;
         }
 
         // Capacity validation loop
         boolean validCapacity = false;
         while (!validCapacity) {
-            System.out.print("New Capacity (or -): ");
+            System.out.print("New Capacity (or - to skip)       : ");
             String newCap = input.nextLine();
 
             if (newCap.equals("-") || newCap.isEmpty()) {
@@ -457,7 +463,7 @@ public class HostelMate {
             }
 
             if (!isNumber) {
-                System.out.println("Invalid input. Capacity must be numeric. Please try again.");
+                System.out.println("Error: Capacity must contain digits only. Please try again.");
             } else {
                 int newCapacity = Integer.parseInt(newCap);
                 if (newCapacity <= 0) {
@@ -473,8 +479,8 @@ public class HostelMate {
         // Fee-Day validation loop
         boolean validFee = false;
         while (!validFee) {
-            System.out.print("New Fee/Day (or -): ");
-            String newFee = input.nextLine().trim();
+            System.out.print("New Fee/Day (LKR) (or - to skip)  : ");
+            String newFee = input.nextLine();
 
             if (newFee.equals("-") || newFee.isEmpty()) {
                 validFee = true;
@@ -499,7 +505,7 @@ public class HostelMate {
             }
 
             if (!isValid) {
-                System.out.println("Invalid input. Enter valid fee (e.g. 750 or 750.50). Please try again.");
+                System.out.println("Error: Invalid input. Enter a valid number. Please try again.");
             } else {
                 double fee = Double.parseDouble(newFee);
                 if (fee < 0) {
@@ -511,13 +517,16 @@ public class HostelMate {
             }
         }
 
-        System.out.println("Updated: "
-                + rooms[roomIndex][0] + " | " // Room ID
-                + "Floor=" + rooms[roomIndex][1] + " | "
-                + "RoomNo=" + rooms[roomIndex][2] + " | "
-                + "Capacity=" + rooms[roomIndex][3] + " | "
-                + "Fee/Day=" + rooms[roomIndex][4] + " | "
-                + "Avail=" + rooms[roomIndex][5]);
+        System.out.println();
+        System.out.println("Room updated successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Room ID          : " + rooms[roomIndex][0]);
+        System.out.println("Floor            : " + rooms[roomIndex][1]);
+        System.out.println("Room No          : " + rooms[roomIndex][2]);
+        System.out.println("Capacity         : " + rooms[roomIndex][3]);
+        System.out.println("Fee/Day (LKR)    : " + rooms[roomIndex][4]);
+        System.out.println("Available Beds   : " + rooms[roomIndex][5]);
+        System.out.println("-----------------------------------------");
     }
 
     private static void deleteRoom() {
