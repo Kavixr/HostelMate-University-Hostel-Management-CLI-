@@ -622,26 +622,31 @@ public class HostelMate {
 
     private static void viewAllRooms() {
 
-        System.out.println("\n >>> All Rooms <<<");
-        System.out.println();
+        System.out.println("\n-----------------------------------------");
+        System.out.println("               ALL ROOMS                 ");
+        System.out.println("-----------------------------------------\n");
 
         if (countofrooms == 0) {
-            System.out.println("No rooms available.");
+            System.out.println("No rooms available in the system at the moment.");
+            System.out.println("-----------------------------------------");
             return;
         }
 
-        // Header
-        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-12s%n",
+                "Room ID", "Floor", "Room No", "Capacity", "Avail Beds", "Fee/Day (LKR)");
+        System.out.println("--------------------------------------------------------------------------");
 
-        // Loop through all rooms
         for (int i = 0; i < countofrooms; i++) {
-            System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                    rooms[i][0], rooms[i][1], rooms[i][2],
-                    rooms[i][3], rooms[i][5], rooms[i][4]);
+            System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-12s%n",
+                    rooms[i][0],
+                    rooms[i][1],
+                    rooms[i][2],
+                    rooms[i][3],
+                    rooms[i][5],
+                    rooms[i][4]);
         }
 
+        System.out.println("--------------------------------------------------------------------------");
     }
 
     // Methof of manage Students
