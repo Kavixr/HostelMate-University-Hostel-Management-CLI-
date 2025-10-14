@@ -50,6 +50,36 @@ Choose: _
 
 ---
 
+# 🏢 HostelMate – Manage Rooms Module
+
+> Part of the **🏨 HostelMate – University Hostel Management (CLI)** project.  
+> A smart command-line tool to efficiently manage hostel room operations such as adding, updating, deleting, and viewing room details.
+
+---
+
+## 🌟 Overview
+
+The **Manage Rooms** module is responsible for maintaining all room-related data in the hostel.  
+It helps administrators perform operations like adding new rooms, updating details, removing old ones, and viewing all available rooms in a clean table format — all through a simple text-based interface.
+
+---
+
+## ⚙️ Key Functionalities
+
+| Option | Function | Description |
+|:--:|:--|:--|
+| `1` | ➕ **Add Room** | Create a new room with ID, floor, room number, capacity, and fee per day. |
+| `2` | ✏️ **Update Room** | Modify an existing room’s capacity or daily fee. |
+| `3` | ❌ **Delete Room** | Delete a room (only if it has no active allocations). |
+| `4` | 🔍 **Search Room** | Search for a room by its unique Room ID. |
+| `5` | 📋 **View All Rooms** | Display all room details in a formatted table. |
+| `6` | 🔙 **Back** | Return to the main menu. |
+
+---
+
+
+
+
 ## 🎓 3. Manage Students
 
 The **Manage Students** module enables hostel wardens or admins to efficiently **add**, **update**, **delete**, **search**, and **view** student records.  
