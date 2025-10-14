@@ -904,9 +904,11 @@ public class HostelMate {
         String newcontact;
         String newemail;
 
-        System.out.println("\n >>> Update Student <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             UPDATE STUDENT               ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter the Student ID: ");
+        System.out.print("Enter Student ID         : ");
         id = input.nextLine();
 
         int ids = -1; // which row number the student is stored in student array
@@ -917,24 +919,37 @@ public class HostelMate {
             }
         }
 
-        if (ids == -1) { // not found the student
-            System.out.println("Not Found the Student given ID. ");
+        if (id.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
             return;
         }
+
+        if (ids == -1) { // not found the student
+            System.out.println("Error: No student found with the given ID '" + id + "'.");
+            return;
+        }
+
+        System.out.println("\nCurrent Student Details:");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + students[ids][0]);
+        System.out.println("Name             : " + students[ids][1]);
+        System.out.println("Contact No       : " + students[ids][2]);
+        System.out.println("Email Address    : " + students[ids][3]);
+        System.out.println("Status           : " + students[ids][4]);
+        System.out.println("-----------------------------------------");
 
         // Contact
         // Contact validation with loop
         boolean validContact = false;
         while (!validContact) {
-            System.out.println("New Contact (or -): ");
+            System.out.print("New Contact No (or - to skip)    : ");
             newcontact = input.nextLine();
 
-            if (newcontact.equals("-")) {
+            if (newcontact.equals("-") || newcontact.isEmpty()) {
                 validContact = true;
             } else {
-                // validate contact: length & digits
                 if (newcontact.length() != 10) {
-                    System.out.println("Invalid contact length.");
+                    System.out.println("Error: Contact number must contain exactly 10 digits. Please try again.");
                 } else {
                     boolean digit = true;
                     for (int i = 0; i < newcontact.length(); i++) {
@@ -945,7 +960,7 @@ public class HostelMate {
                         }
                     }
                     if (!digit) {
-                        System.out.println("Error.. Contact must be digits only ");
+                        System.out.println("Error: Contact number must contain digits only. Please try again.");
                     } else {
                         // check uniqueness
                         boolean alreadyexists = false;
@@ -956,7 +971,7 @@ public class HostelMate {
                             }
                         }
                         if (alreadyexists) {
-                            System.out.println("Error: Contact already exists. Please enter new number.");
+                            System.out.println("Error: This contact number already exists. Please use another one.");
                         } else {
                             students[ids][2] = newcontact; // update the contact
                             validContact = true;
@@ -969,10 +984,10 @@ public class HostelMate {
         // Email validation with loop
         boolean validEmail = false;
         while (!validEmail) {
-            System.out.println("New Email(or -): ");
+            System.out.print("New Email (or - to skip)         : ");
             newemail = input.nextLine();
 
-            if (newemail.equals("-")) {
+            if (newemail.equals("-") || newemail.isEmpty()) {
                 validEmail = true;
             } else {
                 if (!(newemail.contains("@") && newemail.contains("."))) {
@@ -995,13 +1010,14 @@ public class HostelMate {
                 }
             }
         }
-        System.out.println("Updated: "
-                + students[ids][0] + " |" // Student ID
-                + students[ids][1] + " |" // Name
-                + students[ids][2] + " |" // Contact (updated or not)
-                + students[ids][3] + " |" // Email (updated or not)
-                + students[ids][4] // Status
-        );
+        System.out.println("\nStudent updated successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + students[ids][0]);
+        System.out.println("Name             : " + students[ids][1]);
+        System.out.println("Contact No       : " + students[ids][2]);
+        System.out.println("Email Address    : " + students[ids][3]);
+        System.out.println("Status           : " + students[ids][4]);
+        System.out.println("-----------------------------------------");
 
     }
 
