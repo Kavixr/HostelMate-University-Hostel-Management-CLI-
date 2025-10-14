@@ -530,10 +530,12 @@ public class HostelMate {
     }
 
     private static void deleteRoom() {
-        System.out.println("\n>>> Delete Room <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              DELETE ROOM                ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID: ");
-        String roomId = input.nextLine().trim();
+        System.out.print("Enter Room ID to delete          : ");
+        String roomId = input.nextLine();
 
         int roomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
@@ -543,15 +545,20 @@ public class HostelMate {
             }
         }
 
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
+
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: No room found with the ID '" + roomId + "'.");
             return;
         }
 
         // Check if this room has active allocations
         for (int i = 0; i < countofallocations; i++) {
             if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
-                System.out.println("Error: Cannot delete. Active allocations exist for this room.");
+                System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
                 return;
             }
         }
@@ -562,14 +569,17 @@ public class HostelMate {
         }
 
         countofrooms--;
-        System.out.println("Room deleted successfully.");
+        System.out.println("\nRoom deleted successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Deleted Room ID : " + roomId);
+        System.out.println("-----------------------------------------");
     }
 
     private static void searchRoom() {
         System.out.println("\n>>> Search Room <<<");
 
         System.out.print("Enter Room ID: ");
-        String roomId = input.nextLine().trim();
+        String roomId = input.nextLine();
 
         int roomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
