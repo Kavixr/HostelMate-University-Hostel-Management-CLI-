@@ -26,6 +26,9 @@ public class HostelMate {
 
     // Main Method of the application
     public static void main(String[] args) {
+
+        preloadSampleData(); // dummy data for testing
+
         login(); // Login to the System
 
         home(); // Home page of the application
@@ -216,7 +219,6 @@ public class HostelMate {
         // Floor number
         System.out.print("Floor: ");
         floor = input.nextLine();
-
 
         // Room number
         while (true) {
@@ -901,9 +903,9 @@ public class HostelMate {
         }
 
         // Header
-        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+        System.out.printf("%-8s | %-22s | %-12s | %-28s | %-10s%n",
                 "ID", "Name", "Contact", "Email", "Status");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------------------------");
 
         // Loop through all students
         for (int i = 0; i < countofstudents; i++) {
@@ -913,11 +915,10 @@ public class HostelMate {
             // + students[i][3] + "\t"
             // + students[i][4]);
             // }
-            System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
+            System.out.printf("%-8s | %-22s | %-12s | %-28s | %-10s%n",
                     students[i][0], students[i][1], students[i][2],
                     students[i][3], students[i][4]);
         }
-
     }
 
     // =============================================================================================================================
@@ -1040,8 +1041,8 @@ public class HostelMate {
 
         // Due date must be after check-in date
         if (dueDate.compareTo(checkInDate) <= 0) {
-            System.out.println("Error: Due date must be a future date.");
-            return;
+        System.out.println("Error: Due date must be a future date.");
+        return;
         }
 
         // Find an available bed
@@ -1296,6 +1297,25 @@ public class HostelMate {
         int endTotalDays = endYear * 365 + endMonth * 30 + endDay;
 
         return endTotalDays - startTotalDays;
+    }
+
+    // dummy data for testing
+    private static void preloadSampleData() {
+        // ---------- ROOMS ----------
+        rooms[0] = new String[] { "R101", "1", "101", "4", "500.00", "4" };
+        rooms[1] = new String[] { "R102", "1", "102", "3", "450.00", "2" };
+        rooms[2] = new String[] { "R201", "2", "201", "5", "600.00", "5" };
+        rooms[3] = new String[] { "R202", "2", "202", "2", "550.00", "1" };
+        rooms[4] = new String[] { "R301", "3", "301", "4", "700.00", "4" };
+        countofrooms = 5;
+
+        // ---------- STUDENTS ----------
+        students[0] = new String[] { "S001", "Nipun Perera", "0712345678", "nipun@gmail.com", "Active" };
+        students[1] = new String[] { "S002", "Kavindu Rajapaksha", "0769876543", "kavindu@gmail.com", "Active" };
+        students[2] = new String[] { "S003", "Tharindu Silva", "0771122334", "tharindu@gmail.com", "Active" };
+        students[3] = new String[] { "S004", "Dinuka Fernando", "0754433221", "dinuka@gmail.com", "Active" };
+        students[4] = new String[] { "S005", "Imasha De Silva", "0785566778", "imasha@gmail.com", "Active" };
+        countofstudents = 5;
     }
 
 }
