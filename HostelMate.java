@@ -42,23 +42,33 @@ public class HostelMate {
 
         // get the user inputs
         while (true) {
-            System.out.println("=".repeat(35));
-            System.out.println(">>>      HOSTELMATE LOGIN      <<<");
-            System.out.println("=".repeat(35));
+            System.out.println();
+            System.out.println("***************************************************");
+            System.out.println("*                                                 *");
+            System.out.println("*              WELCOME TO HOSTELMATE              *");
+            System.out.println("*          University Hostel Management           *");
+            System.out.println("*                                                 *");
+            System.out.println("***************************************************");
+            System.out.println("                     LOGIN                         ");
+            System.out.println("---------------------------------------------------");
 
-            System.out.print("Username ---> ");
+            System.out.print(">> Username : ");
             user = input.nextLine();
 
-            System.out.print("Password ---> ");
+            System.out.print(">> Password : ");
             password = input.nextLine();
+
+            System.out.println("---------------------------------------------------");
+            System.out.println("Verifying credentials... Please wait...");
+            System.out.println();
 
             // validate the user login
             if (user.equals("kavindu") && password.equals("kavindu123")) {
-                System.out.println(">>> Login Successfully!! Welcome " + user + " to HostelMate System.....");
+                System.out.println("Authentication complete. Hello, " + user + "! Welcome to the HostelMate System.");
                 System.out.println();
                 break;
             } else {
-                System.out.println(">>> Invalid username or password. Please try again...");
+                System.out.println("Oops! Your username or password didn't match. Please re-enter your credentials.");
                 System.out.println();
             }
         }
@@ -147,23 +157,42 @@ public class HostelMate {
         int roomchoice;
 
         while (true) {
-            System.out.println("\n>>>        MANAGE ROOMS MENU      <<<");
             System.out.println();
-            System.out.println("1) Add Room");
-            System.out.println("2) Update Room");
-            System.out.println("3) Delete Room");
-            System.out.println("4) Search Room");
-            System.out.println("5) View All Rooms");
-            System.out.println("6) Back");
-            System.out.print("Choose: ");
+            System.out.println("==========================================");
+            System.out.println("|          MANAGE ROOMS MENU             |");
+            System.out.println("==========================================");
+            System.out.println("|  1. Add Room                           |");
+            System.out.println("|  2. Update Room                        |");
+            System.out.println("|  3. Delete Room                        |");
+            System.out.println("|  4. Search Room                        |");
+            System.out.println("|  5. View All Rooms                     |");
+            System.out.println("|  6. Back                               |");
+            System.out.println("==========================================");
+            System.out.print("Please choose an option: ");
 
-            try {
-                roomchoice = Integer.parseInt(input.nextLine());
 
-            } catch (Exception e) {
-                System.out.println("Invalid input.. Please Try again.");
+            String rChoice = input.nextLine();
+
+            boolean isNumber = true;
+
+            if (rChoice.isEmpty()) {
+                isNumber = false;
+            } else {
+                for (int i = 0; i < rChoice.length(); i++) {
+                    char ch = rChoice.charAt(i);
+                    if (ch < '0' || ch > '9') {
+                        isNumber = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isNumber) {
+                System.out.println("Invalid input. Kindly enter a valid value.");
                 continue;
             }
+
+            roomchoice = Integer.parseInt(rChoice);
 
             switch (roomchoice) {
                 case 1:
@@ -184,7 +213,8 @@ public class HostelMate {
                 case 6:
                     return; // Back to main menu
                 default:
-                    System.out.println("Invalid Option..");
+                   System.out.println("Invalid option! Please enter a valid choice.");
+
             }
         }
 
@@ -193,7 +223,11 @@ public class HostelMate {
     private static void addRoom() {
         System.out.println("\n>>> Add Room <<<");
 
-        String roomId, floor, roomNo, capacityStr, feePerDayStr;
+        String roomId;
+        String floor;
+        String roomNo;
+        String capacityStr;
+        String feePerDayStr;
 
         // Room ID (must be unique)
         while (true) {
@@ -222,6 +256,20 @@ public class HostelMate {
         while (true) {
             System.out.print("Room No: ");
             roomNo = input.nextLine();
+
+            boolean isValid = true;
+            for (int i = 0; i < roomNo.length(); i++) {
+                char ch = roomNo.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (!isValid) {
+                System.out.println("Error: Room Number must be a number.");
+                continue;
+            }
 
             boolean duplicate = false;
             for (int i = 0; i < countofrooms; i++) {
