@@ -917,7 +917,6 @@ public class HostelMate {
                     students[i][0], students[i][1], students[i][2],
                     students[i][3], students[i][4]);
         }
-
     }
 
     // =============================================================================================================================
@@ -1039,10 +1038,10 @@ public class HostelMate {
         String checkInDate = LocalDate.now().toString();
 
         // Due date must be after check-in date
-        if (dueDate.compareTo(checkInDate) <= 0) {
-            System.out.println("Error: Due date must be a future date.");
-            return;
-        }
+        // if (dueDate.compareTo(checkInDate) <= 0) {
+        //     System.out.println("Error: Due date must be a future date.");
+        //     return;
+        // }
 
         // Find an available bed
         int capacity = Integer.parseInt(rooms[roomIndex][3]);
