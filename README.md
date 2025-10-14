@@ -50,6 +50,141 @@ Choose: _
 
 ---
 
+# 🏢 HostelMate – Manage Rooms Module
+
+> Part of the **🏨 HostelMate – University Hostel Management (CLI)** project.  
+> A smart command-line tool to efficiently manage hostel room operations such as adding, updating, deleting, and viewing room details.
+
+---
+
+## 🌟 Overview
+
+The **Manage Rooms** module is responsible for maintaining all room-related data in the hostel.  
+It helps administrators perform operations like adding new rooms, updating details, removing old ones, and viewing all available rooms in a clean table format — all through a simple text-based interface.
+
+---
+
+## ⚙️ Key Functionalities
+
+| Option | Function | Description |
+|:--:|:--|:--|
+| `1` | ➕ **Add Room** | Create a new room with ID, floor, room number, capacity, and fee per day. |
+| `2` | ✏️ **Update Room** | Modify an existing room’s capacity or daily fee. |
+| `3` | ❌ **Delete Room** | Delete a room (only if it has no active allocations). |
+| `4` | 🔍 **Search Room** | Search for a room by its unique Room ID. |
+| `5` | 📋 **View All Rooms** | Display all room details in a formatted table. |
+| `6` | 🔙 **Back** | Return to the main menu. |
+
+---
+
+## 🧭 CLI Menu Layout
+
+```
+>>>        MANAGE ROOMS MENU      <<<
+
+1) Add Room
+2) Update Room
+3) Delete Room
+4) Search Room
+5) View All Rooms
+6) Back
+Choose:
+```
+
+---
+
+## 🏠 Add Room
+
+### ✨ Features:
+- Room ID must be unique  
+- Room number cannot duplicate on the same floor  
+- Capacity must be a positive number  
+- Fee must be a valid numeric or decimal value (e.g., `450.50`)
+
+### 💬 Sample Output:
+```
+>>> Add Room <<<
+
+Room ID: R102
+Floor: 1
+Room No: 102
+Capacity: 3
+Fee/Day (LKR): 450
+Room added successfully. Available beds: 3
+```
+
+---
+
+## ✏️ Update Room
+
+### ✨ Features:
+- Update capacity and/or daily fee  
+- Enter “-” to keep old values unchanged  
+- Prevents invalid or negative entries  
+
+### 💬 Sample Output:
+```
+>>> Update Room <<<
+
+Enter Room ID to update: R102
+New Capacity (or -): 4
+New Fee/Day (or -): 500
+Updated: R102 | Floor=1 | RoomNo=102 | Capacity=4 | Fee/Day=500.0 | Avail=4
+```
+
+---
+
+## ❌ Delete Room
+
+### ✨ Features:
+- Prevents deletion if active allocations exist  
+- Safely removes unused room records  
+
+### 💬 Sample Output:
+```
+>>> Delete Room <<<
+Enter Room ID: R201
+Room deleted successfully.
+```
+
+---
+
+## 🔍 Search Room
+
+### 💬 Sample Output:
+```
+>>> Search Room <<<
+Enter Room ID: R102
+Found
+ID       | Floor   | RoomNo     | Capacity  | AvailBeds | Fee/Day
+--------------------------------------------------------------------
+R102     | 1       | 102        | 3         | 2         | 450.00
+```
+
+---
+
+## 📋 View All Rooms
+
+### 💬 Sample Output:
+```
+>>> All Rooms <<<
+
+ID       | Floor   | RoomNo     | Capacity  | AvailBeds | Fee/Day
+--------------------------------------------------------------------
+R101     | 1       | 101        | 4         | 4         | 500.00
+R102     | 1       | 102        | 3         | 2         | 450.00
+R201     | 2       | 201        | 5         | 5         | 600.00
+R301     | 3       | 301        | 4         | 4         | 700.00
+```
+
+---
+
+## 🧾 Summary
+
+The **Manage Rooms** module is the backbone of the HostelMate system — providing reliable room setup, validation, and management for all hostel operations.
+
+---
+
 ## 🎓 3. Manage Students
 
 The **Manage Students** module enables hostel wardens or admins to efficiently **add**, **update**, **delete**, **search**, and **view** student records.  
