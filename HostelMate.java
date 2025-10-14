@@ -576,10 +576,17 @@ public class HostelMate {
     }
 
     private static void searchRoom() {
-        System.out.println("\n>>> Search Room <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              SEARCH ROOM                ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID: ");
+        System.out.print("Enter Room ID                    : ");
         String roomId = input.nextLine();
+
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
 
         int roomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
@@ -590,20 +597,27 @@ public class HostelMate {
         }
 
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: No room found with the ID '" + roomId + "'.");
             return;
         }
 
-        System.out.println("Found");
+        System.out.println("\nRoom found successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println();
 
-        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                "ID", "Floor", "RoomNo", "Capacity", "AvailBeds", "Fee/Day");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
+                "Room ID", "Floor", "Room No", "Capacity", "Avail Beds", "Fee/Day (LKR)");
+        System.out.println("-------------------------------------------------------------------------------");
 
-        // Print room row
-        System.out.printf("%-8s | %-8s | %-10s | %-10s | %-10s | %-10s%n",
-                rooms[roomIndex][0], rooms[roomIndex][1], rooms[roomIndex][2],
-                rooms[roomIndex][3], rooms[roomIndex][5], rooms[roomIndex][4]);
+        System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
+                rooms[roomIndex][0],
+                rooms[roomIndex][1],
+                rooms[roomIndex][2],
+                rooms[roomIndex][3],
+                rooms[roomIndex][5],
+                rooms[roomIndex][4]);
+
+        System.out.println("-------------------------------------------------------------------------------");
     }
 
     private static void viewAllRooms() {
