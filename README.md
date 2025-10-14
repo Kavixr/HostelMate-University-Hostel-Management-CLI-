@@ -77,6 +77,43 @@ It helps administrators perform operations like adding new rooms, updating detai
 
 ---
 
+## 🧭 CLI Menu Layout
+
+```
+>>>        MANAGE ROOMS MENU      <<<
+
+1) Add Room
+2) Update Room
+3) Delete Room
+4) Search Room
+5) View All Rooms
+6) Back
+Choose:
+```
+
+---
+
+## 🏠 Add Room
+
+### ✨ Features:
+- Room ID must be unique  
+- Room number cannot duplicate on the same floor  
+- Capacity must be a positive number  
+- Fee must be a valid numeric or decimal value (e.g., `450.50`)
+
+### 💬 Sample Output:
+```
+>>> Add Room <<<
+
+Room ID: R102
+Floor: 1
+Room No: 102
+Capacity: 3
+Fee/Day (LKR): 450
+Room added successfully. Available beds: 3
+```
+
+---
 
 
 
