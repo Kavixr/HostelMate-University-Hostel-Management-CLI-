@@ -654,15 +654,18 @@ public class HostelMate {
         int studentChoice;
 
         while (true) {
-            System.out.println("\n>>>        HOSTELMATE MENU      <<<");
             System.out.println();
-            System.out.println("1) Add Student");
-            System.out.println("2) Update Student");
-            System.out.println("3) Delete Student");
-            System.out.println("4) Search Student");
-            System.out.println("5) View All Studnets");
-            System.out.println("6) Back");
-            System.out.println("Choose ---> ");
+            System.out.println("==================================================");
+            System.out.println("| No |           STUDENT MANAGEMENT MENU          |");
+            System.out.println("==================================================");
+            System.out.println("|  1 | Add Student                                |");
+            System.out.println("|  2 | Update Student                             |");
+            System.out.println("|  3 | Delete Student                             |");
+            System.out.println("|  4 | Search Student                             |");
+            System.out.println("|  5 | View All Students                          |");
+            System.out.println("|  6 | Back                                       |");
+            System.out.println("==================================================");
+            System.out.print("Select Option: ");
 
             String stChoice = input.nextLine();
 
@@ -681,7 +684,7 @@ public class HostelMate {
             }
 
             if (!isNumber) {
-                System.out.println(">>> Invalid input. Please Enter valid input.");
+                System.out.println("Invalid option selected! Please choose a valid menu option. ");
                 continue;
             }
 
@@ -711,7 +714,7 @@ public class HostelMate {
                     return;
 
                 default:
-                    System.out.println(" Invalid Option..");
+                    System.out.println("Invalid option. Kindly try again.");
             }
 
         }
@@ -726,24 +729,29 @@ public class HostelMate {
         String contact;
         String email;
 
-        System.out.println("\n >>>  Add Student  <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              ADD STUDENT                ");
+        System.out.println("-----------------------------------------\n");
 
         // get the student id of the student.
         while (true) {
-            System.out.println("Student ID: ");
+            System.out.print("Student ID       : ");
             id = input.nextLine();
 
-            boolean alreadyexits = false;
+            if (id.isEmpty()) {
+                System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.\n");
+                continue;
+            }
 
-            // validation: if id alrady have or not
+            boolean alreadyexits = false;
             for (int i = 0; i < countofstudents; i++) {
-                if (students[i][0].equalsIgnoreCase(id)) { // Compare ignoring case
-                    alreadyexits = true; // Found a duplicate
-                    break; // No need to check further
+                if (students[i][0].equalsIgnoreCase(id)) {
+                    alreadyexits = true;
+                    break;
                 }
             }
             if (alreadyexits) {
-                System.out.println("Error: Student ID already exists. Please Try again");
+                System.out.println("Error: Student ID already exists. Please try another one.\n");
 
             } else {
                 break;
@@ -751,8 +759,30 @@ public class HostelMate {
 
         }
 
-        System.out.println("Name: ");
-        name = input.nextLine();
+        while (true) {
+            System.out.print("Name             : ");
+            name = input.nextLine();
+
+            if (name.isEmpty()) {
+                System.out.println("Error: Name cannot be empty. Please enter a valid name.\n");
+                continue;
+            }
+
+            boolean validName = true;
+            for (int i = 0; i < name.length(); i++) {
+                char ch = name.charAt(i);
+                if (!Character.isLetter(ch) && ch != ' ') {
+                    validName = false;
+                    break;
+                }
+            }
+
+            if (!validName) {
+                System.out.println("Error: Name can only contain letters and spaces.\n");
+                continue;
+            }
+            break;
+        }
 
         // Contatct NO.
         while (true) {
@@ -760,9 +790,14 @@ public class HostelMate {
             System.out.println("Contact NO: ");
             contact = input.nextLine();
 
+            if (contact.isEmpty()) {
+                System.out.println("Error: Contact number cannot be empty.\n");
+                continue;
+            }
+
             // Validation of the contact..
             if (contact.length() != 10) {
-                System.out.println("Invalid number.. Please Enter Correct number");
+                System.out.println("Error: Contact number must contain exactly 10 digits.\n");
                 continue;
             }
 
@@ -777,7 +812,7 @@ public class HostelMate {
             }
 
             if (!digit) {
-                System.out.println("Error... Contact must contain only digit.");
+                System.out.println("Error: Contact number must contain digits only.\n");
                 continue;
             }
             boolean exists = false;
@@ -789,7 +824,7 @@ public class HostelMate {
             }
 
             if (exists) {
-                System.out.println("Error: This contact number already exists. Please try again");
+                System.out.println("Error: This contact number already exists. Please try another.\n");
             } else {
                 break;
             }
@@ -798,13 +833,34 @@ public class HostelMate {
         // Email.
         while (true) {
 
-            System.out.println("Email: ");
+            System.out.print("Email            : ");
             email = input.nextLine();
 
-            // Validate the email....
-            if (!(email.contains("@") && email.contains("."))) { // check the enter email have these "@" and "."..
-                System.out.println("Invalid email. Please Enter valid email..");
+            if (email.isEmpty()) {
+                System.out.println("Error: Email cannot be empty. Please enter a valid email.\n");
                 continue;
+            }
+
+            // Validate the email....
+            if (!(email.contains("@") && email.contains("."))) {
+                System.out.println("Error: Invalid email format. Please include '@' and '.'\n");
+                continue;
+            }
+
+            int atIndex = email.indexOf('@');
+            if (atIndex != -1 && atIndex < email.length() - 1) {
+                String domain = email.substring(atIndex + 1, email.lastIndexOf('.'));
+                boolean validDomain = true;
+                for (int i = 0; i < domain.length(); i++) {
+                    if (!Character.isLetter(domain.charAt(i))) {
+                        validDomain = false;
+                        break;
+                    }
+                }
+                if (!validDomain) {
+                    System.out.println("Error: Domain part (after '@') can contain letters only. Please try again.\n");
+                    continue;
+                }
             }
 
             boolean exists = false;
@@ -816,7 +872,7 @@ public class HostelMate {
             }
 
             if (exists) {
-                System.out.println("Error: This email already exists. Please try again.");
+                System.out.println("Error: This email already exists. Please use another email.\n");
             } else {
                 break;
             }
@@ -831,7 +887,14 @@ public class HostelMate {
 
         countofstudents++; // count each new student
 
-        System.out.println("Student added Successfully..");
+        System.out.println("\nStudent added successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + id);
+        System.out.println("Name             : " + name);
+        System.out.println("Contact No       : " + contact);
+        System.out.println("Email Address    : " + email);
+        System.out.println("Status         : Active");
+        System.out.println("-----------------------------------------");
 
     }
 
