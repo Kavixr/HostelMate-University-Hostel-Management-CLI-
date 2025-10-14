@@ -27,7 +27,6 @@ public class HostelMate {
     // Main Method of the application
     public static void main(String[] args) {
 
-
         login(); // Login to the System
 
         home(); // Home page of the application
@@ -69,19 +68,19 @@ public class HostelMate {
     // Implementing the home page
     private static void home() {
         while (true) {
-            System.out.println("=".repeat(35));
-            System.out.println(">>>        HOSTELMATE MENU      <<<");
             System.out.println();
-            System.out.println("=".repeat(35));
-            System.out.println(" 1) Manage Rooms ");
-            System.out.println(" 2) Manage Students ");
-            System.out.println(" 3) Allocate Bed ");
-            System.out.println(" 4) Vacate Bed");
-            System.out.println(" 5) Transfers ");
-            System.out.println(" 6) View Reportss ");
-            System.out.println(" 7) Exit");
-            System.out.println("=".repeat(35));
-            System.out.println("Enter your choice: ");
+            System.out.println("==============================================");
+            System.out.println("||           HOSTELMATE MAIN MENU           ||");
+            System.out.println("==============================================");
+            System.out.println("  [1] Manage Rooms");
+            System.out.println("  [2] Manage Students");
+            System.out.println("  [3] Allocate Bed");
+            System.out.println("  [4] Vacate Bed");
+            System.out.println("  [5] Transfers");
+            System.out.println("  [6] View Reports");
+            System.out.println("  [7] Exit");
+            System.out.println("==============================================");
+            System.out.print("Enter your choice: ");
 
             // read the inputs as string
             String InputValue = input.nextLine();
@@ -904,7 +903,8 @@ public class HostelMate {
         // Header
         System.out.printf("%-8s | %-22s | %-12s | %-28s | %-10s%n",
                 "ID", "Name", "Contact", "Email", "Status");
-        System.out.println("-----------------------------------------------------------------------------------------------------");
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------");
 
         // Loop through all students
         for (int i = 0; i < countofstudents; i++) {
@@ -1040,8 +1040,8 @@ public class HostelMate {
 
         // Due date must be after check-in date
         if (dueDate.compareTo(checkInDate) <= 0) {
-        System.out.println("Error: Due date must be a future date.");
-        return;
+            System.out.println("Error: Due date must be a future date.");
+            return;
         }
 
         // Find an available bed
