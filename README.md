@@ -149,7 +149,41 @@ Room deleted successfully.
 
 ---
 
+## 🔍 Search Room
 
+### 💬 Sample Output:
+```
+>>> Search Room <<<
+Enter Room ID: R102
+Found
+ID       | Floor   | RoomNo     | Capacity  | AvailBeds | Fee/Day
+--------------------------------------------------------------------
+R102     | 1       | 102        | 3         | 2         | 450.00
+```
+
+---
+
+## 📋 View All Rooms
+
+### 💬 Sample Output:
+```
+>>> All Rooms <<<
+
+ID       | Floor   | RoomNo     | Capacity  | AvailBeds | Fee/Day
+--------------------------------------------------------------------
+R101     | 1       | 101        | 4         | 4         | 500.00
+R102     | 1       | 102        | 3         | 2         | 450.00
+R201     | 2       | 201        | 5         | 5         | 600.00
+R301     | 3       | 301        | 4         | 4         | 700.00
+```
+
+---
+
+## 🧾 Summary
+
+The **Manage Rooms** module is the backbone of the HostelMate system — providing reliable room setup, validation, and management for all hostel operations.
+
+---
 
 ## 🎓 3. Manage Students
 
