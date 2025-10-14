@@ -115,6 +115,40 @@ Room added successfully. Available beds: 3
 
 ---
 
+## ✏️ Update Room
+
+### ✨ Features:
+- Update capacity and/or daily fee  
+- Enter “-” to keep old values unchanged  
+- Prevents invalid or negative entries  
+
+### 💬 Sample Output:
+```
+>>> Update Room <<<
+
+Enter Room ID to update: R102
+New Capacity (or -): 4
+New Fee/Day (or -): 500
+Updated: R102 | Floor=1 | RoomNo=102 | Capacity=4 | Fee/Day=500.0 | Avail=4
+```
+
+---
+
+## ❌ Delete Room
+
+### ✨ Features:
+- Prevents deletion if active allocations exist  
+- Safely removes unused room records  
+
+### 💬 Sample Output:
+```
+>>> Delete Room <<<
+Enter Room ID: R201
+Room deleted successfully.
+```
+
+---
+
 
 
 ## 🎓 3. Manage Students
