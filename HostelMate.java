@@ -1,39 +1,26 @@
 import java.time.LocalDate;
 import java.util.*;
-
 public class HostelMate {
 
-    // Data Tables for array
-
-    // 100 - maximum number of rooms and 6-attributes for each room
     static String[][] rooms = new String[100][6];
 
-    // 100 - maximum number of students and 6-attributes for each student
     static String[][] students = new String[100][5];
 
-    // 100 - maximum number of allocationns and 6-attributes for each allocatiions
     static String[][] allocations = new String[100][5];
-
-    // Stored the occupancy
+    
     static String[][] occupancy = new String[100][10];
 
-    // get the count of records
-    static int countofstudents = 0; // count of students
-    static int countofrooms = 0; // count of rooms
-    static int countofallocations = 0; // count of allocations
+    static int countofstudents = 0; 
+    static int countofrooms = 0; 
+    static int countofallocations = 0; 
 
     static Scanner input = new Scanner(System.in);
-
-    // Main Method of the application
     public static void main(String[] args) {
 
-        login(); // Login to the System
-
-        home(); // Home page of the application
-
+        login(); 
+        home(); 
     }
 
-    // Implementintg the login system
     private static void login() {
 
         // Declare the variables
@@ -75,7 +62,6 @@ public class HostelMate {
 
     }
 
-    // Implementing the home page
     private static void home() {
         while (true) {
             System.out.println();
@@ -152,7 +138,6 @@ public class HostelMate {
 
     }
 
-    // Method of mange Rooms
     private static void mangeRooms() {
         int roomchoice;
 
@@ -534,7 +519,7 @@ public class HostelMate {
         System.out.println("              DELETE ROOM                ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID to delete          : ");
+        System.out.print("Enter Room ID to delete       : ");
         String roomId = input.nextLine();
 
         int roomIndex = -1;
@@ -557,7 +542,7 @@ public class HostelMate {
 
         // Check if this room has active allocations
         for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
+            if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(roomId)) {
                 System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
                 return;
             }
@@ -580,7 +565,7 @@ public class HostelMate {
         System.out.println("              SEARCH ROOM                ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID         : ");
+        System.out.print("Enter Room ID      : ");
         String roomId = input.nextLine();
 
         if (roomId.isEmpty()) {
@@ -607,7 +592,7 @@ public class HostelMate {
 
         System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
                 "Room ID", "Floor", "Room No", "Capacity", "Avail Beds", "Fee/Day (LKR)");
-        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------");
 
         System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
                 rooms[roomIndex][0],
@@ -617,7 +602,7 @@ public class HostelMate {
                 rooms[roomIndex][5],
                 rooms[roomIndex][4]);
 
-        System.out.println("-------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------");
     }
 
     private static void viewAllRooms() {
@@ -634,7 +619,7 @@ public class HostelMate {
 
         System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-12s%n",
                 "Room ID", "Floor", "Room No", "Capacity", "Avail Beds", "Fee/Day (LKR)");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------");
 
         for (int i = 0; i < countofrooms; i++) {
             System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-12s%n",
@@ -646,10 +631,9 @@ public class HostelMate {
                     rooms[i][4]);
         }
 
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------");
     }
 
-    // Methof of manage Students
     private static void manageStudents() {
         int studentChoice;
 
@@ -1029,7 +1013,7 @@ public class HostelMate {
         System.out.println("             DELETE STUDENT               ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Student ID          : ");
+        System.out.print("Enter Student ID      : ");
         id = input.nextLine().trim();
 
         int ids = -1;
@@ -1080,7 +1064,7 @@ public class HostelMate {
         System.out.println("             SEARCH STUDENT              ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Student ID                 : ");
+        System.out.print("Enter Student ID       : ");
         id = input.nextLine();
 
         int ids = -1;
@@ -1105,7 +1089,7 @@ public class HostelMate {
         System.out.println("-----------------------------------------");
         System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
                 "Student ID", "Full Name", "Contact No", "Email Address", "Status");
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------");
 
         System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
                 students[ids][0],
@@ -1114,7 +1098,7 @@ public class HostelMate {
                 students[ids][3],
                 students[ids][4]);
 
-        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------");
     }
 
     private static void viewAllStudents() {
@@ -1149,98 +1133,119 @@ public class HostelMate {
         System.out.println("Total Students: " + countofstudents);
         System.out.println("===================================================");
     }
-    // Method of allocate bed
+
     private static void allocateBed() {
 
         System.out.println("\n-----------------------------------------");
         System.out.println("               ALLOCATE BED              ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Student ID                : ");
-        String studentId = input.nextLine();
+        String studentId = "";
+    String roomId = "";
+    String dueDate = "";
+    String checkInDate = LocalDate.now().toString();
+    int studentno = -1;
+    int roomIndex = -1;
 
-        // Find student
-        int studentno = -1;
-        for (int i = 0; i < countofstudents; i++) {
-            if (students[i][0].equalsIgnoreCase(studentId)) {
-                studentno = i;
-                break;
+        while (true) {
+            System.out.print("Enter Student ID        : ");
+             studentId = input.nextLine();
+
+            // Find student
+            studentno = -1;
+            for (int i = 0; i < countofstudents; i++) {
+                if (students[i][0].equalsIgnoreCase(studentId)) {
+                    studentno = i;
+                    break;
+                }
             }
-        }
 
-        if (studentId.isEmpty()) {
-            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
-            return;
-        }
-
-        if (studentno == -1) {
-            System.out.println("Error: No student found with the ID '" + studentId + "'.");
-            return;
-        }
-
-        // Check if student is inactive
-        if (students[studentno][4].equalsIgnoreCase("Inactive")) {
-            System.out.println("Error: The selected student is inactive. Bed allocation not allowed.");
-            return;
-        }
-
-        // Check if student already has an active allocation
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(studentId)) {
-                System.out.println("Error: This student already has an active bed allocation.");
-                return;
+            if (studentId.isEmpty()) {
+                System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
+                continue;
             }
-        }
 
-        System.out.print("Enter Room ID                   : ");
-        String roomId = input.nextLine();
-
-        // Find room
-        int roomIndex = -1;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(roomId)) {
-                roomIndex = i;
-                break;
+            if (studentno == -1) {
+                System.out.println("Error: No student found with the ID '" + studentId + "'.");
+                continue;
             }
+
+            // Check if student is inactive
+            if (students[studentno][4].equalsIgnoreCase("Inactive")) {
+                System.out.println("Error: The selected student is inactive. Bed allocation not allowed.");
+                continue;
+            }
+
+            // Check if student already has an active allocation
+            boolean hasAllocation = false;
+            for (int i = 0; i < countofallocations; i++) {
+                if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(studentId)) {
+                    hasAllocation = true;
+                    break;
+                }
+            }
+            if (hasAllocation) {
+                System.out.println("Error: The selected student already has an active bed allocation.");
+                continue;
+            }
+            break;
         }
 
-        if (roomId.isEmpty()) {
-            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
-            return;
+        while (true) {
+
+            System.out.print("Enter Room ID           : ");
+             roomId = input.nextLine();
+
+            // Find room
+            roomIndex = -1;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                    roomIndex = i;
+                    break;
+                }
+            }
+
+            if (roomId.isEmpty()) {
+                System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+                continue;
+            }
+
+            if (roomIndex == -1) {
+                System.out.println("Error: No room found with the ID '" + roomId + "'.");
+                continue;
+            }
+
+            // Check available beds
+            int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
+            if (availableBeds <= 0) {
+                System.out.println("Error: No available beds in Room '" + roomId + "'.");
+                continue;
+            }
+            break;
         }
 
-        if (roomIndex == -1) {
-            System.out.println("Error: No room found with the ID '" + roomId + "'.");
-            return;
-        }
 
-        // Check available beds
-        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
-        if (availableBeds <= 0) {
-            System.out.println("Error: No available beds in Room '" + roomId + "'.");
-            return;
-        }
-
-        System.out.print("Enter Due Date                   : ");
-        String dueDate = input.nextLine();
+        while(true){
+        System.out.print("Enter Due Date         : ");
+         dueDate = input.nextLine();
 
         // Manual date format validation - NO REGEX
         if (dueDate.length() != 10) {
             System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-            return;
+            continue;
         }
 
         // Check positions of dashes
         if (dueDate.charAt(4) != '-' || dueDate.charAt(7) != '-') {
             System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-            return;
+            continue;
         }
 
         // Check if year, month, day parts are digits
         boolean isValidFormat = true;
 
-        // Check year (positions 0-3)
-        for (int i = 0; i < 4; i++) {
+         for (int i = 0; i < dueDate.length(); i++) {
+            if (i == 4 || i == 7) continue;
             char ch = dueDate.charAt(i);
             if (ch < '0' || ch > '9') {
                 isValidFormat = false;
@@ -1248,31 +1253,9 @@ public class HostelMate {
             }
         }
 
-        // Check month (positions 5-6)
-        if (isValidFormat) {
-            for (int i = 5; i < 7; i++) {
-                char ch = dueDate.charAt(i);
-                if (ch < '0' || ch > '9') {
-                    isValidFormat = false;
-                    break;
-                }
-            }
-        }
-
-        // Check day (positions 8-9)
-        if (isValidFormat) {
-            for (int i = 8; i < 10; i++) {
-                char ch = dueDate.charAt(i);
-                if (ch < '0' || ch > '9') {
-                    isValidFormat = false;
-                    break;
-                }
-            }
-        }
-
-        if (!isValidFormat) {
+        if (!isValidFormat) { 
             System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-            return;
+            continue;
         }
 
         int year = Integer.parseInt(dueDate.substring(0, 4));
@@ -1282,7 +1265,7 @@ public class HostelMate {
         // Validate month
         if (month < 1 || month > 12) {
             System.out.println("Error: Invalid month value. Month must be between 01 and 12.");
-            return;
+            continue;
         }
 
         // Determine max days in month
@@ -1302,18 +1285,23 @@ public class HostelMate {
         if (day < 1 || day > maxDays) {
             System.out.println(
                     "Error: Invalid day value. For month " + month + ", valid days are 01 to " + maxDays + ".");
-            return;
+            continue;
         }
 
-        String checkInDate = LocalDate.now().toString();
+        checkInDate = LocalDate.now().toString();
 
         // Due date must be after check-in date
         if (dueDate.compareTo(checkInDate) <= 0) {
             System.out.println("The due date you entered is not valid. Please provide a future date.");
-            return;
+            continue;
+        
         }
+        break;
+
+    }
 
         // Find an available bed
+        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
         int capacity = Integer.parseInt(rooms[roomIndex][3]);
         int bedIndex = -1;
 
@@ -1450,7 +1438,6 @@ public class HostelMate {
 
     }
 
-    // Method of transfer bed
     private static void transferBed() {
         System.out.println("\n-----------------------------------------");
         System.out.println("             TRANSFER STUDENT            ");
@@ -1527,7 +1514,6 @@ public class HostelMate {
             return;
         }
 
-        // 5. Find the lowest free bed in toRoom
         int toRoomCapacity = Integer.parseInt(rooms[toRoomIndex][3]);
         int newBedIndex = -1;
 
@@ -1561,7 +1547,6 @@ public class HostelMate {
         allocations[allocationIndex][1] = toRoomId;
         allocations[allocationIndex][2] = Integer.toString(newBedIndex);
 
-        // 13. Log transfer (you can add transfer date if needed)
         String transferDate = LocalDate.now().toString();
 
         System.out.println("\nStudent transfer completed successfully!");
@@ -1580,12 +1565,224 @@ public class HostelMate {
         System.out.println("-----------------------------------------");
     }
 
-    // Method of view reports
     private static void viewReports() {
+        int reportChoice;
+
+        while (true) {
+            System.out.println();
+            System.out.println("==========================================");
+            System.out.println("|            VIEW REPORTS MENU            |");
+            System.out.println("==========================================");
+            System.out.println("|  1. Occupancy Map                       |");
+            System.out.println("|  2. Vacant Beds by Floor                |");
+            System.out.println("|  3. Students per Room                   |");
+            System.out.println("|  4. Overdue Dues                        |");
+            System.out.println("|  5. Revenue Projection (Daily)          |");
+            System.out.println("|  6. Back                                |");
+            System.out.println("==========================================");
+            System.out.print("Please choose an option: ");
+
+            String rChoice = input.nextLine();
+
+            boolean isNumber = true;
+
+            if (rChoice.isEmpty()) {
+                isNumber = false;
+            } else {
+                for (int i = 0; i < rChoice.length(); i++) {
+                    char ch = rChoice.charAt(i);
+                    if (ch < '0' || ch > '9') {
+                        isNumber = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isNumber) {
+                System.out.println("Invalid input. Kindly enter a valid value.");
+                continue;
+            }
+
+            reportChoice = Integer.parseInt(rChoice);
+
+            switch (reportChoice) {
+                case 1:
+                    occupancyMapReport();
+                    break;
+                case 2:
+                    vacantBedsByFloorReport();
+                    break;
+                case 3:
+                    studentsPerRoomReport();
+                    break;
+                case 4:
+                    overdueDuesReport();
+                    break;
+                case 5:
+                    revenueProjectionReport();
+                    break;
+                case 6:
+                    return; // Back to main menu
+                default:
+                    System.out.println("Invalid option! Please enter a valid choice.");
+            }
+        }
 
     }
 
-    // Method of exit
+    private static void occupancyMapReport() {
+        System.out.println("\n-----------------------------------------");
+        System.out.println("           OCCUPANCY MAP (Grid)          ");
+        System.out.println("-----------------------------------------");
+
+        for (int i = 0; i < countofrooms; i++) {
+            System.out.print("RoomRow " + i + " [");
+
+            int capacity = Integer.parseInt(rooms[i][3]);
+            for (int bed = 0; bed < capacity; bed++) {
+                if (occupancy[i][bed] != null)
+                    System.out.print(occupancy[i][bed]);
+                else
+                    System.out.print("EMPTY");
+
+                if (bed < capacity - 1)
+                    System.out.print(", ");
+            }
+
+            System.out.println("]");
+        }
+        System.out.println("-----------------------------------------");
+    }
+
+    private static void vacantBedsByFloorReport() {
+        System.out.println("\n-----------------------------------------");
+        System.out.println("          VACANT BEDS BY FLOOR           ");
+        System.out.println("-----------------------------------------");
+        System.out.printf("%-8s %-12s %-12s %-12s %-12s%n",
+                "Floor", "TotalRooms", "TotalBeds", "Occupied", "Vacant");
+        System.out.println("-----------------------------------------------------------");
+
+        // Collect floor-wise data manually
+        for (int f = 1; f <= 10; f++) { // assume max 10 floors
+            int totalRooms = 0, totalBeds = 0, occupied = 0, vacant = 0;
+
+            for (int i = 0; i < countofrooms; i++) {
+                if (Integer.parseInt(rooms[i][1]) == f) {
+                    totalRooms++;
+                    int capacity = Integer.parseInt(rooms[i][3]);
+                    int available = Integer.parseInt(rooms[i][5]);
+                    totalBeds += capacity;
+                    vacant += available;
+                    occupied += (capacity - available);
+                }
+            }
+
+            if (totalRooms > 0) {
+                System.out.printf("%-8d %-12d %-12d %-12d %-12d%n",
+                        f, totalRooms, totalBeds, occupied, vacant);
+            }
+        }
+        System.out.println("-----------------------------------------------------------");
+    }
+
+    private static void studentsPerRoomReport() {
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             STUDENTS PER ROOM           ");
+        System.out.println("-----------------------------------------");
+        System.out.printf("%-10s %-8s %-20s%n", "Room", "Count", "Students");
+        System.out.println("------------------------------------------------------");
+
+        for (int i = 0; i < countofrooms; i++) {
+            int capacity = Integer.parseInt(rooms[i][3]);
+            String roomId = rooms[i][0];
+            int count = 0;
+            String studentsList = "";
+
+            for (int bed = 0; bed < capacity; bed++) {
+                if (occupancy[i][bed] != null) {
+                    count++;
+                    studentsList += occupancy[i][bed] + ",";
+                }
+            }
+
+            if (count > 0) {
+                // remove last comma
+                if (studentsList.endsWith(",")) {
+                    studentsList = studentsList.substring(0, studentsList.length() - 1);
+                }
+
+                System.out.printf("%-10s %-8d %-20s%n", roomId, count, studentsList);
+            }
+        }
+        System.out.println("------------------------------------------------------");
+    }
+
+    private static void overdueDuesReport() {
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              OVERDUE DUES               ");
+        System.out.println("-----------------------------------------");
+        System.out.printf("%-10s %-10s %-12s %-12s %-12s%n",
+                "Student", "Room", "DaysOverdue", "Fee/Day", "EstimatedFine");
+        System.out.println("---------------------------------------------------------------");
+
+        String today = LocalDate.now().toString();
+        boolean found = false;
+
+        for (int i = 0; i < countofallocations; i++) {
+            String studentId = allocations[i][0];
+            String roomId = allocations[i][1];
+            String dueDate = allocations[i][4];
+
+            if (today.compareTo(dueDate) > 0) {
+                int days = calculateDaysBetween(dueDate, today);
+
+                // find room index
+                int roomIndex = -1;
+                for (int r = 0; r < countofrooms; r++) {
+                    if (rooms[r][0].equalsIgnoreCase(roomId)) {
+                        roomIndex = r;
+                        break;
+                    }
+                }
+
+                if (roomIndex != -1) {
+                    double feePerDay = Double.parseDouble(rooms[roomIndex][4]);
+                    double fine = days * feePerDay;
+                    System.out.printf("%-10s %-10s %-12d %-12.2f %-12.2f%n",
+                            studentId, roomId, days, feePerDay, fine);
+                    found = true;
+                }
+            }
+        }
+
+        if (!found) {
+            System.out.println("No overdue records found.");
+        }
+        System.out.println("---------------------------------------------------------------");
+    }
+
+    private static void revenueProjectionReport() {
+        System.out.println("\n-----------------------------------------");
+        System.out.println("         REVENUE PROJECTION (Daily)      ");
+        System.out.println("-----------------------------------------");
+
+        double totalRevenue = 0.0;
+
+        for (int i = 0; i < countofrooms; i++) {
+            int capacity = Integer.parseInt(rooms[i][3]);
+            int available = Integer.parseInt(rooms[i][5]);
+            int occupied = capacity - available;
+
+            if (occupied > 0) {
+                double fee = Double.parseDouble(rooms[i][4]);
+                totalRevenue += occupied * fee;
+            }
+        }
+
+        System.out.printf("Total Estimated Daily Revenue: %.2f LKR%n", totalRevenue);
+        System.out.println("-----------------------------------------");
+    }
+
     private static void Exit() {
 
     }
@@ -1608,5 +1805,7 @@ public class HostelMate {
         int endTotalDays = endYear * 365 + endMonth * 30 + endDay;
 
         return endTotalDays - startTotalDays;
-    }    
+    }
+
+    
 }
