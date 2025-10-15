@@ -1149,9 +1149,6 @@ public class HostelMate {
         System.out.println("Total Students: " + countofstudents);
         System.out.println("===================================================");
     }
-
-    // =============================================================================================================================
-
     // Method of allocate bed
     private static void allocateBed() {
 
@@ -1448,26 +1445,28 @@ public class HostelMate {
         System.out.println("Student ID                      : " + studentId);
         System.out.println("Room ID                         : " + roomId);
         System.out.println("Bed Index                       : " + (bedIndex + 1));
-        System.out.println("Available Beds ("+ roomId +")   : " + availableBeds);
+        System.out.println("Available Beds (" + roomId + ")   : " + availableBeds);
         System.out.println("---------------------------------------------------------");
 
     }
 
-    // Method of transfer bed 
+    // Method of transfer bed
     private static void transferBed() {
-        System.out.println("\n >>> Transfer Student <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             TRANSFER STUDENT            ");
+        System.out.println("-----------------------------------------\n");
 
         // Get Student ID
-        System.out.print("Student ID: ");
-        String studentId = input.nextLine().trim();
+        System.out.print("Enter Student ID               : ");
+        String studentId = input.nextLine();
 
         // Get From Room
-        System.out.print("From Room: ");
-        String fromRoomId = input.nextLine().trim();
+        System.out.print("From Room ID                   : ");
+        String fromRoomId = input.nextLine();
 
         // Get To Room
-        System.out.print("To Room: ");
-        String toRoomId = input.nextLine().trim();
+        System.out.print("To Room ID                     : ");
+        String toRoomId = input.nextLine();
 
         // 1. Find the allocation for this student in fromRoom
         int allocationIndex = -1;
@@ -1480,8 +1479,14 @@ public class HostelMate {
             }
         }
 
+        if (studentId.isEmpty() || fromRoomId.isEmpty() || toRoomId.isEmpty()) {
+            System.out.println("Error: All fields (Student ID, From Room, To Room) are required.");
+            return;
+        }
+
         if (allocationIndex == -1) {
-            System.out.println("Error: No allocation found for this student in room " + fromRoomId);
+            System.out.println("Error: No active bed allocation found for Student '" + studentId + "' in Room '"
+                    + fromRoomId + "'.");
             return;
         }
 
@@ -1495,7 +1500,8 @@ public class HostelMate {
         }
 
         if (fromRoomIndex == -1) {
-            System.out.println("Error: From room not found.");
+            System.out.println(
+                    "The specified source room ('" + fromRoomId + "') could not be located in the system records.");
             return;
         }
 
@@ -1509,14 +1515,15 @@ public class HostelMate {
         }
 
         if (toRoomIndex == -1) {
-            System.out.println("Error: To room not found.");
+            System.out.println(
+                    "The specified destination room ('" + toRoomId + "') could not be located in the system records.");
             return;
         }
 
         // 4. Check if toRoom has available beds
         int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
         if (toRoomAvailableBeds <= 0) {
-            System.out.println("Error: No available beds in room " + toRoomId);
+            System.out.println("Error: No available beds in Room '" + toRoomId + "'.");
             return;
         }
 
@@ -1532,12 +1539,11 @@ public class HostelMate {
         }
 
         if (newBedIndex == -1) {
-            System.out.println("Error: No available beds found in target room.");
+            System.out.println("Error: No empty bed slots found in Room '" + toRoomId + "'.");
             return;
         }
 
         int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
-
         String checkInDate = allocations[allocationIndex][3];
         String dueDate = allocations[allocationIndex][4];
 
@@ -1558,11 +1564,20 @@ public class HostelMate {
         // 13. Log transfer (you can add transfer date if needed)
         String transferDate = LocalDate.now().toString();
 
-        System.out.println("Transferred to " + toRoomId + " Bed " + newBedIndex);
-        System.out.println("Avail (" + fromRoomId + "): " + fromRoomAvailableBeds +
-                " | Avail (" + toRoomId + "): " + toRoomAvailableBeds);
-        System.out.println("Transfer completed on: " + transferDate);
-
+        System.out.println("\nStudent transfer completed successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + studentId);
+        System.out.println("From Room        : " + fromRoomId);
+        System.out.println("To Room          : " + toRoomId);
+        System.out.println("New Bed Index    : " + (newBedIndex + 1));
+        System.out.println("Check-In Date    : " + checkInDate);
+        System.out.println("Due Date         : " + dueDate);
+        System.out.println("Transfer Date    : " + transferDate);
+        System.out.println("-----------------------------------------");
+        System.out.println("Available Beds   :");
+        System.out.println(" - " + fromRoomId + " → " + fromRoomAvailableBeds + " beds remaining");
+        System.out.println(" - " + toRoomId + " → " + toRoomAvailableBeds + " beds remaining");
+        System.out.println("-----------------------------------------");
     }
 
     // Method of view reports
@@ -1593,5 +1608,5 @@ public class HostelMate {
         int endTotalDays = endYear * 365 + endMonth * 30 + endDay;
 
         return endTotalDays - startTotalDays;
-    }
+    }    
 }
