@@ -128,9 +128,9 @@ public class HostelMate {
                     allocateBed();
                     break;
 
-                case 4:
-                    vacateBed();
-                    break;
+                // case 4:
+                //     vacateBed();
+                //     break;
 
                 case 5:
                     transferBed();
@@ -1155,9 +1155,11 @@ public class HostelMate {
     // Method of allocate bed
     private static void allocateBed() {
 
-        System.out.println("\n >>> Allocate Bed <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("               ALLOCATE BED              ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Student ID: ");
+        System.out.print("Enter Student ID                : ");
         String studentId = input.nextLine();
 
         // Find student
@@ -1169,26 +1171,31 @@ public class HostelMate {
             }
         }
 
+        if (studentId.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
+            return;
+        }
+
         if (studentno == -1) {
-            System.out.println("Error: Student not found.");
+            System.out.println("Error: No student found with the ID '" + studentId + "'.");
             return;
         }
 
         // Check if student is inactive
         if (students[studentno][4].equalsIgnoreCase("Inactive")) {
-            System.out.println("Error: Student is inactive. Cannot allocate bed.");
+            System.out.println("Error: The selected student is inactive. Bed allocation not allowed.");
             return;
         }
 
         // Check if student already has an active allocation
         for (int i = 0; i < countofallocations; i++) {
             if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(studentId)) {
-                System.out.println("Error: Student already has an active allocation.");
+                System.out.println("Error: This student already has an active bed allocation.");
                 return;
             }
         }
 
-        System.out.print("Room ID: ");
+        System.out.print("Enter Room ID                   : ");
         String roomId = input.nextLine();
 
         // Find room
@@ -1200,19 +1207,24 @@ public class HostelMate {
             }
         }
 
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
+
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: No room found with the ID '" + roomId + "'.");
             return;
         }
 
         // Check available beds
         int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
         if (availableBeds <= 0) {
-            System.out.println("Error: No available beds in this room.");
+            System.out.println("Error: No available beds in Room '" + roomId + "'.");
             return;
         }
 
-        System.out.print("Due Date (YYYY-MM-DD): ");
+        System.out.print("Enter Due Date                   : ");
         String dueDate = input.nextLine();
 
         // Manual date format validation - NO REGEX
@@ -1266,11 +1278,41 @@ public class HostelMate {
             return;
         }
 
+        int year = Integer.parseInt(dueDate.substring(0, 4));
+        int month = Integer.parseInt(dueDate.substring(5, 7));
+        int day = Integer.parseInt(dueDate.substring(8, 10));
+
+        // Validate month
+        if (month < 1 || month > 12) {
+            System.out.println("Error: Invalid month value. Month must be between 01 and 12.");
+            return;
+        }
+
+        // Determine max days in month
+        int maxDays;
+        if (month == 1 || month == 3 || month == 5 || month == 7 ||
+                month == 8 || month == 10 || month == 12) {
+            maxDays = 31;
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            maxDays = 30;
+        } else {
+            // February - check leap year
+            boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+            maxDays = isLeap ? 29 : 28;
+        }
+
+        // Validate day
+        if (day < 1 || day > maxDays) {
+            System.out.println(
+                    "Error: Invalid day value. For month " + month + ", valid days are 01 to " + maxDays + ".");
+            return;
+        }
+
         String checkInDate = LocalDate.now().toString();
 
         // Due date must be after check-in date
         if (dueDate.compareTo(checkInDate) <= 0) {
-            System.out.println("Error: Due date must be a future date.");
+            System.out.println("The due date you entered is not valid. Please provide a future date.");
             return;
         }
 
@@ -1286,7 +1328,7 @@ public class HostelMate {
         }
 
         if (bedIndex == -1) {
-            System.out.println("Error: No available beds found, despite availableBeds > 0.");
+            System.out.println("Error: No free beds found even though available beds > 0.");
             return;
         }
 
@@ -1304,89 +1346,21 @@ public class HostelMate {
         // Decrease available beds
         rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
 
-        System.out.println("Bed allocated successfully!");
-        System.out.println("Available beds (" + roomId + "): " + (availableBeds - 1));
+        System.out.println("\nBed allocated successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + studentId);
+        System.out.println("Room ID          : " + roomId);
+        System.out.println("Allocated Bed No : " + (bedIndex + 1));
+        // System.out.println("Check-In Date : " + checkInDate);
+        System.out.println("Due Date         : " + dueDate);
+        System.out.println("Available Beds   : " + (availableBeds - 1));
+        System.out.println("-----------------------------------------");
 
     }
 
-    private static void vacateBed() {
-        System.out.println("\n >>> Vacate Bed <<<");
+    
 
-        System.out.print("Student ID: ");
-        String studentId = input.nextLine();
-
-        System.out.print("Room ID: ");
-        String roomId = input.nextLine();
-
-        int allocationIndex = -1;
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][0] != null &&
-                    allocations[i][0].equalsIgnoreCase(studentId) &&
-                    allocations[i][1].equalsIgnoreCase(roomId)) {
-                allocationIndex = i;
-                break;
-            }
-        }
-
-        if (allocationIndex == -1) {
-            System.out.println("Error: No allocation found for this student in this room.");
-            return;
-        }
-
-        String bedIndexStr = allocations[allocationIndex][2];
-        String checkInDate = allocations[allocationIndex][3];
-        String dueDate = allocations[allocationIndex][4];
-
-        String currentDate = LocalDate.now().toString();
-
-        int roomIndex = -1;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(roomId)) {
-                roomIndex = i;
-                break;
-            }
-        }
-
-        int overdueDays = 0;
-        double fine = 0.0;
-
-        if (currentDate.compareTo(dueDate) > 0) {
-            // Current date is after due date - calculate overdue
-            overdueDays = calculateDaysBetween(dueDate, currentDate);
-
-            // Get fee per day
-            double feePerDay = Double.parseDouble(rooms[roomIndex][4]);
-
-            // Calculate fine
-            fine = overdueDays * feePerDay;
-
-            System.out.println("Overdue days: " + overdueDays +
-                    " | Fee/Day: " + feePerDay +
-                    " | Fine: " + fine);
-        }
-
-        // Get bed index
-        int bedIndex = Integer.parseInt(bedIndexStr);
-
-        // Remove allocation (compact array)
-        for (int i = allocationIndex; i < countofallocations - 1; i++) {
-            allocations[i] = allocations[i + 1];
-        }
-        countofallocations--;
-
-        // Set occupancy to null (freed bed)
-        occupancy[roomIndex][bedIndex] = null;
-
-        // Increase available beds by 1
-        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
-        availableBeds = availableBeds + 1;
-        rooms[roomIndex][5] = Integer.toString(availableBeds);
-
-        System.out.println("Checkout completed. Bed freed. Available beds (" + roomId + "): " + availableBeds);
-
-    }
-
-    // Method of transfer bed
+    // Method of transfer bed 
     private static void transferBed() {
         System.out.println("\n >>> Transfer Student <<<");
 
