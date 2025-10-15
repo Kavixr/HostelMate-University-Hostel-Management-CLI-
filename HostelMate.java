@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.*;
+
 public class HostelMate {
 
     static String[][] rooms = new String[100][6];
@@ -7,18 +8,19 @@ public class HostelMate {
     static String[][] students = new String[100][5];
 
     static String[][] allocations = new String[100][5];
-    
+
     static String[][] occupancy = new String[100][10];
 
-    static int countofstudents = 0; 
-    static int countofrooms = 0; 
-    static int countofallocations = 0; 
+    static int countofstudents = 0;
+    static int countofrooms = 0;
+    static int countofallocations = 0;
 
     static Scanner input = new Scanner(System.in);
+
     public static void main(String[] args) {
 
-        login(); 
-        home(); 
+        login();
+        home();
     }
 
     private static void login() {
@@ -151,7 +153,8 @@ public class HostelMate {
             System.out.println("|  3. Delete Room                        |");
             System.out.println("|  4. Search Room                        |");
             System.out.println("|  5. View All Rooms                     |");
-            System.out.println("|  6. Back                               |");
+            System.out.println("|  6. Sort Rooms by Available Beds       |");
+            System.out.println("|  7. Back                               |");
             System.out.println("==========================================");
             System.out.print("Please choose an option: ");
 
@@ -195,6 +198,9 @@ public class HostelMate {
                     viewAllRooms();
                     break;
                 case 6:
+                    sortRoomsByAvailableBeds();
+                    break;
+                case 7:
                     return; // Back to main menu
                 default:
                     System.out.println("Invalid option! Please enter a valid choice.");
@@ -542,7 +548,7 @@ public class HostelMate {
 
         // Check if this room has active allocations
         for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(roomId)) {
+            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
                 System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
                 return;
             }
@@ -592,7 +598,7 @@ public class HostelMate {
 
         System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
                 "Room ID", "Floor", "Room No", "Capacity", "Avail Beds", "Fee/Day (LKR)");
-        System.out.println("------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------");
 
         System.out.printf("%-10s | %-8s | %-10s | %-10s | %-12s | %-10s%n",
                 rooms[roomIndex][0],
@@ -602,7 +608,7 @@ public class HostelMate {
                 rooms[roomIndex][5],
                 rooms[roomIndex][4]);
 
-        System.out.println("------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------");
     }
 
     private static void viewAllRooms() {
@@ -632,6 +638,29 @@ public class HostelMate {
         }
 
         System.out.println("-------------------------------------------------------------------------------");
+    }
+
+    private static void sortRoomsByAvailableBeds() {
+        if (countofrooms == 0) {
+            System.out.println("\nNo rooms available to sort.");
+            return;
+        }
+
+        for (int i = 0; i < countofrooms - 1; i++) {
+            for (int j = 0; j < countofrooms - i - 1; j++) {
+                int avail1 = Integer.parseInt(rooms[j][5]);
+                int avail2 = Integer.parseInt(rooms[j + 1][5]);
+                if (avail1 < avail2) { // swap if next room has more beds
+                    String[] temp = rooms[j];
+                    rooms[j] = rooms[j + 1];
+                    rooms[j + 1] = temp;
+                }
+            }
+        }
+
+        System.out.println("\nRooms sorted successfully by available beds (descending).");
+        System.out.println("-----------------------------------------");
+        viewAllRooms();
     }
 
     private static void manageStudents() {
@@ -832,19 +861,28 @@ public class HostelMate {
             }
 
             int atIndex = email.indexOf('@');
-            if (atIndex != -1 && atIndex < email.length() - 1) {
-                String domain = email.substring(atIndex + 1, email.lastIndexOf('.'));
-                boolean validDomain = true;
-                for (int i = 0; i < domain.length(); i++) {
-                    if (!Character.isLetter(domain.charAt(i))) {
-                        validDomain = false;
-                        break;
-                    }
+            int lastDotIndex = email.lastIndexOf('.');
+
+            if (atIndex < 1 || lastDotIndex < atIndex + 2 || lastDotIndex == email.length() - 1) {
+                System.out.println(
+                        "Error: Invalid email format. Please enter a valid email (e.g., w2051567@westminster.ac.uk).\n");
+                continue;
+            }
+
+            boolean validLocal = true;
+            String localPart = email.substring(0, atIndex);
+            for (int i = 0; i < localPart.length(); i++) {
+                char c = localPart.charAt(i);
+                if (!Character.isLetterOrDigit(c) && c != '.' && c != '_' && c != '-') {
+                    validLocal = false;
+                    break;
                 }
-                if (!validDomain) {
-                    System.out.println("Error: Domain part (after '@') can contain letters only. Please try again.\n");
-                    continue;
-                }
+            }
+
+            if (!validLocal) {
+                System.out
+                        .println("Error: Invalid characters \n");
+                continue;
             }
 
             boolean exists = false;
@@ -973,26 +1011,56 @@ public class HostelMate {
 
             if (newemail.equals("-") || newemail.isEmpty()) {
                 validEmail = true;
-            } else {
-                if (!(newemail.contains("@") && newemail.contains("."))) {
-                    System.out.println("Invalid email format.");
-                } else {
-                    // check uniqueness
-                    boolean exists = false;
-                    for (int i = 0; i < countofstudents; i++) {
-                        if (i != ids && students[i][3].equalsIgnoreCase(newemail)) {
-                            exists = true;
-                            break;
-                        }
-                    }
-                    if (exists) {
-                        System.out.println("Error: Email already exists. Enter new email.");
-                    } else {
-                        students[ids][3] = newemail; // update the email
-                        validEmail = true;
-                    }
+                break;
+            }
+
+            if (!newemail.contains("@") || !newemail.contains(".")) {
+                System.out.println("Error: Invalid email format. Must include '@' and '.' characters.\n");
+                continue;
+            }
+
+            int atIndex = newemail.indexOf('@');
+            int lastDotIndex = newemail.lastIndexOf('.');
+
+            if (atIndex < 1 || lastDotIndex < atIndex + 2 || lastDotIndex == newemail.length() - 1) {
+                System.out.println("Error: Invalid email format. Example: w2051567@westminster.ac.uk\n");
+                continue;
+            }
+
+            // Step 3: Check allowed characters before '@'
+            boolean validLocal = true;
+            String localPart = newemail.substring(0, atIndex);
+            for (int i = 0; i < localPart.length(); i++) {
+                char c = localPart.charAt(i);
+                if (!Character.isLetterOrDigit(c) && c != '.' && c != '_' && c != '-') {
+                    validLocal = false;
+                    break;
                 }
             }
+
+            if (!validLocal) {
+                System.out
+                        .println("Error: Invalid characters before '@'. Use only letters, digits, '.', '_' or '-'.\n");
+                continue;
+            }
+
+            // Step 4: Check email uniqueness (ignore same student)
+            boolean exists = false;
+            for (int i = 0; i < countofstudents; i++) {
+                if (i != ids && students[i][3].equalsIgnoreCase(newemail)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (exists) {
+                System.out.println("Error: This email already exists. Please use another one.\n");
+                continue;
+            }
+
+            students[ids][3] = newemail;
+            validEmail = true;
+
         }
         System.out.println("\nStudent updated successfully!");
         System.out.println("-----------------------------------------");
@@ -1036,7 +1104,7 @@ public class HostelMate {
 
         // Check for active allocations
         for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(id)) {
+            if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(id)) {
                 System.out.println("Error: Cannot delete student '" + id + "' — active room allocations exist.");
                 return;
             }
@@ -1141,15 +1209,15 @@ public class HostelMate {
         System.out.println("-----------------------------------------\n");
 
         String studentId = "";
-    String roomId = "";
-    String dueDate = "";
-    String checkInDate = LocalDate.now().toString();
-    int studentno = -1;
-    int roomIndex = -1;
+        String roomId = "";
+        String dueDate = "";
+        String checkInDate = LocalDate.now().toString();
+        int studentno = -1;
+        int roomIndex = -1;
 
         while (true) {
             System.out.print("Enter Student ID        : ");
-             studentId = input.nextLine();
+            studentId = input.nextLine();
 
             // Find student
             studentno = -1;
@@ -1194,7 +1262,7 @@ public class HostelMate {
         while (true) {
 
             System.out.print("Enter Room ID           : ");
-             roomId = input.nextLine();
+            roomId = input.nextLine();
 
             // Find room
             roomIndex = -1;
@@ -1224,81 +1292,81 @@ public class HostelMate {
             break;
         }
 
+        while (true) {
+            System.out.print("Enter Due Date          : ");
+            dueDate = input.nextLine();
 
-        while(true){
-        System.out.print("Enter Due Date         : ");
-         dueDate = input.nextLine();
-
-        // Manual date format validation - NO REGEX
-        if (dueDate.length() != 10) {
-            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-            continue;
-        }
-
-        // Check positions of dashes
-        if (dueDate.charAt(4) != '-' || dueDate.charAt(7) != '-') {
-            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-            continue;
-        }
-
-        // Check if year, month, day parts are digits
-        boolean isValidFormat = true;
-
-         for (int i = 0; i < dueDate.length(); i++) {
-            if (i == 4 || i == 7) continue;
-            char ch = dueDate.charAt(i);
-            if (ch < '0' || ch > '9') {
-                isValidFormat = false;
-                break;
+            // Manual date format validation - NO REGEX
+            if (dueDate.length() != 10) {
+                System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+                continue;
             }
+
+            // Check positions of dashes
+            if (dueDate.charAt(4) != '-' || dueDate.charAt(7) != '-') {
+                System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+                continue;
+            }
+
+            // Check if year, month, day parts are digits
+            boolean isValidFormat = true;
+
+            for (int i = 0; i < dueDate.length(); i++) {
+                if (i == 4 || i == 7)
+                    continue;
+                char ch = dueDate.charAt(i);
+                if (ch < '0' || ch > '9') {
+                    isValidFormat = false;
+                    break;
+                }
+            }
+
+            if (!isValidFormat) {
+                System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
+                continue;
+            }
+
+            int year = Integer.parseInt(dueDate.substring(0, 4));
+            int month = Integer.parseInt(dueDate.substring(5, 7));
+            int day = Integer.parseInt(dueDate.substring(8, 10));
+
+            // Validate month
+            if (month < 1 || month > 12) {
+                System.out.println("Error: Invalid month value. Month must be between 01 and 12.");
+                continue;
+            }
+
+            // Determine max days in month
+            int maxDays;
+            if (month == 1 || month == 3 || month == 5 || month == 7 ||
+                    month == 8 || month == 10 || month == 12) {
+                maxDays = 31;
+            } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+                maxDays = 30;
+            } else {
+                // February - check leap year
+                boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+                maxDays = isLeap ? 29 : 28;
+            }
+
+            // Validate day
+            if (day < 1 || day > maxDays) {
+                System.out.println(
+                        "Error: Invalid day value. For month " + month + ", valid days are 01 to " + maxDays + ".");
+                continue;
+            }
+
+            checkInDate = LocalDate.now().toString();
+
+            // Due date must be after check-in date
+            if (dueDate.compareTo(checkInDate) <= 0) {
+                System.out.println("The due date you entered is not valid. Please provide a future date.");
+                continue;
+
+            }
+            break;
+
         }
-
-        if (!isValidFormat) { 
-            System.out.println("Error: Invalid date format. Please use YYYY-MM-DD.");
-            continue;
-        }
-
-        int year = Integer.parseInt(dueDate.substring(0, 4));
-        int month = Integer.parseInt(dueDate.substring(5, 7));
-        int day = Integer.parseInt(dueDate.substring(8, 10));
-
-        // Validate month
-        if (month < 1 || month > 12) {
-            System.out.println("Error: Invalid month value. Month must be between 01 and 12.");
-            continue;
-        }
-
-        // Determine max days in month
-        int maxDays;
-        if (month == 1 || month == 3 || month == 5 || month == 7 ||
-                month == 8 || month == 10 || month == 12) {
-            maxDays = 31;
-        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-            maxDays = 30;
-        } else {
-            // February - check leap year
-            boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-            maxDays = isLeap ? 29 : 28;
-        }
-
-        // Validate day
-        if (day < 1 || day > maxDays) {
-            System.out.println(
-                    "Error: Invalid day value. For month " + month + ", valid days are 01 to " + maxDays + ".");
-            continue;
-        }
-
-        checkInDate = LocalDate.now().toString();
-
-        // Due date must be after check-in date
-        if (dueDate.compareTo(checkInDate) <= 0) {
-            System.out.println("The due date you entered is not valid. Please provide a future date.");
-            continue;
-        
-        }
-        break;
-
-    }
 
         // Find an available bed
         int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
@@ -1784,7 +1852,18 @@ public class HostelMate {
     }
 
     private static void Exit() {
-
+        System.out.println();
+        System.out.println("========================================================");
+        System.out.println("||                                                    ||");
+        System.out.println("||          Thank you for using HostelMate!           ||");
+        System.out.println("||     University Hostel Management System (2025)     ||");
+        System.out.println("||                                                    ||");
+        System.out.println("||            Developed by Kavindu Rajapaksha         ||");
+        System.out.println("||                                                    ||");
+        System.out.println("||          System exiting... Please wait.            ||");
+        System.out.println("========================================================");
+        System.out.println("Goodbye and have a great day!");
+        System.exit(0);
     }
 
     private static int calculateDaysBetween(String startDate, String endDate) {
@@ -1807,5 +1886,4 @@ public class HostelMate {
         return endTotalDays - startTotalDays;
     }
 
-    
 }
