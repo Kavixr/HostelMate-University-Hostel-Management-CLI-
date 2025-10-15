@@ -1011,26 +1011,56 @@ public class HostelMate {
 
             if (newemail.equals("-") || newemail.isEmpty()) {
                 validEmail = true;
-            } else {
-                if (!(newemail.contains("@") && newemail.contains("."))) {
-                    System.out.println("Invalid email format.");
-                } else {
-                    // check uniqueness
-                    boolean exists = false;
-                    for (int i = 0; i < countofstudents; i++) {
-                        if (i != ids && students[i][3].equalsIgnoreCase(newemail)) {
-                            exists = true;
-                            break;
-                        }
-                    }
-                    if (exists) {
-                        System.out.println("Error: Email already exists. Enter new email.");
-                    } else {
-                        students[ids][3] = newemail; // update the email
-                        validEmail = true;
-                    }
+                break;
+            }
+
+            if (!newemail.contains("@") || !newemail.contains(".")) {
+                System.out.println("Error: Invalid email format. Must include '@' and '.' characters.\n");
+                continue;
+            }
+
+            int atIndex = newemail.indexOf('@');
+            int lastDotIndex = newemail.lastIndexOf('.');
+
+            if (atIndex < 1 || lastDotIndex < atIndex + 2 || lastDotIndex == newemail.length() - 1) {
+                System.out.println("Error: Invalid email format. Example: w2051567@westminster.ac.uk\n");
+                continue;
+            }
+
+            // Step 3: Check allowed characters before '@'
+            boolean validLocal = true;
+            String localPart = newemail.substring(0, atIndex);
+            for (int i = 0; i < localPart.length(); i++) {
+                char c = localPart.charAt(i);
+                if (!Character.isLetterOrDigit(c) && c != '.' && c != '_' && c != '-') {
+                    validLocal = false;
+                    break;
                 }
             }
+
+            if (!validLocal) {
+                System.out
+                        .println("Error: Invalid characters before '@'. Use only letters, digits, '.', '_' or '-'.\n");
+                continue;
+            }
+
+            // Step 4: Check email uniqueness (ignore same student)
+            boolean exists = false;
+            for (int i = 0; i < countofstudents; i++) {
+                if (i != ids && students[i][3].equalsIgnoreCase(newemail)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (exists) {
+                System.out.println("Error: This email already exists. Please use another one.\n");
+                continue;
+            }
+
+            students[ids][3] = newemail;
+            validEmail = true;
+
         }
         System.out.println("\nStudent updated successfully!");
         System.out.println("-----------------------------------------");
