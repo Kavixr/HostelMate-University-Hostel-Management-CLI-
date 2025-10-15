@@ -580,7 +580,7 @@ public class HostelMate {
         System.out.println("              SEARCH ROOM                ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID                    : ");
+        System.out.print("Enter Room ID         : ");
         String roomId = input.nextLine();
 
         if (roomId.isEmpty()) {
@@ -787,7 +787,7 @@ public class HostelMate {
         // Contatct NO.
         while (true) {
 
-            System.out.println("Contact NO: ");
+            System.out.print("Contact No       : ");
             contact = input.nextLine();
 
             if (contact.isEmpty()) {
@@ -893,7 +893,7 @@ public class HostelMate {
         System.out.println("Name             : " + name);
         System.out.println("Contact No       : " + contact);
         System.out.println("Email Address    : " + email);
-        System.out.println("Status         : Active");
+        System.out.println("Status           : Active");
         System.out.println("-----------------------------------------");
 
     }
@@ -1081,7 +1081,7 @@ public class HostelMate {
         System.out.println("-----------------------------------------\n");
 
         System.out.print("Enter Student ID                 : ");
-        id = input.nextLine().trim();
+        id = input.nextLine();
 
         int ids = -1;
         for (int i = 0; i < countofstudents; i++) {
@@ -1105,7 +1105,7 @@ public class HostelMate {
         System.out.println("-----------------------------------------");
         System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
                 "Student ID", "Full Name", "Contact No", "Email Address", "Status");
-        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------");
 
         System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
                 students[ids][0],
@@ -1114,36 +1114,40 @@ public class HostelMate {
                 students[ids][3],
                 students[ids][4]);
 
-        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------");
     }
 
     private static void viewAllStudents() {
-        System.out.println("\n >>> All Students <<<");
-        System.out.println();
+        System.out.println("\n===================================================");
+        System.out.println("                   ALL STUDENTS                   ");
+        System.out.println("===================================================\n");
 
         if (countofstudents == 0) {
-            System.out.println("No students available.");
+            System.out.println("No student records available in the system.");
+            System.out.println("===================================================");
             return;
         }
 
-        // Header
-        System.out.printf("%-8s | %-22s | %-12s | %-28s | %-10s%n",
-                "ID", "Name", "Contact", "Email", "Status");
+        // Table Header
+        System.out.printf("%-10s | %-25s | %-12s | %-30s | %-10s%n",
+                "Student ID", "Full Name", "Contact No", "Email Address", "Status");
         System.out.println(
-                "-----------------------------------------------------------------------------------------------------");
+                "-----------------------------------------------------------------------------------------------------------------------");
 
-        // Loop through all students
+        // Display All Student Records
         for (int i = 0; i < countofstudents; i++) {
-            // System.out.println(students[i][0] + "\t"
-            // + students[i][1] + "\t\t"
-            // + students[i][2] + "\t"
-            // + students[i][3] + "\t"
-            // + students[i][4]);
-            // }
-            System.out.printf("%-8s | %-22s | %-12s | %-28s | %-10s%n",
-                    students[i][0], students[i][1], students[i][2],
-                    students[i][3], students[i][4]);
+            System.out.printf("%-10s | %-25s | %-12s | %-30s | %-10s%n",
+                    students[i][0],
+                    students[i][1],
+                    students[i][2],
+                    students[i][3],
+                    students[i][4]);
         }
+
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Total Students: " + countofstudents);
+        System.out.println("===================================================");
     }
 
     // =============================================================================================================================
