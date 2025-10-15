@@ -580,7 +580,7 @@ public class HostelMate {
         System.out.println("              SEARCH ROOM                ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID                    : ");
+        System.out.print("Enter Room ID         : ");
         String roomId = input.nextLine();
 
         if (roomId.isEmpty()) {
@@ -654,15 +654,18 @@ public class HostelMate {
         int studentChoice;
 
         while (true) {
-            System.out.println("\n>>>        HOSTELMATE MENU      <<<");
             System.out.println();
-            System.out.println("1) Add Student");
-            System.out.println("2) Update Student");
-            System.out.println("3) Delete Student");
-            System.out.println("4) Search Student");
-            System.out.println("5) View All Studnets");
-            System.out.println("6) Back");
-            System.out.println("Choose ---> ");
+            System.out.println("==================================================");
+            System.out.println("| No |           STUDENT MANAGEMENT MENU          |");
+            System.out.println("==================================================");
+            System.out.println("|  1 | Add Student                                |");
+            System.out.println("|  2 | Update Student                             |");
+            System.out.println("|  3 | Delete Student                             |");
+            System.out.println("|  4 | Search Student                             |");
+            System.out.println("|  5 | View All Students                          |");
+            System.out.println("|  6 | Back                                       |");
+            System.out.println("==================================================");
+            System.out.print("Select Option: ");
 
             String stChoice = input.nextLine();
 
@@ -681,7 +684,7 @@ public class HostelMate {
             }
 
             if (!isNumber) {
-                System.out.println(">>> Invalid input. Please Enter valid input.");
+                System.out.println("Invalid option selected! Please choose a valid menu option. ");
                 continue;
             }
 
@@ -711,7 +714,7 @@ public class HostelMate {
                     return;
 
                 default:
-                    System.out.println(" Invalid Option..");
+                    System.out.println("Invalid option. Kindly try again.");
             }
 
         }
@@ -726,24 +729,29 @@ public class HostelMate {
         String contact;
         String email;
 
-        System.out.println("\n >>>  Add Student  <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("              ADD STUDENT                ");
+        System.out.println("-----------------------------------------\n");
 
         // get the student id of the student.
         while (true) {
-            System.out.println("Student ID: ");
+            System.out.print("Student ID       : ");
             id = input.nextLine();
 
-            boolean alreadyexits = false;
+            if (id.isEmpty()) {
+                System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.\n");
+                continue;
+            }
 
-            // validation: if id alrady have or not
+            boolean alreadyexits = false;
             for (int i = 0; i < countofstudents; i++) {
-                if (students[i][0].equalsIgnoreCase(id)) { // Compare ignoring case
-                    alreadyexits = true; // Found a duplicate
-                    break; // No need to check further
+                if (students[i][0].equalsIgnoreCase(id)) {
+                    alreadyexits = true;
+                    break;
                 }
             }
             if (alreadyexits) {
-                System.out.println("Error: Student ID already exists. Please Try again");
+                System.out.println("Error: Student ID already exists. Please try another one.\n");
 
             } else {
                 break;
@@ -751,18 +759,45 @@ public class HostelMate {
 
         }
 
-        System.out.println("Name: ");
-        name = input.nextLine();
+        while (true) {
+            System.out.print("Name             : ");
+            name = input.nextLine();
+
+            if (name.isEmpty()) {
+                System.out.println("Error: Name cannot be empty. Please enter a valid name.\n");
+                continue;
+            }
+
+            boolean validName = true;
+            for (int i = 0; i < name.length(); i++) {
+                char ch = name.charAt(i);
+                if (!Character.isLetter(ch) && ch != ' ') {
+                    validName = false;
+                    break;
+                }
+            }
+
+            if (!validName) {
+                System.out.println("Error: Name can only contain letters and spaces.\n");
+                continue;
+            }
+            break;
+        }
 
         // Contatct NO.
         while (true) {
 
-            System.out.println("Contact NO: ");
+            System.out.print("Contact No       : ");
             contact = input.nextLine();
+
+            if (contact.isEmpty()) {
+                System.out.println("Error: Contact number cannot be empty.\n");
+                continue;
+            }
 
             // Validation of the contact..
             if (contact.length() != 10) {
-                System.out.println("Invalid number.. Please Enter Correct number");
+                System.out.println("Error: Contact number must contain exactly 10 digits.\n");
                 continue;
             }
 
@@ -777,7 +812,7 @@ public class HostelMate {
             }
 
             if (!digit) {
-                System.out.println("Error... Contact must contain only digit.");
+                System.out.println("Error: Contact number must contain digits only.\n");
                 continue;
             }
             boolean exists = false;
@@ -789,7 +824,7 @@ public class HostelMate {
             }
 
             if (exists) {
-                System.out.println("Error: This contact number already exists. Please try again");
+                System.out.println("Error: This contact number already exists. Please try another.\n");
             } else {
                 break;
             }
@@ -798,13 +833,34 @@ public class HostelMate {
         // Email.
         while (true) {
 
-            System.out.println("Email: ");
+            System.out.print("Email            : ");
             email = input.nextLine();
 
-            // Validate the email....
-            if (!(email.contains("@") && email.contains("."))) { // check the enter email have these "@" and "."..
-                System.out.println("Invalid email. Please Enter valid email..");
+            if (email.isEmpty()) {
+                System.out.println("Error: Email cannot be empty. Please enter a valid email.\n");
                 continue;
+            }
+
+            // Validate the email....
+            if (!(email.contains("@") && email.contains("."))) {
+                System.out.println("Error: Invalid email format. Please include '@' and '.'\n");
+                continue;
+            }
+
+            int atIndex = email.indexOf('@');
+            if (atIndex != -1 && atIndex < email.length() - 1) {
+                String domain = email.substring(atIndex + 1, email.lastIndexOf('.'));
+                boolean validDomain = true;
+                for (int i = 0; i < domain.length(); i++) {
+                    if (!Character.isLetter(domain.charAt(i))) {
+                        validDomain = false;
+                        break;
+                    }
+                }
+                if (!validDomain) {
+                    System.out.println("Error: Domain part (after '@') can contain letters only. Please try again.\n");
+                    continue;
+                }
             }
 
             boolean exists = false;
@@ -816,7 +872,7 @@ public class HostelMate {
             }
 
             if (exists) {
-                System.out.println("Error: This email already exists. Please try again.");
+                System.out.println("Error: This email already exists. Please use another email.\n");
             } else {
                 break;
             }
@@ -831,7 +887,14 @@ public class HostelMate {
 
         countofstudents++; // count each new student
 
-        System.out.println("Student added Successfully..");
+        System.out.println("\nStudent added successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + id);
+        System.out.println("Name             : " + name);
+        System.out.println("Contact No       : " + contact);
+        System.out.println("Email Address    : " + email);
+        System.out.println("Status           : Active");
+        System.out.println("-----------------------------------------");
 
     }
 
@@ -841,9 +904,11 @@ public class HostelMate {
         String newcontact;
         String newemail;
 
-        System.out.println("\n >>> Update Student <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             UPDATE STUDENT               ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter the Student ID: ");
+        System.out.print("Enter Student ID         : ");
         id = input.nextLine();
 
         int ids = -1; // which row number the student is stored in student array
@@ -854,24 +919,37 @@ public class HostelMate {
             }
         }
 
-        if (ids == -1) { // not found the student
-            System.out.println("Not Found the Student given ID. ");
+        if (id.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
             return;
         }
+
+        if (ids == -1) { // not found the student
+            System.out.println("Error: No student found with the given ID '" + id + "'.");
+            return;
+        }
+
+        System.out.println("\nCurrent Student Details:");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + students[ids][0]);
+        System.out.println("Name             : " + students[ids][1]);
+        System.out.println("Contact No       : " + students[ids][2]);
+        System.out.println("Email Address    : " + students[ids][3]);
+        System.out.println("Status           : " + students[ids][4]);
+        System.out.println("-----------------------------------------");
 
         // Contact
         // Contact validation with loop
         boolean validContact = false;
         while (!validContact) {
-            System.out.println("New Contact (or -): ");
+            System.out.print("New Contact No (or - to skip)    : ");
             newcontact = input.nextLine();
 
-            if (newcontact.equals("-")) {
+            if (newcontact.equals("-") || newcontact.isEmpty()) {
                 validContact = true;
             } else {
-                // validate contact: length & digits
                 if (newcontact.length() != 10) {
-                    System.out.println("Invalid contact length.");
+                    System.out.println("Error: Contact number must contain exactly 10 digits. Please try again.");
                 } else {
                     boolean digit = true;
                     for (int i = 0; i < newcontact.length(); i++) {
@@ -882,7 +960,7 @@ public class HostelMate {
                         }
                     }
                     if (!digit) {
-                        System.out.println("Error.. Contact must be digits only ");
+                        System.out.println("Error: Contact number must contain digits only. Please try again.");
                     } else {
                         // check uniqueness
                         boolean alreadyexists = false;
@@ -893,7 +971,7 @@ public class HostelMate {
                             }
                         }
                         if (alreadyexists) {
-                            System.out.println("Error: Contact already exists. Please enter new number.");
+                            System.out.println("Error: This contact number already exists. Please use another one.");
                         } else {
                             students[ids][2] = newcontact; // update the contact
                             validContact = true;
@@ -906,10 +984,10 @@ public class HostelMate {
         // Email validation with loop
         boolean validEmail = false;
         while (!validEmail) {
-            System.out.println("New Email(or -): ");
+            System.out.print("New Email (or - to skip)         : ");
             newemail = input.nextLine();
 
-            if (newemail.equals("-")) {
+            if (newemail.equals("-") || newemail.isEmpty()) {
                 validEmail = true;
             } else {
                 if (!(newemail.contains("@") && newemail.contains("."))) {
@@ -932,13 +1010,14 @@ public class HostelMate {
                 }
             }
         }
-        System.out.println("Updated: "
-                + students[ids][0] + " |" // Student ID
-                + students[ids][1] + " |" // Name
-                + students[ids][2] + " |" // Contact (updated or not)
-                + students[ids][3] + " |" // Email (updated or not)
-                + students[ids][4] // Status
-        );
+        System.out.println("\nStudent updated successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + students[ids][0]);
+        System.out.println("Name             : " + students[ids][1]);
+        System.out.println("Contact No       : " + students[ids][2]);
+        System.out.println("Email Address    : " + students[ids][3]);
+        System.out.println("Status           : " + students[ids][4]);
+        System.out.println("-----------------------------------------");
 
     }
 
@@ -946,9 +1025,62 @@ public class HostelMate {
 
         String id;
 
-        System.out.println("\n >>>  Delete Student  <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             DELETE STUDENT               ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.println("Enter Student ID: ");
+        System.out.print("Enter Student ID          : ");
+        id = input.nextLine().trim();
+
+        int ids = -1;
+        for (int i = 0; i < countofstudents; i++) {
+            if (students[i][0].equalsIgnoreCase(id)) {
+                ids = i;
+                break;
+            }
+        }
+
+        if (id.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
+            return;
+        }
+
+        if (ids == -1) {
+            System.out.println("Error: No student found with the ID '" + id + "'.");
+            return;
+        }
+
+        // Check for active allocations
+        for (int i = 0; i < countofallocations; i++) {
+            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(id)) {
+                System.out.println("Error: Cannot delete student '" + id + "' — active room allocations exist.");
+                return;
+            }
+        }
+
+        // Shift student records up to fill the deleted spot
+        for (int i = ids; i < countofstudents - 1; i++) {
+            students[i] = students[i + 1];
+        }
+
+        countofstudents--;
+
+        System.out.println("\nStudent deleted successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Deleted Student ID : " + id);
+        System.out.println("-----------------------------------------");
+
+    }
+
+    private static void searchstudent() {
+
+        String id;
+
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             SEARCH STUDENT              ");
+        System.out.println("-----------------------------------------\n");
+
+        System.out.print("Enter Student ID                 : ");
         id = input.nextLine();
 
         int ids = -1;
@@ -959,100 +1091,72 @@ public class HostelMate {
             }
         }
 
-        if (ids == -1) {
-            System.out.println("Error: Student not found.");
+        if (id.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
             return;
         }
 
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(id)) {
-                System.out.println("Error: Cannot Delete. Student has an active allocation");
-                return;
-            }
-        }
-
-        for (int i = ids; i < countofstudents - 1; i++) {
-            students[i] = students[i + 1];
-        }
-
-        countofstudents--;
-
-        System.out.println("Student Deleted Successfully. ");
-
-    }
-
-    private static void searchstudent() {
-
-        String id;
-
-        System.out.println("\n >>> Search Student <<< ");
-
-        System.out.println("Enter Student ID: ");
-        id = input.nextLine();
-
-        int ids = -1;
-        for (int i = 0; i < countofstudents; i++) {
-            if (students[i][0].equalsIgnoreCase(id)) {
-                ids = i; // found row index
-                break;
-            }
-        }
-
         if (ids == -1) {
-            System.out.println("Error: Student not found.");
+            System.out.println("Error: No student found with the ID '" + id + "'.");
             return;
         }
 
-        System.out.println("Found");
-
-        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
-                "ID", "Name", "Contact", "Email", "Status");
+        System.out.println("\nStudent record found successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
+                "Student ID", "Full Name", "Contact No", "Email Address", "Status");
         System.out.println("----------------------------------------------------------------------------------");
 
-        // Print row
-        System.out.printf("%-6s | %-17s | %-11s | %-22s | %-8s%n",
-                students[ids][0], students[ids][1], students[ids][2],
-                students[ids][3], students[ids][4]);
+        System.out.printf("%-10s | %-20s | %-12s | %-25s | %-8s%n",
+                students[ids][0],
+                students[ids][1],
+                students[ids][2],
+                students[ids][3],
+                students[ids][4]);
 
+        System.out.println("----------------------------------------------------------------------------------");
     }
 
     private static void viewAllStudents() {
-        System.out.println("\n >>> All Students <<<");
-        System.out.println();
+        System.out.println("\n===================================================");
+        System.out.println("                   ALL STUDENTS                   ");
+        System.out.println("===================================================\n");
 
         if (countofstudents == 0) {
-            System.out.println("No students available.");
+            System.out.println("No student records available in the system.");
+            System.out.println("===================================================");
             return;
         }
 
-        // Header
-        System.out.printf("%-8s | %-22s | %-12s | %-28s | %-10s%n",
-                "ID", "Name", "Contact", "Email", "Status");
+        // Table Header
+        System.out.printf("%-10s | %-25s | %-12s | %-30s | %-10s%n",
+                "Student ID", "Full Name", "Contact No", "Email Address", "Status");
         System.out.println(
-                "-----------------------------------------------------------------------------------------------------");
+                "-----------------------------------------------------------------------------------------------------------------------");
 
-        // Loop through all students
+        // Display All Student Records
         for (int i = 0; i < countofstudents; i++) {
-            // System.out.println(students[i][0] + "\t"
-            // + students[i][1] + "\t\t"
-            // + students[i][2] + "\t"
-            // + students[i][3] + "\t"
-            // + students[i][4]);
-            // }
-            System.out.printf("%-8s | %-22s | %-12s | %-28s | %-10s%n",
-                    students[i][0], students[i][1], students[i][2],
-                    students[i][3], students[i][4]);
+            System.out.printf("%-10s | %-25s | %-12s | %-30s | %-10s%n",
+                    students[i][0],
+                    students[i][1],
+                    students[i][2],
+                    students[i][3],
+                    students[i][4]);
         }
+
+        System.out.println(
+                "-----------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Total Students: " + countofstudents);
+        System.out.println("===================================================");
     }
-
-    // =============================================================================================================================
-
     // Method of allocate bed
     private static void allocateBed() {
 
-        System.out.println("\n >>> Allocate Bed <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("               ALLOCATE BED              ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Student ID: ");
+        System.out.print("Enter Student ID                : ");
         String studentId = input.nextLine();
 
         // Find student
@@ -1064,26 +1168,31 @@ public class HostelMate {
             }
         }
 
+        if (studentId.isEmpty()) {
+            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
+            return;
+        }
+
         if (studentno == -1) {
-            System.out.println("Error: Student not found.");
+            System.out.println("Error: No student found with the ID '" + studentId + "'.");
             return;
         }
 
         // Check if student is inactive
         if (students[studentno][4].equalsIgnoreCase("Inactive")) {
-            System.out.println("Error: Student is inactive. Cannot allocate bed.");
+            System.out.println("Error: The selected student is inactive. Bed allocation not allowed.");
             return;
         }
 
         // Check if student already has an active allocation
         for (int i = 0; i < countofallocations; i++) {
             if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(studentId)) {
-                System.out.println("Error: Student already has an active allocation.");
+                System.out.println("Error: This student already has an active bed allocation.");
                 return;
             }
         }
 
-        System.out.print("Room ID: ");
+        System.out.print("Enter Room ID                   : ");
         String roomId = input.nextLine();
 
         // Find room
@@ -1095,19 +1204,24 @@ public class HostelMate {
             }
         }
 
+        if (roomId.isEmpty()) {
+            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
+            return;
+        }
+
         if (roomIndex == -1) {
-            System.out.println("Error: Room not found.");
+            System.out.println("Error: No room found with the ID '" + roomId + "'.");
             return;
         }
 
         // Check available beds
         int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
         if (availableBeds <= 0) {
-            System.out.println("Error: No available beds in this room.");
+            System.out.println("Error: No available beds in Room '" + roomId + "'.");
             return;
         }
 
-        System.out.print("Due Date (YYYY-MM-DD): ");
+        System.out.print("Enter Due Date                   : ");
         String dueDate = input.nextLine();
 
         // Manual date format validation - NO REGEX
@@ -1161,11 +1275,41 @@ public class HostelMate {
             return;
         }
 
+        int year = Integer.parseInt(dueDate.substring(0, 4));
+        int month = Integer.parseInt(dueDate.substring(5, 7));
+        int day = Integer.parseInt(dueDate.substring(8, 10));
+
+        // Validate month
+        if (month < 1 || month > 12) {
+            System.out.println("Error: Invalid month value. Month must be between 01 and 12.");
+            return;
+        }
+
+        // Determine max days in month
+        int maxDays;
+        if (month == 1 || month == 3 || month == 5 || month == 7 ||
+                month == 8 || month == 10 || month == 12) {
+            maxDays = 31;
+        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            maxDays = 30;
+        } else {
+            // February - check leap year
+            boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+            maxDays = isLeap ? 29 : 28;
+        }
+
+        // Validate day
+        if (day < 1 || day > maxDays) {
+            System.out.println(
+                    "Error: Invalid day value. For month " + month + ", valid days are 01 to " + maxDays + ".");
+            return;
+        }
+
         String checkInDate = LocalDate.now().toString();
 
         // Due date must be after check-in date
         if (dueDate.compareTo(checkInDate) <= 0) {
-            System.out.println("Error: Due date must be a future date.");
+            System.out.println("The due date you entered is not valid. Please provide a future date.");
             return;
         }
 
@@ -1181,7 +1325,7 @@ public class HostelMate {
         }
 
         if (bedIndex == -1) {
-            System.out.println("Error: No available beds found, despite availableBeds > 0.");
+            System.out.println("Error: No free beds found even though available beds > 0.");
             return;
         }
 
@@ -1199,18 +1343,27 @@ public class HostelMate {
         // Decrease available beds
         rooms[roomIndex][5] = Integer.toString(availableBeds - 1);
 
-        System.out.println("Bed allocated successfully!");
-        System.out.println("Available beds (" + roomId + "): " + (availableBeds - 1));
+        System.out.println("\nBed allocated successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + studentId);
+        System.out.println("Room ID          : " + roomId);
+        System.out.println("Allocated Bed No : " + (bedIndex + 1));
+        // System.out.println("Check-In Date : " + checkInDate);
+        System.out.println("Due Date         : " + dueDate);
+        System.out.println("Available Beds   : " + (availableBeds - 1));
+        System.out.println("-----------------------------------------");
 
     }
 
     private static void vacateBed() {
-        System.out.println("\n >>> Vacate Bed <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("               VACATE BED                ");
+        System.out.println("-----------------------------------------\n");
 
-        System.out.print("Student ID: ");
+        System.out.print("Enter Student ID                : ");
         String studentId = input.nextLine();
 
-        System.out.print("Room ID: ");
+        System.out.print("Enter Room ID                   : ");
         String roomId = input.nextLine();
 
         int allocationIndex = -1;
@@ -1223,8 +1376,14 @@ public class HostelMate {
             }
         }
 
+        if (studentId.isEmpty() || roomId.isEmpty()) {
+            System.out.println("Error: Student ID or Room ID cannot be empty. Please enter valid values.");
+            return;
+        }
+
         if (allocationIndex == -1) {
-            System.out.println("Error: No allocation found for this student in this room.");
+            System.out.println(
+                    "Error: No active allocation found for Student '" + studentId + "' in Room '" + roomId + "'.");
             return;
         }
 
@@ -1255,9 +1414,13 @@ public class HostelMate {
             // Calculate fine
             fine = overdueDays * feePerDay;
 
-            System.out.println("Overdue days: " + overdueDays +
-                    " | Fee/Day: " + feePerDay +
-                    " | Fine: " + fine);
+            System.out.println("\n-----------------------------------------");
+            System.out.println("Overdue Information");
+            System.out.println("-----------------------------------------");
+            System.out.println("Overdue Days     : " + overdueDays);
+            System.out.println("Fee per Day (LKR): " + feePerDay);
+            System.out.println("Total Fine (LKR) : " + fine);
+            System.out.println("-----------------------------------------\n");
         }
 
         // Get bed index
@@ -1277,25 +1440,33 @@ public class HostelMate {
         availableBeds = availableBeds + 1;
         rooms[roomIndex][5] = Integer.toString(availableBeds);
 
-        System.out.println("Checkout completed. Bed freed. Available beds (" + roomId + "): " + availableBeds);
+        System.out.println("Checkout completed successfully! The assigned bed has been freed.");
+        System.out.println("---------------------------------------------------------");
+        System.out.println("Student ID                      : " + studentId);
+        System.out.println("Room ID                         : " + roomId);
+        System.out.println("Bed Index                       : " + (bedIndex + 1));
+        System.out.println("Available Beds (" + roomId + ")   : " + availableBeds);
+        System.out.println("---------------------------------------------------------");
 
     }
 
     // Method of transfer bed
     private static void transferBed() {
-        System.out.println("\n >>> Transfer Student <<<");
+        System.out.println("\n-----------------------------------------");
+        System.out.println("             TRANSFER STUDENT            ");
+        System.out.println("-----------------------------------------\n");
 
         // Get Student ID
-        System.out.print("Student ID: ");
-        String studentId = input.nextLine().trim();
+        System.out.print("Enter Student ID               : ");
+        String studentId = input.nextLine();
 
         // Get From Room
-        System.out.print("From Room: ");
-        String fromRoomId = input.nextLine().trim();
+        System.out.print("From Room ID                   : ");
+        String fromRoomId = input.nextLine();
 
         // Get To Room
-        System.out.print("To Room: ");
-        String toRoomId = input.nextLine().trim();
+        System.out.print("To Room ID                     : ");
+        String toRoomId = input.nextLine();
 
         // 1. Find the allocation for this student in fromRoom
         int allocationIndex = -1;
@@ -1308,8 +1479,14 @@ public class HostelMate {
             }
         }
 
+        if (studentId.isEmpty() || fromRoomId.isEmpty() || toRoomId.isEmpty()) {
+            System.out.println("Error: All fields (Student ID, From Room, To Room) are required.");
+            return;
+        }
+
         if (allocationIndex == -1) {
-            System.out.println("Error: No allocation found for this student in room " + fromRoomId);
+            System.out.println("Error: No active bed allocation found for Student '" + studentId + "' in Room '"
+                    + fromRoomId + "'.");
             return;
         }
 
@@ -1323,7 +1500,8 @@ public class HostelMate {
         }
 
         if (fromRoomIndex == -1) {
-            System.out.println("Error: From room not found.");
+            System.out.println(
+                    "The specified source room ('" + fromRoomId + "') could not be located in the system records.");
             return;
         }
 
@@ -1337,14 +1515,15 @@ public class HostelMate {
         }
 
         if (toRoomIndex == -1) {
-            System.out.println("Error: To room not found.");
+            System.out.println(
+                    "The specified destination room ('" + toRoomId + "') could not be located in the system records.");
             return;
         }
 
         // 4. Check if toRoom has available beds
         int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
         if (toRoomAvailableBeds <= 0) {
-            System.out.println("Error: No available beds in room " + toRoomId);
+            System.out.println("Error: No available beds in Room '" + toRoomId + "'.");
             return;
         }
 
@@ -1360,12 +1539,11 @@ public class HostelMate {
         }
 
         if (newBedIndex == -1) {
-            System.out.println("Error: No available beds found in target room.");
+            System.out.println("Error: No empty bed slots found in Room '" + toRoomId + "'.");
             return;
         }
 
         int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
-
         String checkInDate = allocations[allocationIndex][3];
         String dueDate = allocations[allocationIndex][4];
 
@@ -1386,11 +1564,20 @@ public class HostelMate {
         // 13. Log transfer (you can add transfer date if needed)
         String transferDate = LocalDate.now().toString();
 
-        System.out.println("Transferred to " + toRoomId + " Bed " + newBedIndex);
-        System.out.println("Avail (" + fromRoomId + "): " + fromRoomAvailableBeds +
-                " | Avail (" + toRoomId + "): " + toRoomAvailableBeds);
-        System.out.println("Transfer completed on: " + transferDate);
-
+        System.out.println("\nStudent transfer completed successfully!");
+        System.out.println("-----------------------------------------");
+        System.out.println("Student ID       : " + studentId);
+        System.out.println("From Room        : " + fromRoomId);
+        System.out.println("To Room          : " + toRoomId);
+        System.out.println("New Bed Index    : " + (newBedIndex + 1));
+        System.out.println("Check-In Date    : " + checkInDate);
+        System.out.println("Due Date         : " + dueDate);
+        System.out.println("Transfer Date    : " + transferDate);
+        System.out.println("-----------------------------------------");
+        System.out.println("Available Beds   :");
+        System.out.println(" - " + fromRoomId + " → " + fromRoomAvailableBeds + " beds remaining");
+        System.out.println(" - " + toRoomId + " → " + toRoomAvailableBeds + " beds remaining");
+        System.out.println("-----------------------------------------");
     }
 
     // Method of view reports
@@ -1421,5 +1608,5 @@ public class HostelMate {
         int endTotalDays = endYear * 365 + endMonth * 30 + endDay;
 
         return endTotalDays - startTotalDays;
-    }
+    }    
 }
