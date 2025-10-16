@@ -1428,93 +1428,96 @@ public class HostelMate {
         System.out.println("               VACATE BED                ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Student ID                : ");
-        String studentId = input.nextLine();
+        while (true) {
+            System.out.print("Enter Student ID                : ");
+            String studentId = input.nextLine();
 
-        System.out.print("Enter Room ID                   : ");
-        String roomId = input.nextLine();
+            System.out.print("Enter Room ID                   : ");
+            String roomId = input.nextLine();
 
-        int allocationIndex = -1;
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][0] != null &&
-                    allocations[i][0].equalsIgnoreCase(studentId) &&
-                    allocations[i][1].equalsIgnoreCase(roomId)) {
-                allocationIndex = i;
-                break;
+            int allocationIndex = -1;
+            for (int i = 0; i < countofallocations; i++) {
+                if (allocations[i][0] != null &&
+                        allocations[i][0].equalsIgnoreCase(studentId) &&
+                        allocations[i][1].equalsIgnoreCase(roomId)) {
+                    allocationIndex = i;
+                    break;
+                }
             }
-        }
 
-        if (studentId.isEmpty() || roomId.isEmpty()) {
-            System.out.println("Error: Student ID or Room ID cannot be empty. Please enter valid values.");
-            return;
-        }
-
-        if (allocationIndex == -1) {
-            System.out.println(
-                    "Error: No active allocation found for Student '" + studentId + "' in Room '" + roomId + "'.");
-            return;
-        }
-
-        String bedIndexStr = allocations[allocationIndex][2];
-        String checkInDate = allocations[allocationIndex][3];
-        String dueDate = allocations[allocationIndex][4];
-
-        String currentDate = LocalDate.now().toString();
-
-        int roomIndex = -1;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(roomId)) {
-                roomIndex = i;
-                break;
+            if (studentId.isEmpty() || roomId.isEmpty()) {
+                System.out.println("Error: Student ID or Room ID cannot be empty. Please enter valid values.");
+                return;
             }
+
+            if (allocationIndex == -1) {
+                System.out.println(
+                        "Error: No active allocation found for Student '" + studentId + "' in Room '" + roomId + "'.");
+                return;
+            }
+
+            String bedIndexStr = allocations[allocationIndex][2];
+            String checkInDate = allocations[allocationIndex][3];
+            String dueDate = allocations[allocationIndex][4];
+
+            String currentDate = LocalDate.now().toString();
+
+            int roomIndex = -1;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                    roomIndex = i;
+                    break;
+                }
+            }
+
+            int overdueDays = 0;
+            double fine = 0.0;
+
+            if (currentDate.compareTo(dueDate) > 0) {
+                // Current date is after due date - calculate overdue
+                overdueDays = calculateDaysBetween(dueDate, currentDate);
+
+                // Get fee per day
+                double feePerDay = Double.parseDouble(rooms[roomIndex][4]);
+
+                // Calculate fine
+                fine = overdueDays * feePerDay;
+
+                System.out.println("\n-----------------------------------------");
+                System.out.println("Overdue Information");
+                System.out.println("-----------------------------------------");
+                System.out.println("Overdue Days     : " + overdueDays);
+                System.out.println("Fee per Day (LKR): " + feePerDay);
+                System.out.println("Total Fine (LKR) : " + fine);
+                System.out.println("-----------------------------------------\n");
+            }
+
+            // Get bed index
+            int bedIndex = Integer.parseInt(bedIndexStr);
+
+            // Remove allocation (compact array)
+            for (int i = allocationIndex; i < countofallocations - 1; i++) {
+                allocations[i] = allocations[i + 1];
+            }
+            countofallocations--;
+
+            // Set occupancy to null (freed bed)
+            occupancy[roomIndex][bedIndex] = null;
+
+            // Increase available beds by 1
+            int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
+            availableBeds = availableBeds + 1;
+            rooms[roomIndex][5] = Integer.toString(availableBeds);
+
+            System.out.println("Checkout completed successfully! The assigned bed has been freed.");
+            System.out.println("---------------------------------------------------------");
+            System.out.println("Student ID                      : " + studentId);
+            System.out.println("Room ID                         : " + roomId);
+            System.out.println("Bed Index                       : " + (bedIndex + 1));
+            System.out.println("Available Beds (" + roomId + ")        : " + availableBeds);
+            System.out.println("---------------------------------------------------------");
+            break;
         }
-
-        int overdueDays = 0;
-        double fine = 0.0;
-
-        if (currentDate.compareTo(dueDate) > 0) {
-            // Current date is after due date - calculate overdue
-            overdueDays = calculateDaysBetween(dueDate, currentDate);
-
-            // Get fee per day
-            double feePerDay = Double.parseDouble(rooms[roomIndex][4]);
-
-            // Calculate fine
-            fine = overdueDays * feePerDay;
-
-            System.out.println("\n-----------------------------------------");
-            System.out.println("Overdue Information");
-            System.out.println("-----------------------------------------");
-            System.out.println("Overdue Days     : " + overdueDays);
-            System.out.println("Fee per Day (LKR): " + feePerDay);
-            System.out.println("Total Fine (LKR) : " + fine);
-            System.out.println("-----------------------------------------\n");
-        }
-
-        // Get bed index
-        int bedIndex = Integer.parseInt(bedIndexStr);
-
-        // Remove allocation (compact array)
-        for (int i = allocationIndex; i < countofallocations - 1; i++) {
-            allocations[i] = allocations[i + 1];
-        }
-        countofallocations--;
-
-        // Set occupancy to null (freed bed)
-        occupancy[roomIndex][bedIndex] = null;
-
-        // Increase available beds by 1
-        int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
-        availableBeds = availableBeds + 1;
-        rooms[roomIndex][5] = Integer.toString(availableBeds);
-
-        System.out.println("Checkout completed successfully! The assigned bed has been freed.");
-        System.out.println("---------------------------------------------------------");
-        System.out.println("Student ID                      : " + studentId);
-        System.out.println("Room ID                         : " + roomId);
-        System.out.println("Bed Index                       : " + (bedIndex + 1));
-        System.out.println("Available Beds (" + roomId + ")        : " + availableBeds);
-        System.out.println("---------------------------------------------------------");
 
     }
 
@@ -1524,132 +1527,133 @@ public class HostelMate {
         System.out.println("-----------------------------------------\n");
 
         while (true) {
-        System.out.print("Enter Student ID           : ");
-        String studentId = input.nextLine();
+            System.out.print("Enter Student ID           : ");
+            String studentId = input.nextLine();
 
-        // Get From Room
-        System.out.print("From Room ID               : ");
-        String fromRoomId = input.nextLine();
+            // Get From Room
+            System.out.print("From Room ID               : ");
+            String fromRoomId = input.nextLine();
 
-        // Get To Room
-        System.out.print("To Room ID                 : ");
-        String toRoomId = input.nextLine();
+            // Get To Room
+            System.out.print("To Room ID                 : ");
+            String toRoomId = input.nextLine();
 
-        // 1. Find the allocation for this student in fromRoom
-        int allocationIndex = -1;
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][0] != null &&
-                    allocations[i][0].equalsIgnoreCase(studentId) &&
-                    allocations[i][1].equalsIgnoreCase(fromRoomId)) {
-                allocationIndex = i;
-                break;
+            // 1. Find the allocation for this student in fromRoom
+            int allocationIndex = -1;
+            for (int i = 0; i < countofallocations; i++) {
+                if (allocations[i][0] != null &&
+                        allocations[i][0].equalsIgnoreCase(studentId) &&
+                        allocations[i][1].equalsIgnoreCase(fromRoomId)) {
+                    allocationIndex = i;
+                    break;
+                }
             }
-        }
 
-        if (studentId.isEmpty() || fromRoomId.isEmpty() || toRoomId.isEmpty()) {
-            System.out.println("Error: All fields (Student ID, From Room, To Room) are required.");
-            return;
-        }
-
-        if (allocationIndex == -1) {
-            System.out.println("Error: No active bed allocation found for Student '" + studentId + "' in Room '"
-                    + fromRoomId + "'.");
-            return;
-        }
-
-        // 2. Find fromRoom index
-        int fromRoomIndex = -1;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(fromRoomId)) {
-                fromRoomIndex = i;
-                break;
+            if (studentId.isEmpty() || fromRoomId.isEmpty() || toRoomId.isEmpty()) {
+                System.out.println("Error: All fields (Student ID, From Room, To Room) are required.");
+                return;
             }
-        }
 
-        if (fromRoomIndex == -1) {
-            System.out.println(
-                    "The specified source room ('" + fromRoomId + "') could not be located in the system records.");
-            return;
-        }
-
-        int toRoomIndex = -1;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(toRoomId)) {
-                toRoomIndex = i;
-                break;
+            if (allocationIndex == -1) {
+                System.out.println("Error: No active bed allocation found for Student '" + studentId + "' in Room '"
+                        + fromRoomId + "'.");
+                return;
             }
-        }
 
-        if (toRoomIndex == -1) {
-            System.out.println(
-                    "The specified destination room ('" + toRoomId + "') could not be located in the system records.");
-            return;
-        }
-
-        int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
-        if (toRoomAvailableBeds <= 0) {
-            System.out.println("Error: No available beds in Room '" + toRoomId + "'.");
-            return;
-        }
-
-        int toRoomCapacity = Integer.parseInt(rooms[toRoomIndex][3]);
-        int newBedIndex = -1;
-
-        for (int bed = 0; bed < toRoomCapacity; bed++) {
-            if (occupancy[toRoomIndex][bed] == null || occupancy[toRoomIndex][bed].equalsIgnoreCase("EMPTY")) {
-                newBedIndex = bed;
-                break;
+            // 2. Find fromRoom index
+            int fromRoomIndex = -1;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][0].equalsIgnoreCase(fromRoomId)) {
+                    fromRoomIndex = i;
+                    break;
+                }
             }
+
+            if (fromRoomIndex == -1) {
+                System.out.println(
+                        "The specified source room ('" + fromRoomId + "') could not be located in the system records.");
+                return;
+            }
+
+            int toRoomIndex = -1;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][0].equalsIgnoreCase(toRoomId)) {
+                    toRoomIndex = i;
+                    break;
+                }
+            }
+
+            if (toRoomIndex == -1) {
+                System.out.println(
+                        "The specified destination room ('" + toRoomId
+                                + "') could not be located in the system records.");
+                return;
+            }
+
+            int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
+            if (toRoomAvailableBeds <= 0) {
+                System.out.println("Error: No available beds in Room '" + toRoomId + "'.");
+                return;
+            }
+
+            int toRoomCapacity = Integer.parseInt(rooms[toRoomIndex][3]);
+            int newBedIndex = -1;
+
+            for (int bed = 0; bed < toRoomCapacity; bed++) {
+                if (occupancy[toRoomIndex][bed] == null || occupancy[toRoomIndex][bed].equalsIgnoreCase("EMPTY")) {
+                    newBedIndex = bed;
+                    break;
+                }
+            }
+
+            if (newBedIndex == -1) {
+                System.out.println("Error: No empty bed slots found in Room '" + toRoomId + "'.");
+                return;
+            }
+
+            int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
+            String checkInDate = allocations[allocationIndex][3];
+            String dueDate = allocations[allocationIndex][4];
+
+            String today = LocalDate.now().toString();
+            if (today.compareTo(dueDate) > 0) {
+                System.out.println(
+                        "Error: Transfer not allowed. The student's due date has already passed (" + dueDate + ").");
+                return;
+            }
+
+            occupancy[fromRoomIndex][oldBedIndex] = null;
+
+            int fromRoomAvailableBeds = Integer.parseInt(rooms[fromRoomIndex][5]);
+            fromRoomAvailableBeds++;
+            rooms[fromRoomIndex][5] = Integer.toString(fromRoomAvailableBeds);
+
+            occupancy[toRoomIndex][newBedIndex] = studentId;
+
+            toRoomAvailableBeds--;
+            rooms[toRoomIndex][5] = Integer.toString(toRoomAvailableBeds);
+
+            allocations[allocationIndex][1] = toRoomId;
+            allocations[allocationIndex][2] = Integer.toString(newBedIndex);
+
+            String transferDate = LocalDate.now().toString();
+
+            System.out.println("\nStudent transfer completed successfully!");
+            System.out.println("-----------------------------------------");
+            System.out.println("Student ID       : " + studentId);
+            System.out.println("From Room        : " + fromRoomId);
+            System.out.println("To Room          : " + toRoomId);
+            System.out.println("New Bed Index    : " + (newBedIndex));
+            System.out.println("Check-In Date    : " + checkInDate);
+            System.out.println("Due Date         : " + dueDate);
+            System.out.println("Transfer Date    : " + transferDate);
+            System.out.println("-----------------------------------------");
+            System.out.println("Available Beds   :");
+            System.out.println(" - " + fromRoomId + " -> " + fromRoomAvailableBeds + " beds remaining");
+            System.out.println(" - " + toRoomId + " -> " + toRoomAvailableBeds + " beds remaining");
+            System.out.println("-----------------------------------------");
+            break;
         }
-
-        if (newBedIndex == -1) {
-            System.out.println("Error: No empty bed slots found in Room '" + toRoomId + "'.");
-            return;
-        }
-
-        int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
-        String checkInDate = allocations[allocationIndex][3];
-        String dueDate = allocations[allocationIndex][4];
-
-        String today = LocalDate.now().toString();
-        if (today.compareTo(dueDate) > 0) {
-            System.out.println(
-                    "Error: Transfer not allowed. The student's due date has already passed (" + dueDate + ").");
-            return;
-        }
-
-        occupancy[fromRoomIndex][oldBedIndex] = null;
-
-        int fromRoomAvailableBeds = Integer.parseInt(rooms[fromRoomIndex][5]);
-        fromRoomAvailableBeds++;
-        rooms[fromRoomIndex][5] = Integer.toString(fromRoomAvailableBeds);
-
-        occupancy[toRoomIndex][newBedIndex] = studentId;
-
-        toRoomAvailableBeds--;
-        rooms[toRoomIndex][5] = Integer.toString(toRoomAvailableBeds);
-
-        allocations[allocationIndex][1] = toRoomId;
-        allocations[allocationIndex][2] = Integer.toString(newBedIndex);
-
-        String transferDate = LocalDate.now().toString();
-
-        System.out.println("\nStudent transfer completed successfully!");
-        System.out.println("-----------------------------------------");
-        System.out.println("Student ID       : " + studentId);
-        System.out.println("From Room        : " + fromRoomId);
-        System.out.println("To Room          : " + toRoomId);
-        System.out.println("New Bed Index    : " + (newBedIndex));
-        System.out.println("Check-In Date    : " + checkInDate);
-        System.out.println("Due Date         : " + dueDate);
-        System.out.println("Transfer Date    : " + transferDate);
-        System.out.println("-----------------------------------------");
-        System.out.println("Available Beds   :");
-        System.out.println(" - " + fromRoomId + " -> " + fromRoomAvailableBeds + " beds remaining");
-        System.out.println(" - " + toRoomId + " -> " + toRoomAvailableBeds + " beds remaining");
-        System.out.println("-----------------------------------------");
-        break;
-    }
     }
 
     private static void viewReports() {
