@@ -539,20 +539,25 @@ public class HostelMate {
 
             if (roomId.isEmpty()) {
                 System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
-                return;
+                continue;
             }
 
             if (roomIndex == -1) {
                 System.out.println("Error: No room found with the ID '" + roomId + "'.");
-                return;
+                continue;
             }
 
-            // Check if this room has active allocations
+            boolean hasAllocations = false;
             for (int i = 0; i < countofallocations; i++) {
                 if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
-                    System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
-                    return;
+                    hasAllocations = true;
+                    break;
                 }
+            }
+
+            if (hasAllocations) {
+                System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
+                continue;
             }
 
             // Compact array (shift rows up)
@@ -1098,20 +1103,26 @@ public class HostelMate {
 
             if (id.isEmpty()) {
                 System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
-                return;
+                continue;
             }
 
             if (ids == -1) {
                 System.out.println("Error: No student found with the ID '" + id + "'.");
-                return;
+                continue;
             }
 
             // Check for active allocations
+            boolean hasAllocation = false;
             for (int i = 0; i < countofallocations; i++) {
                 if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(id)) {
-                    System.out.println("Error: Cannot delete student '" + id + " active room allocations exist.");
-                    return;
+                    hasAllocation = true;
+                    break;
                 }
+            }
+
+            if (hasAllocation) {
+                System.out.println("Error: Cannot delete student '" + id + "' because active room allocations exist.");
+                continue; // ask again instead of returning
             }
 
             for (int i = ids; i < countofstudents - 1; i++) {
