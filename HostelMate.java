@@ -1458,13 +1458,13 @@ public class HostelMate {
 
             if (studentId.isEmpty() || roomId.isEmpty()) {
                 System.out.println("Error: Student ID or Room ID cannot be empty. Please enter valid values.");
-                return;
+                continue;
             }
 
             if (allocationIndex == -1) {
                 System.out.println(
                         "Error: No active allocation found for Student '" + studentId + "' in Room '" + roomId + "'.");
-                return;
+                continue;
             }
 
             String bedIndexStr = allocations[allocationIndex][2];
@@ -1562,13 +1562,13 @@ public class HostelMate {
 
             if (studentId.isEmpty() || fromRoomId.isEmpty() || toRoomId.isEmpty()) {
                 System.out.println("Error: All fields (Student ID, From Room, To Room) are required.");
-                return;
+                continue;
             }
 
             if (allocationIndex == -1) {
                 System.out.println("Error: No active bed allocation found for Student '" + studentId + "' in Room '"
                         + fromRoomId + "'.");
-                return;
+                continue;
             }
 
             // 2. Find fromRoom index
@@ -1583,7 +1583,7 @@ public class HostelMate {
             if (fromRoomIndex == -1) {
                 System.out.println(
                         "The specified source room ('" + fromRoomId + "') could not be located in the system records.");
-                return;
+                continue;
             }
 
             int toRoomIndex = -1;
@@ -1598,13 +1598,13 @@ public class HostelMate {
                 System.out.println(
                         "The specified destination room ('" + toRoomId
                                 + "') could not be located in the system records.");
-                return;
+                continue;
             }
 
             int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
             if (toRoomAvailableBeds <= 0) {
                 System.out.println("Error: No available beds in Room '" + toRoomId + "'.");
-                return;
+                continue;
             }
 
             int toRoomCapacity = Integer.parseInt(rooms[toRoomIndex][3]);
@@ -1619,7 +1619,7 @@ public class HostelMate {
 
             if (newBedIndex == -1) {
                 System.out.println("Error: No empty bed slots found in Room '" + toRoomId + "'.");
-                return;
+                continue;
             }
 
             int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
@@ -1630,7 +1630,7 @@ public class HostelMate {
             if (today.compareTo(dueDate) > 0) {
                 System.out.println(
                         "Error: Transfer not allowed. The student's due date has already passed (" + dueDate + ").");
-                return;
+                continue;
             }
 
             occupancy[fromRoomIndex][oldBedIndex] = null;
