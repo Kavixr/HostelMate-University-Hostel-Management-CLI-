@@ -1508,7 +1508,7 @@ public class HostelMate {
         System.out.println("Student ID                      : " + studentId);
         System.out.println("Room ID                         : " + roomId);
         System.out.println("Bed Index                       : " + (bedIndex + 1));
-        System.out.println("Available Beds (" + roomId + ")   : " + availableBeds);
+        System.out.println("Available Beds (" + roomId + ")        : " + availableBeds);
         System.out.println("---------------------------------------------------------");
 
     }
@@ -1607,6 +1607,13 @@ public class HostelMate {
         int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
         String checkInDate = allocations[allocationIndex][3];
         String dueDate = allocations[allocationIndex][4];
+
+        String today = LocalDate.now().toString();
+        if (today.compareTo(dueDate) > 0) {
+            System.out.println(
+                    "Error: Transfer not allowed. The student's due date has already passed (" + dueDate + ").");
+            return;
+        }
 
         occupancy[fromRoomIndex][oldBedIndex] = null;
 
@@ -1754,7 +1761,7 @@ public class HostelMate {
             }
 
             if (!alreadyExists) {
-                floors[floorCount++] = floorNo; 
+                floors[floorCount++] = floorNo;
             }
         }
 
@@ -1787,6 +1794,8 @@ public class HostelMate {
         System.out.printf("%-10s %-8s %-20s%n", "Room", "Count", "Students");
         System.out.println("------------------------------------------------------");
 
+        boolean found = false;
+
         for (int i = 0; i < countofrooms; i++) {
             int capacity = Integer.parseInt(rooms[i][3]);
             String roomId = rooms[i][0];
@@ -1808,6 +1817,10 @@ public class HostelMate {
                 System.out.printf("%-10s %-8d %-20s%n", roomId, count, studentsList);
             }
         }
+        if (!found) {
+            System.out.println("No occupied rooms found in the system.");
+        }
+
         System.out.println("------------------------------------------------------");
     }
 
