@@ -539,20 +539,25 @@ public class HostelMate {
 
             if (roomId.isEmpty()) {
                 System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
-                return;
+                continue;
             }
 
             if (roomIndex == -1) {
                 System.out.println("Error: No room found with the ID '" + roomId + "'.");
-                return;
+                continue;
             }
 
-            // Check if this room has active allocations
+            boolean hasAllocations = false;
             for (int i = 0; i < countofallocations; i++) {
                 if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
-                    System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
-                    return;
+                    hasAllocations = true;
+                    break;
                 }
+            }
+
+            if (hasAllocations) {
+                System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
+                continue;
             }
 
             // Compact array (shift rows up)
@@ -1098,20 +1103,26 @@ public class HostelMate {
 
             if (id.isEmpty()) {
                 System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
-                return;
+                continue;
             }
 
             if (ids == -1) {
                 System.out.println("Error: No student found with the ID '" + id + "'.");
-                return;
+                continue;
             }
 
             // Check for active allocations
+            boolean hasAllocation = false;
             for (int i = 0; i < countofallocations; i++) {
                 if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(id)) {
-                    System.out.println("Error: Cannot delete student '" + id + " active room allocations exist.");
-                    return;
+                    hasAllocation = true;
+                    break;
                 }
+            }
+
+            if (hasAllocation) {
+                System.out.println("Error: Cannot delete student '" + id + "' because active room allocations exist.");
+                continue; // ask again instead of returning
             }
 
             for (int i = ids; i < countofstudents - 1; i++) {
@@ -1429,10 +1440,10 @@ public class HostelMate {
         System.out.println("-----------------------------------------\n");
 
         while (true) {
-            System.out.print("Enter Student ID                : ");
+            System.out.print("Enter Student ID            : ");
             String studentId = input.nextLine();
 
-            System.out.print("Enter Room ID                   : ");
+            System.out.print("Enter Room ID               : ");
             String roomId = input.nextLine();
 
             int allocationIndex = -1;
@@ -1447,13 +1458,13 @@ public class HostelMate {
 
             if (studentId.isEmpty() || roomId.isEmpty()) {
                 System.out.println("Error: Student ID or Room ID cannot be empty. Please enter valid values.");
-                return;
+                continue;
             }
 
             if (allocationIndex == -1) {
                 System.out.println(
                         "Error: No active allocation found for Student '" + studentId + "' in Room '" + roomId + "'.");
-                return;
+                continue;
             }
 
             String bedIndexStr = allocations[allocationIndex][2];
@@ -1470,6 +1481,8 @@ public class HostelMate {
                 }
             }
 
+            // ***Change your laptop date to a date later than the due date and check the
+            // overdue logic.
             int overdueDays = 0;
             double fine = 0.0;
 
@@ -1483,6 +1496,8 @@ public class HostelMate {
                 // Calculate fine
                 fine = overdueDays * feePerDay;
 
+                // ***Change your laptop date to a date later than the due date and check the
+                // overdue logic.
                 System.out.println("\n-----------------------------------------");
                 System.out.println("Overdue Information");
                 System.out.println("-----------------------------------------");
@@ -1527,52 +1542,93 @@ public class HostelMate {
         System.out.println("-----------------------------------------\n");
 
         while (true) {
-            System.out.print("Enter Student ID           : ");
-            String studentId = input.nextLine();
+            String studentId;
+            int studentIndex = -1;
+            while (true) {
+                System.out.print("Enter Student ID           : ");
+                studentId = input.nextLine();
 
-            // Get From Room
-            System.out.print("From Room ID               : ");
-            String fromRoomId = input.nextLine();
-
-            // Get To Room
-            System.out.print("To Room ID                 : ");
-            String toRoomId = input.nextLine();
-
-            // 1. Find the allocation for this student in fromRoom
-            int allocationIndex = -1;
-            for (int i = 0; i < countofallocations; i++) {
-                if (allocations[i][0] != null &&
-                        allocations[i][0].equalsIgnoreCase(studentId) &&
-                        allocations[i][1].equalsIgnoreCase(fromRoomId)) {
-                    allocationIndex = i;
-                    break;
+                if (studentId.isEmpty()) {
+                    System.out.println("Error: Student ID cannot be empty. Please enter a valid Student ID.");
+                    continue;
                 }
+
+                studentIndex = -1;
+                for (int i = 0; i < countofstudents; i++) {
+                    if (students[i][0].equalsIgnoreCase(studentId)) {
+                        studentIndex = i;
+                        break;
+                    }
+                }
+
+                if (studentIndex == -1) {
+                    System.out.println("Error: Student ID '" + studentId + "' is not registered in the system.");
+                    continue;
+                }
+                break;
             }
 
-            if (studentId.isEmpty() || fromRoomId.isEmpty() || toRoomId.isEmpty()) {
-                System.out.println("Error: All fields (Student ID, From Room, To Room) are required.");
-                return;
+            String fromRoomId;
+            int allocationIndex = -1;
+            while (true) {
+                System.out.print("From Room ID               : ");
+                fromRoomId = input.nextLine();
+
+                if (fromRoomId.isEmpty()) {
+                    System.out.println("Error: From Room ID cannot be empty. Please enter a valid Room ID.");
+                    continue;
+                }
+
+                allocationIndex = -1;
+                for (int i = 0; i < countofallocations; i++) {
+                    if (allocations[i][0] != null &&
+                            allocations[i][0].equalsIgnoreCase(studentId) &&
+                            allocations[i][1].equalsIgnoreCase(fromRoomId)) {
+                        allocationIndex = i;
+                        break;
+                    }
+                }
+
+                if (allocationIndex == -1) {
+                    System.out.println("Error: No active bed allocation found for Student '" + studentId +
+                            "' in Room '" + fromRoomId + "'.");
+                    continue;
+                }
+                break;
             }
 
-            if (allocationIndex == -1) {
-                System.out.println("Error: No active bed allocation found for Student '" + studentId + "' in Room '"
-                        + fromRoomId + "'.");
-                return;
+            String toRoomId;
+            while (true) {
+                System.out.print("To Room ID                 : ");
+                toRoomId = input.nextLine();
+
+                if (toRoomId.isEmpty()) {
+                    System.out.println("Error: To Room ID cannot be empty. Please enter a valid Room ID.");
+                    continue;
+                }
+
+                boolean roomExists = false;
+                for (int i = 0; i < countofrooms; i++) {
+                    if (rooms[i][0].equalsIgnoreCase(toRoomId)) {
+                        roomExists = true;
+                        break;
+                    }
+                }
+
+                if (!roomExists) {
+                    System.out.println("The specified destination room ('" + toRoomId
+                            + "') could not be located in the system records.");
+                    continue;
+                }
+                break;
             }
 
-            // 2. Find fromRoom index
             int fromRoomIndex = -1;
             for (int i = 0; i < countofrooms; i++) {
                 if (rooms[i][0].equalsIgnoreCase(fromRoomId)) {
                     fromRoomIndex = i;
                     break;
                 }
-            }
-
-            if (fromRoomIndex == -1) {
-                System.out.println(
-                        "The specified source room ('" + fromRoomId + "') could not be located in the system records.");
-                return;
             }
 
             int toRoomIndex = -1;
@@ -1583,17 +1639,10 @@ public class HostelMate {
                 }
             }
 
-            if (toRoomIndex == -1) {
-                System.out.println(
-                        "The specified destination room ('" + toRoomId
-                                + "') could not be located in the system records.");
-                return;
-            }
-
             int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
             if (toRoomAvailableBeds <= 0) {
                 System.out.println("Error: No available beds in Room '" + toRoomId + "'.");
-                return;
+                continue;
             }
 
             int toRoomCapacity = Integer.parseInt(rooms[toRoomIndex][3]);
@@ -1608,7 +1657,7 @@ public class HostelMate {
 
             if (newBedIndex == -1) {
                 System.out.println("Error: No empty bed slots found in Room '" + toRoomId + "'.");
-                return;
+                continue;
             }
 
             int oldBedIndex = Integer.parseInt(allocations[allocationIndex][2]);
@@ -1619,7 +1668,7 @@ public class HostelMate {
             if (today.compareTo(dueDate) > 0) {
                 System.out.println(
                         "Error: Transfer not allowed. The student's due date has already passed (" + dueDate + ").");
-                return;
+                continue;
             }
 
             occupancy[fromRoomIndex][oldBedIndex] = null;
@@ -1722,6 +1771,8 @@ public class HostelMate {
     }
 
     private static void occupancyMapReport() {
+        String bedDisplay;
+
         System.out.println("\n-----------------------------------------");
         System.out.println("           OCCUPANCY MAP (Grid)          ");
         System.out.println("-----------------------------------------");
@@ -1734,12 +1785,11 @@ public class HostelMate {
             int capacity = Integer.parseInt(rooms[i][3]);
             for (int bed = 0; bed < capacity; bed++) {
                 if (occupancy[i][bed] != null)
-                    System.out.printf("[%s]", occupancy[i][bed]);
+                    bedDisplay = "[" + occupancy[i][bed] + "]";
                 else
-                    System.out.print("[empty]");
+                    bedDisplay = "[empty]";
 
-                if (bed < capacity - 1)
-                    System.out.print(" | ");
+                System.out.printf("%-10s", bedDisplay);
             }
             System.out.println();
         }
