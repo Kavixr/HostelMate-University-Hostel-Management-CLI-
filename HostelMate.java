@@ -1523,7 +1523,7 @@ public class HostelMate {
         System.out.println("             TRANSFER STUDENT            ");
         System.out.println("-----------------------------------------\n");
 
-        // Get Student ID
+        while (true) {
         System.out.print("Enter Student ID           : ");
         String studentId = input.nextLine();
 
@@ -1648,6 +1648,8 @@ public class HostelMate {
         System.out.println(" - " + fromRoomId + " -> " + fromRoomAvailableBeds + " beds remaining");
         System.out.println(" - " + toRoomId + " -> " + toRoomAvailableBeds + " beds remaining");
         System.out.println("-----------------------------------------");
+        break;
+    }
     }
 
     private static void viewReports() {
