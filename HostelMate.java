@@ -525,45 +525,48 @@ public class HostelMate {
         System.out.println("              DELETE ROOM                ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Room ID to delete       : ");
-        String roomId = input.nextLine();
+        while (true) {
+            System.out.print("Enter Room ID to delete     : ");
+            String roomId = input.nextLine();
 
-        int roomIndex = -1;
-        for (int i = 0; i < countofrooms; i++) {
-            if (rooms[i][0].equalsIgnoreCase(roomId)) {
-                roomIndex = i;
-                break;
+            int roomIndex = -1;
+            for (int i = 0; i < countofrooms; i++) {
+                if (rooms[i][0].equalsIgnoreCase(roomId)) {
+                    roomIndex = i;
+                    break;
+                }
             }
-        }
 
-        if (roomId.isEmpty()) {
-            System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
-            return;
-        }
-
-        if (roomIndex == -1) {
-            System.out.println("Error: No room found with the ID '" + roomId + "'.");
-            return;
-        }
-
-        // Check if this room has active allocations
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
-                System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
+            if (roomId.isEmpty()) {
+                System.out.println("Error: Room ID cannot be empty. Please enter a valid Room ID.");
                 return;
             }
-        }
 
-        // Compact array (shift rows up)
-        for (int i = roomIndex; i < countofrooms - 1; i++) {
-            rooms[i] = rooms[i + 1];
-        }
+            if (roomIndex == -1) {
+                System.out.println("Error: No room found with the ID '" + roomId + "'.");
+                return;
+            }
 
-        countofrooms--;
-        System.out.println("\nRoom deleted successfully!");
-        System.out.println("-----------------------------------------");
-        System.out.println("Deleted Room ID : " + roomId);
-        System.out.println("-----------------------------------------");
+            // Check if this room has active allocations
+            for (int i = 0; i < countofallocations; i++) {
+                if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
+                    System.out.println("Error: Cannot delete room '" + roomId + "' as active allocations exist.");
+                    return;
+                }
+            }
+
+            // Compact array (shift rows up)
+            for (int i = roomIndex; i < countofrooms - 1; i++) {
+                rooms[i] = rooms[i + 1];
+            }
+
+            countofrooms--;
+            System.out.println("\nRoom deleted successfully!");
+            System.out.println("-----------------------------------------");
+            System.out.println("Deleted Room ID : " + roomId);
+            System.out.println("-----------------------------------------");
+            break;
+        }
     }
 
     private static void searchRoom() {
@@ -1081,46 +1084,48 @@ public class HostelMate {
         System.out.println("             DELETE STUDENT               ");
         System.out.println("-----------------------------------------\n");
 
-        System.out.print("Enter Student ID      : ");
-        id = input.nextLine().trim();
+        while (true) {
+            System.out.print("Enter Student ID    : ");
+            id = input.nextLine().trim();
 
-        int ids = -1;
-        for (int i = 0; i < countofstudents; i++) {
-            if (students[i][0].equalsIgnoreCase(id)) {
-                ids = i;
-                break;
+            int ids = -1;
+            for (int i = 0; i < countofstudents; i++) {
+                if (students[i][0].equalsIgnoreCase(id)) {
+                    ids = i;
+                    break;
+                }
             }
-        }
 
-        if (id.isEmpty()) {
-            System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
-            return;
-        }
-
-        if (ids == -1) {
-            System.out.println("Error: No student found with the ID '" + id + "'.");
-            return;
-        }
-
-        // Check for active allocations
-        for (int i = 0; i < countofallocations; i++) {
-            if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(id)) {
-                System.out.println("Error: Cannot delete student '" + id + " active room allocations exist.");
+            if (id.isEmpty()) {
+                System.out.println("Error: Student ID cannot be empty. Please enter a valid ID.");
                 return;
             }
+
+            if (ids == -1) {
+                System.out.println("Error: No student found with the ID '" + id + "'.");
+                return;
+            }
+
+            // Check for active allocations
+            for (int i = 0; i < countofallocations; i++) {
+                if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(id)) {
+                    System.out.println("Error: Cannot delete student '" + id + " active room allocations exist.");
+                    return;
+                }
+            }
+
+            for (int i = ids; i < countofstudents - 1; i++) {
+                students[i] = students[i + 1];
+            }
+
+            countofstudents--;
+
+            System.out.println("\nStudent deleted successfully!");
+            System.out.println("-----------------------------------------");
+            System.out.println("Deleted Student ID : " + id);
+            System.out.println("-----------------------------------------");
+            break;
         }
-
-        //
-        for (int i = ids; i < countofstudents - 1; i++) {
-            students[i] = students[i + 1];
-        }
-
-        countofstudents--;
-
-        System.out.println("\nStudent deleted successfully!");
-        System.out.println("-----------------------------------------");
-        System.out.println("Deleted Student ID : " + id);
-        System.out.println("-----------------------------------------");
 
     }
 
@@ -1519,15 +1524,15 @@ public class HostelMate {
         System.out.println("-----------------------------------------\n");
 
         // Get Student ID
-        System.out.print("Enter Student ID               : ");
+        System.out.print("Enter Student ID           : ");
         String studentId = input.nextLine();
 
         // Get From Room
-        System.out.print("From Room ID                   : ");
+        System.out.print("From Room ID               : ");
         String fromRoomId = input.nextLine();
 
         // Get To Room
-        System.out.print("To Room ID                     : ");
+        System.out.print("To Room ID                 : ");
         String toRoomId = input.nextLine();
 
         // 1. Find the allocation for this student in fromRoom
@@ -1592,7 +1597,7 @@ public class HostelMate {
 
         for (int bed = 0; bed < toRoomCapacity; bed++) {
             if (occupancy[toRoomIndex][bed] == null || occupancy[toRoomIndex][bed].equalsIgnoreCase("EMPTY")) {
-                newBedIndex = bed; 
+                newBedIndex = bed;
                 break;
             }
         }
@@ -1640,8 +1645,8 @@ public class HostelMate {
         System.out.println("Transfer Date    : " + transferDate);
         System.out.println("-----------------------------------------");
         System.out.println("Available Beds   :");
-        System.out.println(" - " + fromRoomId + " → " + fromRoomAvailableBeds + " beds remaining");
-        System.out.println(" - " + toRoomId + " → " + toRoomAvailableBeds + " beds remaining");
+        System.out.println(" - " + fromRoomId + " -> " + fromRoomAvailableBeds + " beds remaining");
+        System.out.println(" - " + toRoomId + " -> " + toRoomAvailableBeds + " beds remaining");
         System.out.println("-----------------------------------------");
     }
 
