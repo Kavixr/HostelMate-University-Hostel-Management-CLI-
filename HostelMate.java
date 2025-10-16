@@ -1820,6 +1820,7 @@ public class HostelMate {
                 }
 
                 System.out.printf("%-10s %-8d %-20s%n", roomId, count, studentsList);
+                found = true;
             }
         }
         if (!found) {
