@@ -19,6 +19,7 @@ public class HostelMate {
 
     public static void main(String[] args) {
 
+        preloadSampleData();
         login();
         home();
     }
@@ -1023,7 +1024,7 @@ public class HostelMate {
             int lastDotIndex = newemail.lastIndexOf('.');
 
             if (atIndex < 1 || lastDotIndex < atIndex + 2 || lastDotIndex == newemail.length() - 1) {
-                System.out.println("Error: Invalid email format. Example: w2051567@westminster.ac.uk\n");
+                System.out.println("Error: Invalid email format.\n");
                 continue;
             }
 
@@ -1105,12 +1106,12 @@ public class HostelMate {
         // Check for active allocations
         for (int i = 0; i < countofallocations; i++) {
             if (allocations[i][0] != null && allocations[i][0].equalsIgnoreCase(id)) {
-                System.out.println("Error: Cannot delete student '" + id + "' — active room allocations exist.");
+                System.out.println("Error: Cannot delete student '" + id + " active room allocations exist.");
                 return;
             }
         }
 
-        // Shift student records up to fill the deleted spot
+        //
         for (int i = ids; i < countofstudents - 1; i++) {
             students[i] = students[i + 1];
         }
@@ -1368,20 +1369,27 @@ public class HostelMate {
 
         }
 
-        // Find an available bed
         int availableBeds = Integer.parseInt(rooms[roomIndex][5]);
         int capacity = Integer.parseInt(rooms[roomIndex][3]);
-        int bedIndex = -1;
+        boolean[] bedOccupied = new boolean[capacity];
 
-        for (int bed = 0; bed < capacity; bed++) {
-            if (occupancy[roomIndex][bed] == null) {
-                bedIndex = bed;
+        for (int i = 0; i < countofallocations; i++) {
+            if (allocations[i][1] != null && allocations[i][1].equalsIgnoreCase(roomId)) {
+                int bedNum = Integer.parseInt(allocations[i][2]);
+                bedOccupied[bedNum] = true;
+            }
+        }
+
+        int bedIndex = -1;
+        for (int i = 0; i < capacity; i++) {
+            if (!bedOccupied[i]) {
+                bedIndex = i;
                 break;
             }
         }
 
         if (bedIndex == -1) {
-            System.out.println("Error: No free beds found even though available beds > 0.");
+            System.out.println("Error: No available beds in this room.");
             return;
         }
 
@@ -1403,7 +1411,7 @@ public class HostelMate {
         System.out.println("-----------------------------------------");
         System.out.println("Student ID       : " + studentId);
         System.out.println("Room ID          : " + roomId);
-        System.out.println("Allocated Bed No : " + (bedIndex + 1));
+        System.out.println("Allocated Bed No : " + (bedIndex));
         // System.out.println("Check-In Date : " + checkInDate);
         System.out.println("Due Date         : " + dueDate);
         System.out.println("Available Beds   : " + (availableBeds - 1));
@@ -1699,28 +1707,31 @@ public class HostelMate {
     }
 
     private static void occupancyMapReport() {
-        System.out.println("\n-----------------------------------------");
-        System.out.println("           OCCUPANCY MAP (Grid)          ");
-        System.out.println("-----------------------------------------");
 
-        for (int i = 0; i < countofrooms; i++) {
-            System.out.print("RoomRow " + i + " [");
+    System.out.println("\n╔══════════════════════════════════════════════════════════════════════════╗");
+    System.out.println("║                     HOSTEL OCCUPANCY MAP (Grid View)                     ║");
+    System.out.println("╚══════════════════════════════════════════════════════════════════════════╝");
+    System.out.printf("%-10s │ %-8s │ %-60s%n", "Room ID", "Capacity", "Bed Status");
+    System.out.println("───────────────────────────────────────────────────────────────────────────────");
 
-            int capacity = Integer.parseInt(rooms[i][3]);
-            for (int bed = 0; bed < capacity; bed++) {
-                if (occupancy[i][bed] != null)
-                    System.out.print(occupancy[i][bed]);
-                else
-                    System.out.print("EMPTY");
+    for (int i = 0; i < countofrooms; i++) {
+        String roomId = rooms[i][0];
+        int capacity = Integer.parseInt(rooms[i][3]);
+        StringBuilder bedRow = new StringBuilder();
 
-                if (bed < capacity - 1)
-                    System.out.print(", ");
-            }
-
-            System.out.println("]");
+        for (int bed = 0; bed < capacity; bed++) {
+            if (occupancy[i][bed] != null)
+                bedRow.append(String.format("[%-5s]", occupancy[i][bed]));
+            else
+                bedRow.append("[ EMPTY ]");
+            if (bed < capacity - 1)
+                bedRow.append(" ");
         }
-        System.out.println("-----------------------------------------");
+        System.out.printf("%-10s │ %-8d │ %-60s%n", roomId, capacity, bedRow.toString());
     }
+    System.out.println("───────────────────────────────────────────────────────────────────────────────");
+}
+
 
     private static void vacantBedsByFloorReport() {
         System.out.println("\n-----------------------------------------");
@@ -1884,6 +1895,55 @@ public class HostelMate {
         int endTotalDays = endYear * 365 + endMonth * 30 + endDay;
 
         return endTotalDays - startTotalDays;
+    }
+
+    private static void preloadSampleData() {
+    // --- Dummy Rooms ---
+    rooms[countofrooms][0] = "R001";
+    rooms[countofrooms][1] = "1";          // Floor
+    rooms[countofrooms][2] = "101";        // Room No
+    rooms[countofrooms][3] = "4";          // Capacity
+    rooms[countofrooms][4] = "1500.00";    // Fee per day
+    rooms[countofrooms][5] = "4";          // Available beds
+    countofrooms++;
+
+    rooms[countofrooms][0] = "R002";
+    rooms[countofrooms][1] = "1";
+    rooms[countofrooms][2] = "102";
+    rooms[countofrooms][3] = "5";
+    rooms[countofrooms][4] = "1800.00";
+    rooms[countofrooms][5] = "5";
+    countofrooms++;
+
+    rooms[countofrooms][0] = "R003";
+    rooms[countofrooms][1] = "2";
+    rooms[countofrooms][2] = "201";
+    rooms[countofrooms][3] = "7";
+    rooms[countofrooms][4] = "2000.00";
+    rooms[countofrooms][5] = "7";
+    countofrooms++;
+
+    // --- Dummy Students ---
+    students[countofstudents][0] = "S001";
+    students[countofstudents][1] = "Nimal Perera";
+    students[countofstudents][2] = "0712345678";
+    students[countofstudents][3] = "nimalp@example.com";
+    students[countofstudents][4] = "Active";
+    countofstudents++;
+
+    students[countofstudents][0] = "S002";
+    students[countofstudents][1] = "Kavindu Rajapaksha";
+    students[countofstudents][2] = "0776543210";
+    students[countofstudents][3] = "kavindu@example.com";
+    students[countofstudents][4] = "Active";
+    countofstudents++;
+
+    students[countofstudents][0] = "S003";
+    students[countofstudents][1] = "Dilshan Fernando";
+    students[countofstudents][2] = "0701112233";
+    students[countofstudents][3] = "dilshan@example.com";
+    students[countofstudents][4] = "Active";
+    countofstudents++;
     }
 
 }
