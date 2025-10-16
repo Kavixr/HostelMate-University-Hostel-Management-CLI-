@@ -19,7 +19,6 @@ public class HostelMate {
 
     public static void main(String[] args) {
 
-        preloadSampleData();
         login();
         home();
     }
@@ -1707,31 +1706,30 @@ public class HostelMate {
     }
 
     private static void occupancyMapReport() {
+        System.out.println("\n-----------------------------------------");
+        System.out.println("           OCCUPANCY MAP (Grid)          ");
+        System.out.println("-----------------------------------------");
+        System.out.printf("%-10s %-60s%n", "Room ID", "Beds");
+        System.out.println("-----------------------------------------");
 
-    System.out.println("\n╔══════════════════════════════════════════════════════════════════════════╗");
-    System.out.println("║                     HOSTEL OCCUPANCY MAP (Grid View)                     ║");
-    System.out.println("╚══════════════════════════════════════════════════════════════════════════╝");
-    System.out.printf("%-10s │ %-8s │ %-60s%n", "Room ID", "Capacity", "Bed Status");
-    System.out.println("───────────────────────────────────────────────────────────────────────────────");
+        for (int i = 0; i < countofrooms; i++) {
+            System.out.printf("%-10s ", rooms[i][0]);
 
-    for (int i = 0; i < countofrooms; i++) {
-        String roomId = rooms[i][0];
-        int capacity = Integer.parseInt(rooms[i][3]);
-        StringBuilder bedRow = new StringBuilder();
+            int capacity = Integer.parseInt(rooms[i][3]);
+            for (int bed = 0; bed < capacity; bed++) {
+                if (occupancy[i][bed] != null)
+                    System.out.printf("[%s]", occupancy[i][bed]);
+                else
+                    System.out.print("[empty]");
 
-        for (int bed = 0; bed < capacity; bed++) {
-            if (occupancy[i][bed] != null)
-                bedRow.append(String.format("[%-5s]", occupancy[i][bed]));
-            else
-                bedRow.append("[ EMPTY ]");
-            if (bed < capacity - 1)
-                bedRow.append(" ");
+                if (bed < capacity - 1)
+                    System.out.print(" | ");
+            }
+            System.out.println();
         }
-        System.out.printf("%-10s │ %-8d │ %-60s%n", roomId, capacity, bedRow.toString());
-    }
-    System.out.println("───────────────────────────────────────────────────────────────────────────────");
-}
 
+        System.out.println("-----------------------------------------");
+    }
 
     private static void vacantBedsByFloorReport() {
         System.out.println("\n-----------------------------------------");
@@ -1741,8 +1739,27 @@ public class HostelMate {
                 "Floor", "TotalRooms", "TotalBeds", "Occupied", "Vacant");
         System.out.println("-----------------------------------------------------------");
 
-        // Collect floor-wise data manually
-        for (int f = 1; f <= 10; f++) { // assume max 10 floors
+        int[] floors = new int[countofrooms];
+        int floorCount = 0;
+
+        for (int i = 0; i < countofrooms; i++) {
+            int floorNo = Integer.parseInt(rooms[i][1]);
+            boolean alreadyExists = false;
+
+            for (int j = 0; j < floorCount; j++) {
+                if (floors[j] == floorNo) {
+                    alreadyExists = true;
+                    break;
+                }
+            }
+
+            if (!alreadyExists) {
+                floors[floorCount++] = floorNo; 
+            }
+        }
+
+        for (int fIndex = 0; fIndex < floorCount; fIndex++) {
+            int f = floors[fIndex];
             int totalRooms = 0, totalBeds = 0, occupied = 0, vacant = 0;
 
             for (int i = 0; i < countofrooms; i++) {
@@ -1756,11 +1773,10 @@ public class HostelMate {
                 }
             }
 
-            if (totalRooms > 0) {
-                System.out.printf("%-8d %-12d %-12d %-12d %-12d%n",
-                        f, totalRooms, totalBeds, occupied, vacant);
-            }
+            System.out.printf("%-8d %-12d %-12d %-12d %-12d%n",
+                    f, totalRooms, totalBeds, occupied, vacant);
         }
+
         System.out.println("-----------------------------------------------------------");
     }
 
@@ -1785,7 +1801,6 @@ public class HostelMate {
             }
 
             if (count > 0) {
-                // remove last comma
                 if (studentsList.endsWith(",")) {
                     studentsList = studentsList.substring(0, studentsList.length() - 1);
                 }
@@ -1895,55 +1910,6 @@ public class HostelMate {
         int endTotalDays = endYear * 365 + endMonth * 30 + endDay;
 
         return endTotalDays - startTotalDays;
-    }
-
-    private static void preloadSampleData() {
-    // --- Dummy Rooms ---
-    rooms[countofrooms][0] = "R001";
-    rooms[countofrooms][1] = "1";          // Floor
-    rooms[countofrooms][2] = "101";        // Room No
-    rooms[countofrooms][3] = "4";          // Capacity
-    rooms[countofrooms][4] = "1500.00";    // Fee per day
-    rooms[countofrooms][5] = "4";          // Available beds
-    countofrooms++;
-
-    rooms[countofrooms][0] = "R002";
-    rooms[countofrooms][1] = "1";
-    rooms[countofrooms][2] = "102";
-    rooms[countofrooms][3] = "5";
-    rooms[countofrooms][4] = "1800.00";
-    rooms[countofrooms][5] = "5";
-    countofrooms++;
-
-    rooms[countofrooms][0] = "R003";
-    rooms[countofrooms][1] = "2";
-    rooms[countofrooms][2] = "201";
-    rooms[countofrooms][3] = "7";
-    rooms[countofrooms][4] = "2000.00";
-    rooms[countofrooms][5] = "7";
-    countofrooms++;
-
-    // --- Dummy Students ---
-    students[countofstudents][0] = "S001";
-    students[countofstudents][1] = "Nimal Perera";
-    students[countofstudents][2] = "0712345678";
-    students[countofstudents][3] = "nimalp@example.com";
-    students[countofstudents][4] = "Active";
-    countofstudents++;
-
-    students[countofstudents][0] = "S002";
-    students[countofstudents][1] = "Kavindu Rajapaksha";
-    students[countofstudents][2] = "0776543210";
-    students[countofstudents][3] = "kavindu@example.com";
-    students[countofstudents][4] = "Active";
-    countofstudents++;
-
-    students[countofstudents][0] = "S003";
-    students[countofstudents][1] = "Dilshan Fernando";
-    students[countofstudents][2] = "0701112233";
-    students[countofstudents][3] = "dilshan@example.com";
-    students[countofstudents][4] = "Active";
-    countofstudents++;
     }
 
 }
