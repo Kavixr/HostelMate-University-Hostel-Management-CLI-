@@ -1567,7 +1567,6 @@ public class HostelMate {
             return;
         }
 
-        // 3. Find toRoom index
         int toRoomIndex = -1;
         for (int i = 0; i < countofrooms; i++) {
             if (rooms[i][0].equalsIgnoreCase(toRoomId)) {
@@ -1582,7 +1581,6 @@ public class HostelMate {
             return;
         }
 
-        // 4. Check if toRoom has available beds
         int toRoomAvailableBeds = Integer.parseInt(rooms[toRoomIndex][5]);
         if (toRoomAvailableBeds <= 0) {
             System.out.println("Error: No available beds in Room '" + toRoomId + "'.");
@@ -1593,8 +1591,8 @@ public class HostelMate {
         int newBedIndex = -1;
 
         for (int bed = 0; bed < toRoomCapacity; bed++) {
-            if (occupancy[toRoomIndex][bed] == null) {
-                newBedIndex = bed;
+            if (occupancy[toRoomIndex][bed] == null || occupancy[toRoomIndex][bed].equalsIgnoreCase("EMPTY")) {
+                newBedIndex = bed; 
                 break;
             }
         }
@@ -1636,7 +1634,7 @@ public class HostelMate {
         System.out.println("Student ID       : " + studentId);
         System.out.println("From Room        : " + fromRoomId);
         System.out.println("To Room          : " + toRoomId);
-        System.out.println("New Bed Index    : " + (newBedIndex + 1));
+        System.out.println("New Bed Index    : " + (newBedIndex));
         System.out.println("Check-In Date    : " + checkInDate);
         System.out.println("Due Date         : " + dueDate);
         System.out.println("Transfer Date    : " + transferDate);
