@@ -59,6 +59,36 @@ Enter your choice: 1
 
 ---
 
+# 🏢 3. Manage Rooms Module
+
+This module helps administrators manage all aspects of hostel rooms. It supports adding new rooms, modifying existing ones, deleting old rooms, and generating an overview of all rooms. It ensures data integrity and avoids duplication.
+
+### ⚙️ Functionalities
+| Option | Function | Description |
+|:--:|:--|:--|
+| 1 | ➕ **Add Room** | Register a new room with details such as ID, floor, number, capacity, and fee. |
+| 2 | ✏️ **Update Room** | Modify room capacity or fee details without affecting existing allocations. |
+| 3 | ❌ **Delete Room** | Remove a room that has no active student allocations. |
+| 4 | 🔍 **Search Room** | Search for rooms by ID to view complete details. |
+| 5 | 📋 **View All Rooms** | Display all registered rooms in table form. |
+| 6 | 🔁 **Sort Rooms** | Sort rooms based on available beds (descending order). |
+| 7 | 🔙 **Back** | Return to the main menu. |
+
+### ➕ Add Room – Detailed Description
+The **Add Room** feature ensures that each room added to the system is unique. Room IDs must not duplicate, room numbers cannot be repeated on the same floor, and capacity/fee inputs must be numeric. Invalid entries trigger descriptive error messages.
+
+#### 💬 Example Output
+```
+>>> Add Room <<<
+Room ID: R101
+Floor: 1
+Room No: 102
+Capacity: 3
+Fee/Day (LKR): 500
+Room added successfully. Available beds: 3
+```
+
+
 
 
 
