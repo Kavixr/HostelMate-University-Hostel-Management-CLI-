@@ -31,3 +31,34 @@ Authentication complete. Hello, kavindu! Welcome to HostelMate.
 ```
 
 ---
+
+## 🏠 2. Home Page (Main Menu)
+
+The **Home Menu** is the navigation hub of the system, providing access to every core module. Each selection routes the user to specific management areas. Input validation ensures that users provide correct numeric choices.
+
+### ✨ Features
+- Displays all major management categories clearly  
+- Ensures numeric input and re-prompts for invalid choices  
+- Returns back to the main menu upon task completion  
+
+### 💬 Sample Console Output
+```
+==============================================
+||           HOSTELMATE MAIN MENU           ||
+==============================================
+  [1] Manage Rooms
+  [2] Manage Students
+  [3] Allocate Bed
+  [4] Vacate Bed
+  [5] Transfers
+  [6] View Reports
+  [7] Exit
+==============================================
+Enter your choice: 1
+```
+
+---
+
+
+
+
