@@ -124,6 +124,95 @@ Room ID | Floor | Room No | Capacity | Avail Beds | Fee/Day
 R102    | 1     | 102     | 3        | 2          | 450.00
 ```
 
+### 📋 View All Rooms – Detailed Description
+Displays a list of all existing rooms in a well-formatted table view.
+
+#### 💬 Example Output
+```
+>>> All Rooms <<<
+Room ID | Floor | Room No | Capacity | Avail Beds | Fee/Day
+------------------------------------------------------------
+R101    | 1     | 101     | 4        | 4          | 500.00
+R102    | 1     | 102     | 3        | 2          | 450.00
+R201    | 2     | 201     | 5        | 5          | 600.00
+```
+
+---
+
+# 🎓 4. Manage Students Module
+
+This module keeps student data structured and consistent. It handles adding, updating, deleting, and viewing student details while ensuring data accuracy and uniqueness.
+
+### 🗂️ Structure
+| Field | Description |
+|:--|:--|
+| `studentId` | Unique ID (e.g., S001) |
+| `name` | Full name |
+| `contact` | Valid 10-digit number |
+| `email` | Valid email (must include @ and .) |
+| `status` | Defaults to ACTIVE |
+
+### ➕ Add Student – Detailed Description
+The system validates student details such as contact numbers and email formats, and ensures uniqueness for ID, contact, and email.
+
+#### 💬 Example Output
+```
+>>> Add Student <<<
+Student ID: S001
+Name: Nimal Perera
+Contact No: 0771234567
+Email: nimal@example.com
+Student added successfully.
+```
+### ✏️ Update Student – Detailed Description
+Admins can update existing student contact numbers and emails. Validation ensures the new data format is correct. If no changes are required, entering `-` skips that field.
+
+#### 💬 Example Output
+```
+>>> Update Student <<<
+Enter Student ID: S001
+New Contact (or -): 0779998877
+New Email (or -): nimal.p@example.com
+Student updated successfully.
+```
+
+### ❌ Delete Student – Detailed Description
+Students can only be deleted if they have no active room allocations. Once confirmed, the student’s record is removed and arrays are rearranged.
+
+#### 💬 Example Output
+```
+>>> Delete Student <<<
+Enter Student ID: S002
+Student deleted successfully.
+```
+
+### 🔍 Search Student – Detailed Description
+Allows the user to find a student by their unique ID and view all related details.
+
+#### 💬 Example Output
+```
+>>> Search Student <<<
+Enter Student ID: S003
+Student found!
+Student ID | Name | Contact | Email | Status
+----------------------------------------------
+S003       | Kasun Jayasuriya | 0712233445 | kasun@example.com | ACTIVE
+```
+
+### 📋 View All Students – Detailed Description
+Shows all stored student records in a neat table format.
+
+#### 💬 Example Output
+```
+>>> All Students <<<
+Student ID | Name | Contact | Email | Status
+----------------------------------------------------------
+S001       | Nimal Perera | 0771234567 | nimal@example.com | ACTIVE
+S002       | Tharushi Silva | 0715558899 | tharushi@example.com | ACTIVE
+```
+
+---
+
 
 
 
