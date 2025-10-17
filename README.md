@@ -88,6 +88,42 @@ Fee/Day (LKR): 500
 Room added successfully. Available beds: 3
 ```
 
+### ✏️ Update Room – Detailed Description
+Administrators can modify room capacity or fee values using this feature. It retains all other data (floor, room number). Entering a hyphen (`-`) skips updates. Input validation prevents negative or invalid data.
+
+#### 💬 Example Output
+```
+>>> Update Room <<<
+Enter Room ID to update: R101
+New Capacity (or -): 4
+New Fee/Day (LKR) (or -): 600
+Room updated successfully!
+Room ID: R101 | Floor: 1 | Room No: 102 | Capacity: 4 | Fee: 600 | Avail Beds: 4
+```
+
+### ❌ Delete Room – Detailed Description
+Rooms can only be deleted if no active student allocations exist in them. This prevents data inconsistencies in allocation records.
+
+#### 💬 Example Output
+```
+>>> Delete Room <<<
+Enter Room ID: R201
+Room deleted successfully.
+```
+
+### 🔍 Search Room – Detailed Description
+Allows searching for rooms using Room ID and displays room information neatly in tabular format.
+
+#### 💬 Example Output
+```
+>>> Search Room <<<
+Enter Room ID: R102
+Room found successfully!
+Room ID | Floor | Room No | Capacity | Avail Beds | Fee/Day
+------------------------------------------------------------
+R102    | 1     | 102     | 3        | 2          | 450.00
+```
+
 
 
 
