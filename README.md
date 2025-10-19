@@ -294,6 +294,95 @@ When a bed is successfully allocated:
 
 Together, these updates maintain **data integrity** across all hostel records — ensuring that occupancy, billing, and room availability always remain consistent.
 
+---
+
+# 🚪 6. Bed Vacating Module
+
+The **Bed Vacating Module** efficiently handles the hostel checkout process for students completing their stay.  
+It ensures that each deallocation is **validated, accurate, and financially settled**, keeping the system’s data consistent and up-to-date across all tables — *allocations*, *rooms*, and *occupancy*.
+
+This feature automates overdue detection, fine computation, and occupancy updates, ensuring hostel administrators maintain transparency and control over student movements and capacity.
+
+---
+
+## ⚙️ Functional Overview
+
+| Step | Validation Layer | Description |
+|:--:|:--|:--|
+| 1 | 🧾 **Allocation Verification** | Validates that an active bed allocation exists for the specified student and room. |
+| 2 | ⏱️ **Overdue Detection** | Compares the current system date with the recorded due date to determine overstays. |
+| 3 | 💰 **Fine Calculation** | Computes fines automatically based on the number of overdue days multiplied by the room’s daily rate. |
+| 4 | 🧹 **Record Cleanup** | Removes the student’s allocation record and frees the corresponding bed. |
+| 5 | 🔄 **System Update** | Increments the available bed count in the room and clears the bed record in the occupancy array. |
+
+---
+
+## 🧠 Behind the Logic
+
+- Fully developed using **Core Java**, utilizing simple date and array operations — no external libraries.  
+- Ensures **data integrity** through strict validation of Student ID, Room ID, and existing allocations.  
+- Detects overdue stays by comparing *current date* with *due date* using `LocalDate.now()`.  
+- Calculates fines dynamically with a clear formula:  
+  ```
+  fine = overdueDays × feePerDay
+  ```
+- Implements an in-place **array compaction** technique after removing allocations, ensuring no empty entries remain.  
+- Provides clear, context-driven console feedback for administrators during every step of the process.
+
+---
+
+## 💬 Sample Console Interaction
+
+```
+-----------------------------------------
+               VACATE BED                
+-----------------------------------------
+
+Enter Student ID            : S001
+Enter Room ID               : R102
+
+-----------------------------------------
+Overdue Information
+-----------------------------------------
+Overdue Days     : 3
+Fee per Day (LKR): 500.0
+Total Fine (LKR) : 1500.0
+-----------------------------------------
+
+Checkout completed successfully! The assigned bed has been freed.
+---------------------------------------------------------
+Student ID                      : S001
+Room ID                         : R102
+Bed Index                       : 1
+Available Beds (R102)           : 3
+---------------------------------------------------------
+```
+
+---
+
+## 🚫 Example Validation Feedback
+
+```
+Error: Student ID or Room ID cannot be empty. Please enter valid values.
+Error: No active allocation found for Student 'S008' in Room 'R201'.
+```
+
+---
+
+## 🧾 System Data Updates
+
+Once a bed is vacated:
+
+- **Allocations Table** → Removes the allocation entry and compacts the list.  
+- **Occupancy Table** → Clears the student’s bed slot (`null`).  
+- **Rooms Table** → Automatically increases the *Available Beds* count by 1.  
+- **Fine Calculation (if overdue)** → Displays the overdue summary with total fine amount.
+
+This ensures that the *HostelMate* database remains **accurate, synchronized, and fully auditable**,  
+offering administrators a seamless experience in managing hostel capacity and financial compliance.
+
+---
+
 
 
 
