@@ -213,6 +213,87 @@ S002       | Tharushi Silva | 0715558899 | tharushi@example.com | ACTIVE
 
 ---
 
+# 🛏️ 5. Bed Allocation Module
+
+The **Bed Allocation Module** is a core feature of *HostelMate*, designed to streamline the process of assigning students to available hostel beds.  
+It ensures every allocation is **accurate, validated, and conflict-free**, maintaining perfect synchronization between the student, room, and occupancy data tables.
+
+Through intelligent validation and real-time updates, this module minimizes human error and ensures hostel occupancy records remain consistent across all operations.
+
+---
+
+## ⚙️ Functional Overview
+
+| Step | Validation Layer | Description |
+|:--:|:--|:--|
+| 1 | 👩‍🎓 **Student Verification** | Ensures the student exists, is active, and not currently assigned to another room. |
+| 2 | 🏠 **Room Availability Check** | Confirms the specified room exists and has vacant beds. |
+| 3 | 📅 **Due Date Validation** | Validates manual date input in `YYYY-MM-DD` format and ensures it falls after the current date. |
+| 4 | 🛠️ **Allocation Logic** | Locates the first available bed and reserves it for the selected student. |
+| 5 | 💾 **System Update** | Records the allocation, updates the occupancy chart, and decreases the available bed count. |
+
+---
+
+## 🧠 Behind the Logic
+
+- Uses **pure Core Java** (no external libraries) for validation and data handling.  
+- Implements **manual date parsing** to verify format and handle leap years precisely.  
+- Automatically assigns **Check-In Date** as the current system date (`LocalDate.now()`).  
+- Uses a **boolean array** to detect the first free bed dynamically.  
+- Prevents assigning multiple beds to the same student or exceeding room capacity.  
+- Provides **context-specific error feedback** at every stage for a smooth user experience.
+
+---
+
+## 💬 Sample Console Interaction
+
+```
+-----------------------------------------
+               ALLOCATE BED              
+-----------------------------------------
+
+Enter Student ID        : S001
+Enter Room ID           : R102
+Enter Due Date          : 2025-11-20
+
+Bed allocated successfully!
+-----------------------------------------
+Student ID       : S001
+Room ID          : R102
+Allocated Bed No : 0
+Due Date         : 2025-11-20
+Available Beds   : 2
+-----------------------------------------
+```
+
+---
+
+## 🚫 Example Validation Feedback
+
+```
+Error: Student ID cannot be empty. Please enter a valid ID.
+Error: No student found with the ID 'S009'.
+Error: The selected student is inactive. Bed allocation not allowed.
+Error: No available beds in Room 'R202'.
+Error: Invalid date format. Please use YYYY-MM-DD.
+Error: The due date you entered is not valid. Please provide a future date.
+```
+
+---
+
+## 🧾 System Data Updates
+
+When a bed is successfully allocated:
+
+- **Allocations Table** → Stores:
+  ```
+  [ StudentID, RoomID, BedNo, CheckInDate, DueDate ]
+  ```
+- **Occupancy Table** → Marks the allocated bed index as occupied by the student.  
+- **Rooms Table** → Automatically reduces the *Available Beds* count by 1.  
+
+Together, these updates maintain **data integrity** across all hostel records — ensuring that occupancy, billing, and room availability always remain consistent.
+
 
 
 
